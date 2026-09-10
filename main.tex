@@ -1,0 +1,1863 @@
+%! TEX program = lualatex
+\documentclass[12pt]{book}
+
+\usepackage[dvipsnames]{xcolor}
+\definecolor{spot}{rgb}{0, 0.2, 0.6}
+\definecolor{oxfordblue}{rgb}{0.0, 0.13, 0.28}
+
+\usepackage[most]{tcolorbox}
+
+\usepackage{amsmath, mathtools}
+
+\usepackage{quiver}
+
+\usepackage{keytheorems}
+
+%\usepackage{thmtools}
+%% --- workaround for thmtools issue #75 (LaTeX 2026-06 kernel) ---
+%\makeatletter
+%\renewcommand\thmt@autorefsetup{%
+%	\@xa\def\csname\thmt@envname autorefname\@xa\endcsname\@xa{\thmt@thmname}%
+%}
+%\makeatother
+%% ----------------------------------------------------------------
+
+\usepackage{lipsum}% Used for dummy text.
+\usepackage[top = 1in, bottom = 1in, left=1in, right = 1in]{geometry}
+%,paperheight=33in
+\usepackage[
+style=alphabetic,
+]{biblatex}
+
+\addbibresource{bibliography.bib}
+
+\usepackage{enumitem}
+
+
+
+%\mdfsetup{skipabove=1em,skipbelow=1em}
+
+%\usepackage{unicode-math}
+
+%%%%%% This option for libertinus with STIX Two Math as math font
+%\usepackage[no-math]{libertinus}
+%\setmathfont{STIX Two Math}
+%\setmathfont{STIX Two Math}[range={scr,bfscr},StylisticSet=01]
+
+%%%%%% For STIX Two for entire document, uncomment this line and comment the above
+%\setmainfont{STIX Two Text}
+
+%%%%%% For standard Computer Modern Font
+%\usepackage{lmodern}
+
+%%%%%% For thick typesetting
+\usepackage[default]{fontsetup}
+\usepackage{etoolbox}
+
+%%%%% Editing the style of titles
+\usepackage[pagestyles]{titlesec}
+
+%%% This part format follows AMS's GSM series
+\titleformat{\part}[display]{\normalfont}{\Large\itshape\partname~\thepart}{\baselineskip}{\Huge\bfseries\parttitle}[]
+
+%%% Roman Chapter in the style of Hartshorne, the word ''Chapter'' omitted.
+%\renewcommand{\thechapter}{\Roman{chapter}}
+%\titleformat{\chapter}[display]{\normalfont\huge\bfseries}{\thechapter}{\baselineskip}{}[]
+
+%%% Normal style chapter
+\titleformat{\chapter}[display]{\normalfont\huge\bfseries}{\chaptername~\thechapter}{\baselineskip}{}[]
+\titlespacing*{\chapter}{0pt}{50pt}{40pt}
+
+%%% Lee's Style of subsections
+\titleformat{\subsection}[hang]
+{\normalfont\large\itshape}
+{\thesection.}{.5em}{}
+%\titlespacing*{\subsection}{0pt}{50pt}{40pt}
+
+%%%%% Editing the style of headers and footers
+
+\renewpagestyle{plain}[]{
+	\setfoot[][\thepage][] 
+	{}%     odd-left
+	{\thepage}%                              odd-center
+	{}%  odd-right
+}
+
+\newpagestyle{main}[]{
+	\setheadrule{.50pt}%
+	\sethead[\thepage]%  even-left
+	[]%                              even-center
+	[\itshape\ifthechapter{\thechapter.\quad}{}\chaptertitle]%     even-right
+	{\itshape\ifthechapter{\thesection.\quad}{}\sectiontitle}%     odd-left
+	{}%                              odd-center
+	{\thepage}%  odd-right
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\declaretheoremstyle[
+%headfont=\bfseries\sffamily\color{RawSienna!70!black}, 
+%bodyfont=\itshape,
+%mdframed={
+%	linewidth=2pt,
+%	linecolor=RawSienna, backgroundcolor=RawSienna!20,
+%	roundcorner=10pt,
+%}
+%]{thmredbox}
+%
+%\declaretheoremstyle[
+%headfont=\bfseries\color{ForestGreen!70!Green}, 
+%bodyfont=\itshape,
+%mdframed={
+%	linewidth=2pt,
+%	linecolor=ForestGreen,
+%	backgroundcolor=ForestGreen!20,
+%	rightline=false, topline=false, bottomline=false,
+%	nobreak=true,
+%}
+%]{thmgreenbox}
+
+%\declaretheoremstyle[
+%	headfont=\bfseries\color{oxfordblue},
+%	bodyfont=\normalfont,
+%	mdframed={
+	%		linewidth=2pt,
+	%		linecolor=oxfordblue,
+	%		backgroundcolor=CornflowerBlue!10,
+	%		roundcorner=10pt,
+	%		nobreak=true,
+	%	}
+%]
+%{thmbluebox}
+
+%\declaretheoremstyle[
+%headfont=\bfseries\color{oxfordblue},
+%bodyfont=\normalfont,
+%mdframed={
+%	linewidth=2pt,
+%	linecolor=oxfordblue,
+%	backgroundcolor=oxfordblue!20,
+%	rightline=false, topline=false, bottomline=false,
+%	nobreak=true,
+%}
+%]
+%{thmbluebox}
+%
+%\declaretheoremstyle[
+%headfont=\bfseries,
+%bodyfont=\normalfont,
+%mdframed={
+%	linewidth=2pt,
+%	rightline=false, topline=false, bottomline=false,
+%	linecolor=black, backgroundcolor=black!20,
+%}
+%]{thmblackleftline}
+%
+%\declaretheoremstyle[
+%headfont=\bfseries\color{Fuchsia},
+%bodyfont=\itshape,
+%mdframed={
+%	linewidth=2pt,
+%	rightline=false, topline=false, bottomline=false,
+%	linecolor=Fuchsia, 
+%	backgroundcolor=Fuchsia!20,
+%}
+%]{thmpurpleblock}
+
+%\declaretheoremstyle[
+%headfont=\bfseries\color{Dandelion},
+%bodyfont=\itshape,
+%mdframed={
+%	linewidth=2pt,
+%	rightline=false, topline=false, bottomline=false,
+%	linecolor=Dandelion, 
+%	backgroundcolor=Dandelion!20,
+%}
+%]{thmyellowblock}
+%
+%\declaretheoremstyle[
+%headfont=\bfseries\color{red},
+%bodyfont=\normalfont,
+%mdframed={
+%	linewidth=2pt,
+%	leftline=true,
+%	rightline=false,
+%	topline=false,
+%	bottomline=false,
+%	linecolor=red,
+%	backgroundcolor=red!15,
+%}
+%]{remarkred}
+
+%%%%% List of theorem environments
+%\declaretheorem[style=thmbluebox,parent=chapter,name=Definition]{definition}
+%\declaretheorem[style=thmblackleftline,sibling=definition,name=Example]{example}
+%
+%\declaretheorem[style=thmgreenbox,sibling=definition,name=Theorem]{theorem}
+%\declaretheorem[style=thmyellowblock,sibling=definition,name=Corollary]{corollary}
+%\declaretheorem[style=thmpurpleblock,sibling=definition,name=Lemma]{lemma}
+%\declaretheorem[style=thmgreenbox,sibling=definition,name=Proposition]{proposition}
+%
+%\declaretheorem[style=remarkred,sibling=definition,name=Remark]{remark}
+%\declaretheorem[style=remarkred,numbered=no,name=Note]{note}
+
+\tcbset{
+	bluebox/.style={
+		boxrule=0mm,
+		colback=Cerulean!10,
+		colframe=Cerulean,
+		leftrule=2.5pt,
+		before upper={\parindent15pt},
+	},
+}
+\newkeytheoremstyle{bluebox-style}{
+	tcolorbox-no-titlebar={bluebox},
+	bodyfont=\normalfont,
+}
+
+\newkeytheorem{definition}[
+	style=bluebox-style,
+	parent=chapter,
+	name=Definition,
+]
+
+\tcbset{
+	examplestyle/.style={ 
+		arc=0mm,
+		boxrule=0mm,
+		leftrule=2.5pt,
+		colframe=Black,
+		colback=Black!15, 
+		before upper={\parindent15pt}
+	},
+}
+
+\newkeytheorem{example}[
+	style=definition,
+	sibling=definition,
+	tcolorbox-no-titlebar={examplestyle},
+	name=Example,
+]
+
+\tcbset{
+	greenbox/.style={
+		arc=0mm,
+		boxrule=0mm,
+		leftrule=2.5pt,
+		colback=ForestGreen!20,
+		colframe=ForestGreen,
+		coltitle=ForestGreen!70!Green,
+		before upper={\parindent15pt},
+	},
+}
+
+\newkeytheorem{theorem}[
+	style=plain,
+	sibling=definition,
+	tcolorbox-no-titlebar={greenbox},
+	name=Theorem,
+]
+
+\newkeytheorem{proposition}[
+	style=plain,
+	sibling=definition,
+	tcolorbox-no-titlebar={greenbox},
+	name=Proposition,
+]
+
+\tcbset{
+	yellowbox/.style={
+		arc=0mm,
+		boxrule=0mm,
+		leftrule=2.5pt,
+		colback=Dandelion!20,
+		colframe=Dandelion,
+		before upper={\parindent15pt},
+	},
+}
+
+\newkeytheorem{corollary}[
+	style=plain,
+	sibling=definition,
+	tcolorbox-no-titlebar={yellowbox},
+	name=Corollary,
+]
+
+\tcbset{
+	purplebox/.style={
+		arc=0mm,
+		boxrule=0mm,
+		leftrule=2.5pt,
+		colback=Fuchsia!20,
+		colframe=Fuchsia,
+		before upper={\parindent15pt},
+	},
+}
+
+\newkeytheorem{lemma}[
+	style=plain,
+	sibling=definition,
+	tcolorbox-no-titlebar={purplebox},
+	name=Lemma,
+]
+
+\tcbset{
+	redbox/.style={
+		arc=0mm,
+		boxrule=0mm,
+		leftrule=2.5pt,
+		colback=red!15,
+		colframe=red,
+		before upper={\parindent15pt},
+	},
+}
+
+\newkeytheorem{note}[
+	style=remark,
+	sibling=definition,
+	tcolorbox-no-titlebar={redbox},
+]
+
+\newkeytheorem{remark}[
+	style=remark,
+	sibling=definition,
+	tcolorbox-no-titlebar={redbox},
+]
+
+%\usepackage{calc}
+
+\makeatletter
+\newkeytheoremstyle{exercisestyle}{ 
+headfont=\normalfont{{$\smallblacktriangleright$} }\bfseries, 
+bodyfont=\normalfont\addtolength{\@totalleftmargin}{\parindent}
+\addtolength{\linewidth}{-\parindent}
+\parshape 1 \parindent \linewidth,
+spaceabove=\baselineskip,
+spacebelow=\baselineskip,
+}
+\newkeytheorem{exercise}[
+	style=exercisestyle,
+	name=Exercise,
+	sibling=definition
+]
+
+%\newlength{\warninglength}
+%\settowidth{\warninglength}{\bfseries\sffamily WARNING.}
+%\setlength{\warninglength}{\dimeval{\warninglength+5pt}}
+%
+%\newlength{\myheaderwidth}
+%
+%\newkeytheoremstyle{end-exercise}{
+%headfont={\raggedleft\bfseries}, 
+%bodyfont=\normalfont,
+%spaceabove=\baselineskip,
+%spacebelow=\baselineskip,
+%notebraces={}{}, % removing braces from note
+%notefont=\normalfont\itshape, % making the note bold
+%postheadspace=5pt,
+%headformat={\NUMBER%
+%	{The theorem header width is: \the\textwidth{\NUMBER}}}, 
+%}
+%\newkeytheorem{ExerciseChap}[
+%	style=end-exercise,
+%	name={Exercise},
+%	parent=chapter
+%]
+\makeatother
+
+\newlist{problems}{enumerate}{2}
+\setlist[problems]{leftmargin=*}
+\setlist[problems,1]{
+	label={\bfseries{\thechapter}.\arabic*},
+	ref  ={{\thechapter}.\arabic*}
+}
+\setlist[problems,2]{
+	label={(\alph*)},
+	ref  ={{\thechapter}.\theproblemsi(\alph*)}
+}
+
+
+
+%\newenvironment{problems}{		\begin{enumerate}[leftmargin=*, label={\bfseries {\thechapter}.\arabic*}, ref={Problem {\thechapter}.\arabic*}]}{\end{enumerate}}
+
+%%%%% Non-stylised theorem environments
+\newcommand{\inlinedef}[1]{\textcolor{oxfordblue}{\bfseries #1}}
+
+\theoremstyle{definition}
+\newtheorem*{challenge}{Challenge}
+
+%%%%% Common math operators
+\DeclareMathOperator{\cod}{cod}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\ran}{ran}
+\DeclareMathOperator\Img{im}
+\DeclareMathOperator\coker{coker}
+
+\DeclareMathOperator\ev{ev}	%evaluation homomorphism
+\DeclareMathOperator\Frac{Frac}
+
+\DeclareMathOperator\Arg{arg}
+\DeclareMathOperator\cis{cis}
+\DeclareMathOperator{\adj}{adj}
+
+\DeclarePairedDelimiter{\Set}{\lbrace}{\rbrace}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}
+\DeclarePairedDelimiter\Inn{\langle}{\rangle}
+
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\Span}{span}
+\DeclarePairedDelimiter{\Gen}{\langle}{\rangle}
+
+\newcommand{\dg}{^\circ}
+\newcommand{\ii}{\item}
+\newcommand{\ol}[1]{\overline{#1}}
+
+\newcommand{\lbr}{\left\lbrace}
+\newcommand{\rbr}{\right\rbrace}
+\newcommand{\dps}{\displaystyle}
+
+\newcommand{\AAA}{\mathbb A}
+\newcommand{\CC}{\mathbb C}
+\newcommand{\FF}{\mathbb F}
+\newcommand{\NN}{\mathbb N}
+\newcommand{\QQ}{\mathbb Q}
+\newcommand{\RR}{\mathbb R}
+\newcommand{\PP}{\mathbb P}
+\newcommand{\ZZ}{\mathbb Z}
+
+\newcommand{\ra}{\rightarrow}
+\newcommand{\lra}{\leftrightarrow}
+\newcommand{\we}{\wedge}
+\newcommand{\ve}{\vee}
+
+\newcommand{\mbf}[1]{\mathbf{#1}}
+
+%%%%% Category theory symbols
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Fun}{\operatorname{Fun}}
+\newcommand{\id}{\operatorname{id}}
+\newcommand{\Kom}{\operatorname{Kom}}
+\newcommand{\res}{\operatorname{res}}
+\newcommand{\Eqlsr}{\operatorname{Eq}}
+\newcommand{\op}{\mathrm{op}}
+
+\DeclareMathOperator{\Spec}{Spec}
+\DeclareMathOperator{\Nil}{Nil} %Nilradical
+
+\newcommand{\Sets}{\operatorname{Set}}
+\newcommand{\Tops}{\operatorname{Top}}
+\newcommand{\Abs}{\operatorname{Ab}}
+\newcommand{\Rings}{\operatorname{Ring}}
+\newcommand{\Schs}{\operatorname{Sch}}
+\newcommand{\PrSheaf}{\operatorname{PSh}}
+\newcommand{\Sheaf}{\operatorname{Sh}}
+\newcommand{\Aff}{\operatorname{Aff}}
+
+\usepackage{psvectorian}
+\usepackage{hyperref}
+%\usepackage{theoremref}
+\hypersetup{
+	colorlinks=true,
+	linktoc=all,
+	linkcolor=spot,
+	urlcolor=spot,
+}
+
+\usepackage[capitalise]{cleveref}
+
+\crefname{exercise}{Exercise}{Exercises}
+\crefname{problemsi}{Problem}{Problems}
+\crefname{problemsii}{Problem}{Problems}
+
+\begin{document}
+	\frontmatter
+	\pagenumbering{gobble}
+	\title{Algebraic Geometry\\  \psvectorian[width=2em]{2}\quad\psvectorian[width=2em,mirror]{2}}
+	\author{P. Tansoontorn\thanks{website: \url{https://prametan.github.io}}}
+	\maketitle
+	
+	\pagestyle{main}
+	\pagenumbering{roman}
+	\tableofcontents
+	
+	\chapter*{Foreword}
+	\addcontentsline{toc}{chapter}{Foreword}
+	%	
+	%	The goal of this reading is toward the recently published book \cite{EisenbudHarris-algcurves} on algebraic curves. In particular it requires background  up to Chapter IV and the beginning sections of Chapter V of \cite{Hartshorne-alggeo}, so we shall aim to meet the requirement there.
+	%	
+	%	This assumed material is roughly the contents of the book \cite{Liu-ag}, the whole of \cite{GW-alggeoI}, and some chapters of \cite{GW-alggeoII}. They are listed below. The fundamental topics to focus on are sheaves, schemes, and cohomology. Italicized topics are not in Hartshorne, I believe.
+	%	\begin{itemize}
+		%		\item Sheaves and Schemes: Ringed topological spaces, sheaves, schemes. Projective schemes. Noetherian schemes. Reduced schemes and integral schemes.
+		%		\item Base change. Morphism of finite type. \textit{Frobenius.} Separated morphisms, proper morphisms, and projective morphisms.
+		%		\item Normal schemes and regular schemes. Flat and smooth morphism. Étale morphisms. Zariski's main theorem. Dimensions.
+		%		\item Sheaves of Modules. Quasi-coherent sheaves and coherent sheaves. Cohomology of projective schemes.
+		%		\item Differentials. Smoothness criteria, lifting of sections. Local complete intersection and duality theory. Canonical sheaf.
+		%		\item Divisors, Cartier and Weil. 
+		%	\end{itemize}
+	%	Next, learn the theory of curves (Chapter IV of \cite{Hartshorne-alggeo} and Chapter 7 of \cite{Liu-ag}): Riemann--Roch theorem, Hurwitz's theorem, embeddings in projective space, elliptic curves, and classification of curves in $\mathbb{P}^3$. 
+	%	
+	%	At this point I suppose I could give the honorary mention to \cite{Bosch-ag}, which is a compact text with major overlaps to the above. I had not really tried to comprehend it; its style is somewhat dense, requiring careful reading. Also one has \cite{vakil}.
+	%	
+	%	Learning classical algebraic geometry alongside modern scheme-theoretic approach is extremely useful, in my opinion. The textbook \cite{Osserman-varieties} has recently become my favourite basic algebraic geometry text. It was written as a substitute to the first chapter of Hartshorne and describes important ideas central to classical algebraic geometry, so it is perhaps beneficial to learn the entirety of it.  A textbook with a similar taste is \cite{Cutkosky-alggeo}, but its approach is far more rapid as to cover more advanced topics. Furthermore, one might want to consult \cite{Artin-alggeo}, in particular I enjoyed parsing through the chapter on varieties there.
+	%	
+	%	Possible further topics include
+	%	\begin{itemize}
+		%		\item More on surfaces: the texts \cite{Beauville} and \cite{friedman_1998}.
+		%		
+		%		\item Abelian varieties.
+		%		
+		%		\item Elliptic curves, elliptic cohomology.
+		%		
+		%		\item Derived algebraic geometry.
+		%		
+		%		\item K3 surfaces.
+		%	\end{itemize}
+	%	
+	%	After learning all of this, one is equipped with tools more than enough to learn complex geometry and also elliptic curves!
+	%	
+	%	\section*{Goal}
+	%	\begin{enumerate}
+		%		\item Every exercise in Hartshorne \textbf{must} be included in this file and solved. Lots of them are definition and basic consequences which are already expanded in other texts.
+		%	\end{enumerate}
+	\mainmatter
+	\pagenumbering{arabic}
+	
+	\chapter{Classical Algebraic Geometry}
+	
+	\chapter{Spectra}
+	
+	\section{Spectrum of a Ring}
+	\begin{definition}
+		Given a ring $R$, its \inlinedef{(prime) spectrum} $\Spec R$ is the set of its prime ideals.
+	\end{definition}
+	
+	It turns out that the spectrum $\Spec R$ comes with a natural topology. To define this topology, we introduce the following notation. Given a subset $S \subseteq R$, define
+	\begin{equation*}
+		V(S) \coloneqq \Set{ \mathfrak{p} \in \Spec R : \mathfrak{p} \supseteq S}.
+	\end{equation*}
+	It is straightforward to check that if $\mathfrak{a}$ is the ideal generated by $S$, then $V(S) = V(\mathfrak{a})$. Hence it suffices to consider only the sets $V(\mathfrak{a})$ whenever $\mathfrak{a}$ is an ideal of $R$. We shall also write $V(f_1, \dotsc, f_n)$ for $V(\Gen{f_1, \dotsc, f_n})$, where, as per usual, $\Gen{f_1, \dotsc, f_n}$ denotes the ideal generated by $f_1, \dotsc, f_n$. 
+	
+	\begin{exercise}
+		Show that for any ideal $\mathfrak{a}$ of $R$, $V(\sqrt{\mathfrak{a}}) = V(\mathfrak{a})$, where $\sqrt{\mathfrak{a}}$ denotes the radical of $\mathfrak{a}$.
+	\end{exercise}
+	
+	The sets $V(\mathfrak{a})$ satisfy the following properties.
+	
+	\begin{proposition}\label{chap2:zariski-topology}
+		Let $R$ be a ring, and let $\mathfrak{a}$, $\mathfrak{b}$ be ideals of $R$. Further, for each $k \in S$ let $\mathfrak{a}_k$ be ideals of $R$ where $S$ is some index set. Then
+		
+		\begin{enumerate}
+			\item If $\mathfrak{a} \subseteq \mathfrak{b}$, then $V(\mathfrak{b}) \subseteq V(\mathfrak{a})$.
+			
+			\item $V(\emptyset) = \Spec R$ and $V(1) = \emptyset$.
+			
+			\item $V(\mathfrak{a} \cap \mathfrak{b}) = V(\mathfrak{a}\mathfrak{b}) = V(\mathfrak{a}) \cup V(\mathfrak{b})$.
+			
+			\item $V(\sum_{k \in S} \mathfrak{a}_k) = \bigcap_{k \in S} V(\mathfrak{a}_k)$.
+		\end{enumerate}
+	\end{proposition}
+	\begin{exercise}
+		Prove the above proposition. \textit{[Hint: the fact that $\sqrt{\mathfrak{a}\mathfrak{b}} = \sqrt{\mathfrak{a} \cap \mathfrak{b}}$ might be useful.]}
+	\end{exercise}
+	
+	The above proposition shows that the sets of the form $V(\mathfrak{a})$, where $\mathfrak{a}$ runs through all ideals of $R$, are closed sets of a topology on $\Spec R$. This is the \inlinedef{Zariski topology} on $\Spec R$. With the topology in mind, we will refer to elements of $\Spec R$ as points. Given $x \in \Spec R$, we shall write $\mathfrak{p}_x$ if we want to view $x$ as a prime ideal of $R$.
+	
+	There is a reverse correspondence of the map $V(-)$. If $Y$ is a subset of $\Spec R$, we define the ideal $I(Y)$ associated to $Y$ by
+	\begin{equation*}
+		I(Y) \coloneqq \bigcap_{\mathfrak{p} \in Y} \mathfrak{p}.
+	\end{equation*}
+	Note that $I(\emptyset) = R$. 
+	
+	\begin{proposition}\label{chap2:I-and-V-correspondence}
+		Let $R$ be a ring, $\mathfrak{a} \subseteq R$ an ideal, and $Y$ a subset of $\Spec R$.
+		\begin{enumerate}
+			\item If $X \subseteq Y \subseteq \Spec R$, then $I(Y) \subseteq I(X)$.
+			\item $\sqrt{I(Y)} = I(Y)$, i.e. $I(Y)$ is a radical ideal.
+			\item $I(V(\mathfrak{a})) = \sqrt{\mathfrak{a}}$ and $V(I(Y)) = \overline{Y}$ where $\overline{Y}$ is the topological closure of $Y$ in $\Spec R$.
+		\end{enumerate}
+	\end{proposition}
+	
+	\begin{proof}
+		(1.) Trivial.
+		
+		(2.) We only need to check the non-trivial inclusion $\sqrt{I(Y)} \subseteq I(Y)$. Suppose $a \in R$ and $n \geq 1$ satisfy $a^n \in I(Y)$. Then for each prime ideal $\mathfrak{p} \in Y$, $a^n \in \mathfrak{p}$. Then $a \in \mathfrak{p}$, and so $a \in I(Y)$.
+		
+		(3.) The assertion that $I(V(\mathfrak{a})) = \sqrt{\mathfrak{a}}$ follows from a theorem in commutative algebra which states that, for any ideal $\mathfrak{a}$ of $R$,
+		\begin{equation*}
+			\sqrt{\mathfrak{a}} = \bigcap_{\substack{\mathfrak{p} \text{ prime} \\ \mathfrak{p} \supseteq \mathfrak{a}}} \mathfrak{p}.
+		\end{equation*}
+		For the second assertion, note that $V(I(Y))$ contains $Y$. Now if $V(\mathfrak{b})$ is a closed set containing $Y$, then $I(Y) \supseteq I(V(\mathfrak{b})) = \sqrt{\mathfrak{b}} \supseteq \mathfrak{b}$ by the first assertion. It follows that 
+		\begin{equation*}
+			V(I(Y)) \subseteq V(\mathfrak{b}),
+		\end{equation*}
+		proving that $V(I(Y))$ is the closure of $Y$.
+	\end{proof}
+	
+	The following corollaries are immediate.
+	\begin{corollary}\label{chap2:V-and-I-inverse}
+		The maps $Y \mapsto I(Y)$ and $\mathfrak{a} \mapsto V(\mathfrak{a})$ give rise to mutually inverse and inclusion-reversing bijections between the sets
+		\begin{equation*}
+			\Set*{\text{radical ideals of $R$}} \rightleftarrows \Set*{\text{closed subsets of $\Spec R$}}.
+		\end{equation*}
+	\end{corollary}
+	
+	\begin{corollary}
+		Let $R$ be a ring and $\mathfrak{a}, \mathfrak{b}$ ideals of $R$. Then $V(\mathfrak{a}) = V(\mathfrak{b})$ if and only if $\sqrt{\mathfrak{a}} = \sqrt{\mathfrak{b}}$.
+	\end{corollary}
+	
+%	We also draw the following consequence of. The singleton $\Set{\mathfrak{p}_x} \subseteq \Spec R$ is a closed subset if and only if $V(\mathfrak{p}_x) = \Set{\mathfrak{p}_x}$, if and only if $\mathfrak{p}_x$ is a maximal ideal.
+	
+	There is a connection between the sets $V(I)$ with the new definition in this chapter and the vanishing sets in the sense of classical algebraic geometry. For this, elements of $R$ need to be interpreted as ``functions'' on $\Spec R$. Given $f \in R$, we define \inlinedef{the value of $f$ at a prime} $\mathfrak{p} \in \Spec R$ to be the image of $f$ under the composition
+	\begin{equation*}
+		R \to R/\mathfrak{p} \hookrightarrow \Frac(R/\mathfrak{p}).
+	\end{equation*}
+	Here we used the fact that $R/\mathfrak{p}$ is an integral domain so that its field of fractions may be constructed. Via this map, we see that $f(\mathfrak{p}) = 0$ if and only if $f \in \mathfrak{p}$. Hence $V(f)$ consists of prime ideals $\mathfrak{p}$ such that $f(\mathfrak{p}) = 0$. Therefore $V(f)$ is the \textit{vanishing set} of $f$. Compare this situation to the classical case when $R$ is the polynomial ring $k[x_1, \dotsc, x_n]$ and $f$ is a polynomial in $R$.
+	
+	Here we discuss spectra of familiar rings.
+	
+	\begin{example}[Spectrum of a Field]
+		Every field $k$ has only one prime ideal $\Set{0}$. Thus $\Spec k$ consists of a single point.
+	\end{example}
+	
+	\begin{example}[Spectrum of $\ZZ$]
+		The prime ideal of $\ZZ$ are the zero ideal $(0)$ and the ideal generated by prime numbers $(p)$. Hence $\ZZ$ has infinitely many points.
+	\end{example}
+	
+	More generally, the spectrum of an integral domain $R$ is non-empty. It contains the point corresponding to the zero ideal. Let us denote this point by $\eta$. The fact that every prime ideal of $R$ contains the zero ideal means that $\overline{\Set{\eta}} = \Spec R$: the closure of the singleton $\Set{\eta}$ is equal to the whole spectrum. Such a point is called a \textit{generic point} of $\Spec R$ (\cref{chap2:spacial-points-of-rings}). As strange as it is, generic points will turn out to be important to the theory of integral schemes.
+	
+	For the last example in this section, we relate the coordinate ring $k[V]$ of an affine variety $V \subseteq \AAA^n$ to the spectrum $\Spec k[V]$ when $k$ is an algebraically closed field.
+	
+	\begin{example}
+		Let $V \subseteq \AAA^n$ be an affine variety given as the vanishing set $Z(f_1, \dotsc, f_i)$ of polynomials in $k[x_1, \dotsc, x_n]$. Let $I$ denote the ideal consisting of polynomials vanishing on $V$. Recall that there is a one-to-one correspondence
+		\begin{equation*}
+			\Set*{\text{maximal ideals of $k[x_1, \dotsc, x_n]/I$}} \Longleftrightarrow \Set*{\text{points of $V$}}.
+		\end{equation*}
+		Let us denote the coordinate ring of $V$ by $k[V] =k[x_1, \dotsc, x_n]/I$. If we write $\Spec_{M}(A)$ for the set of maximal ideals of the ring $A$, then the points of $V$ are in bijection with points of $\Spec_{M}(k[V])$. The set $\Spec_{M}(k[V])$ is a subspace of $\Spec(k[V])$. It is easy to check that the subspace topology on $\Spec_{M}(k[V])$ is the same one as the Zariski topology on $V$ considered as a subspace of $k[x_1, \dotsc, x_n]$.
+	\end{example}
+	
+	In topological terms maximal ideals are the closed points of the spectrum (see \cref{chap2:spacial-points-of-rings} below). Hence we ``recover'' classical algebraic geometry when we consider the closed points of the spectrum of a coordinate ring.
+	
+	\section{Topological Properties of Spectrums}
+	
+	\subsection*{Basis of $\Spec R$}
+	We now turn to the topological properties of $\Spec R$ under the Zariski topology. Firstly, there is a basis for this topology which is derived from elements of $R$.
+	
+	\begin{definition}
+		Let $R$ be a ring and $f \in R$. We define
+		\begin{equation*}
+			D(f) = \Spec R \setminus V(f).
+		\end{equation*} 
+		Plainly, $D(f)$ is open in $\Spec R$. An open set of this form is called a \inlinedef{principal open subset} of $\Spec R$.
+	\end{definition}
+	
+	The set $D(f)$ can also be regarded as the set of points where $f$ does not vanish, that is, $D(f) = \Set{\mathfrak{p} \in \Spec R : f(\mathfrak{p}) \neq 0}$.
+	
+	\begin{proposition}
+		Let $R$ be a ring.	Principal open subsets of $\Spec R$ form a basis of the Zariski topology.
+	\end{proposition}
+	\begin{proof}
+		Let $U \subseteq \Spec R$ be an open set, so that $U = \Spec R \setminus V(\mathfrak{b})$ for some ideal $\mathfrak{b}$ of $R$. It is easy to see that
+		\begin{equation*}
+			V(\mathfrak{b}) = \bigcap_{f \in \mathfrak{b}} V(f),
+		\end{equation*}
+		and consequently $U = \bigcup_{f \in \mathfrak{b}} D(f)$.
+	\end{proof}
+	
+	The basis $\mathcal{B}$ consisting of principal open subsets is \textit{stable under finite intersections}. This means that if $B_1, B_2 \in \mathcal{B}$, then $B_1 \cap B_2 \in \mathcal{B}$. This follows from the proposition below, and the fact that $D(0) = \emptyset$.
+	
+	\begin{proposition}
+		Let $R$ be a ring. Then $D(f) \cap D(g) = D(fg)$ for all $f, g\in R$. Consequently the basis consisting of principal open subsets is stable under finite intersections.
+	\end{proposition}
+	\begin{exercise}
+		Prove the above proposition.
+	\end{exercise}
+	
+	The following lemma is useful for turning a topological statement about a covering by principal open subsets into an algebraic statement.
+	
+	\begin{lemma}[``Covering Trick'']\label{chap2:covering-trick}
+		Let $\Set{f_i}_{i \in I}$ be a family of elements of a ring $R$ and let $g \in R$. Then $D(g) \subseteq \bigcup_{i \in I}D(f_i)$ if and only if there is an integer $n >0$ such that $g^n$ is contained in the ideal $\mathfrak{a}$ generated by $f_i$.
+	\end{lemma}
+	\begin{proof}
+		The condition $D(g) \subseteq \bigcup_{i \in I}D(f_i)$ is equivalent to $V(g) \supseteq \bigcap_{i \in I} V(f_i) = V(\mathfrak{a})$, which is equivalent to $g \in \sqrt{\mathfrak{a}}$.
+	\end{proof}
+	
+	Two special cases of the above theorem are often used. Firstly, $D(g) \subseteq D(f)$ if and only if $g \in \sqrt{(f)}$, if and only if $g^n = fa$ for some $a \in R$. This is important when we define the structure sheaf of $\Spec R$. 
+	
+	Secondly, setting $g = 1$ shows that the collection $\Set{D(f_i)}_{i \in I}$ covers $\Spec R$ if and only if $1 \in \Gen{f_i : i \in I}$. Hence there is a finite subset $J \subseteq I$ such that $1 = \sum_{j \in J} r_j f_j$ where $r_j \in R$. This implies that $\Spec R = \bigcup_{j \in J} D(f_j)$. Thus we have found a finite subcover of $\Set{D(f_i)}_{i \in I}$, implying that $\Spec R$ is quasi-compact. More generally, every principal open subset of $\Spec R$ is quasi-compact by the same argument.
+		
+	\begin{proposition}
+		Let $R$ be a ring. Then every principal open subset $D(g)$, $g \in R$, is quasi-compact. 
+	\end{proposition}
+	\begin{exercise}
+		Prove this proposition by adapting the proof that $\Spec R$ is quasi-compact. 
+	\end{exercise}
+	
+	\subsection*{Irreducibility}
+	
+	A non-empty topological space is \inlinedef{irreducible} if it cannot be written as a union of two proper closed subsets. In other words, a topological space $X \neq \emptyset$ is irreducible if and only if whenever $X = C_1 \cup C_2$, where $C_1$ and $C_2$ are closed subsets, then either $C_1 = X$ or $C_2 = X$. A topological space is \inlinedef{reducible} if it is not irreducible. It is useful to consider the empty topological space as being reducible.
+	
+	A subset of a topological space is irreducible if it is irreducible under the subspace topology. Similar to connected components, we define an \inlinedef{irreducible component} to be a subspace $Z \subseteq X$ such that $Z$ is maximally irreducible subset of $X$, that is, $Z$ is irreducible and whenever $Y$ is irreducible and $Z \subseteq Y$, then $Z = Y$.
+	
+	We collect some properties of irreducible spaces here, whose proofs are mechanical.
+	
+	\begin{proposition}
+		The following are equivalent for a non-empty topological space $X$.
+		\begin{enumerate}
+			\item $X$ is irreducible.
+			
+			\item Every non-empty open subset of $X$ is dense in $X$.
+			
+			\item Every two non-empty open subsets of $X$ has non-empty intersection.
+			
+			\item Every non-empty open subset of $X$ is irreducible.
+		\end{enumerate}
+	\end{proposition}
+	
+	\begin{exercise}
+		Prove the above proposition.
+	\end{exercise}
+	
+	\begin{proposition}
+		Let $f\colon X \to Y$ be a continuous map between topological spaces. If $Z \subseteq X$ is an irreducible subset, then its image $f(Z)$ is irreducible.
+	\end{proposition}
+	
+	\begin{proof}
+		Clearly $f(Z)$ is non-empty because $Z$ is. Suppose $f(Z) = C_1 \cup C_2$ where $C_1$ and $C_2$ are closed subsets of $f(Z)$ under the subspace topology. Hence $C_1 = D_1 \cap f(Z)$ and $C_2 = D_2 \cap f(Z)$ for some closed sets $D_1$ and $D_2$ of $Y$. We then have
+		\begin{equation*}
+			Z = (f^{-1}(D_1) \cap Z) \cup (f^{-1}(D_2) \cap Z).
+		\end{equation*}
+		This is a decomposition of $Z$ into two closed subsets. Since $Z$ is irreducible, either $f^{-1}(D_1) \cap Z = Z$ or $f^{-1}(D_2) \cap Z = Z$. Hence either $C_1 = f(Z)$ or $C_2 = f(Z)$.		
+	\end{proof}
+	
+	\begin{proposition}
+		Let $X$ be a topological space. Then $Y\subseteq X$ is irreducible if and only if its closure $\overline{Y}$ is irreducible.
+	\end{proposition}
+	
+	\begin{proof}
+		First assume that $Y \subseteq X$ is irreducible. Then $\overline{Y}$ is clearly non-empty. If $\overline{Y} = C_1 \cup C_2$ for some closed subsets $C_1, C_2$ of $X$, then $Y = (C_1 \cap Y) \cup (C_2 \cap Y)$. Since $Y$ is irreducible, one of the subsets must be equal to $Y$, say $C_1 \cap Y = Y$. Hence $C_1$ is a closed set containing $Y$, and so $\overline{Y} \subseteq C_1$. Plainly, $C_1 \subseteq \overline{Y}$ and therefore $\overline{Y} = C_1$.
+		
+		For the converse, assume that $Y$ is reducible. If $Y$ is empty, then $\overline{Y} = \emptyset$ is also reducible. Hence we may assume that $Y$ is non-empty and write $Y = C_1 \cup C_2$, where $C_1$ and $C_2$ are proper closed subsets of $Y$ under the subspace topology. Then $\overline{Y} = \overline{C_1} \cup \overline{C_2}$ by the property of closure. If $\overline{Y} = \overline{C_1}$, then 
+		\begin{equation*}
+			C_1 = \overline{C_1} \cap Y = \overline{Y} \cap Y = Y,
+		\end{equation*} 
+		a contradiction. Similarly we conclude that $\overline{Y} \neq \overline{C_2}$. Therefore we have found a decomposition of $\overline{Y}$ into two proper closed subsets.
+	\end{proof}
+	
+	We now turn to irreducible subsets of $\Spec R$, when $R$ is a ring. The starting point is the following proposition which says that irreducible subsets are related to prime ideals.
+	
+	\begin{proposition}\label{chap2:irreducible-iff-prime}
+		A subset $Y \subseteq \Spec R$ is irreducible if and only if $I(Y)$ is a prime ideal of $R$.
+	\end{proposition}
+	
+	\begin{proof}
+		Assume that $Y$ is irreducible. Then $\overline{Y}$ is also irreducible. Let $fg \in I(Y) \subseteq R$. Using \cref{chap2:zariski-topology} and \cref{chap2:I-and-V-correspondence}, we have the identities
+		\begin{equation*}
+			V(f) \cup V(g) = V(fg) \supseteq V(I(Y)) = \overline{Y}.
+		\end{equation*} 
+		Hence $\overline{Y} = (V(f) \cap \overline{Y}) \cup (V(g) \cap \overline{Y})$. Since $\overline{Y}$ is irreducible, it must be equal to one of the subsets, say $\overline{Y} = V(f) \cap \overline{Y}$. Therefore $\overline{Y} \subseteq V(f)$. Again, by \cref{chap2:I-and-V-correspondence}, we have $I(Y) \supseteq \sqrt{(f)}$. This implies that $f \in I(Y)$. This proves that $I(Y)$ is prime.
+		
+		Now assume that $\mathfrak{p} = I(Y)$ is prime. By \cref{chap2:I-and-V-correspondence}, $\overline{Y} = V(\mathfrak{p})$. Let $V(\mathfrak{a}), V(\mathfrak{b})$ be closed sets such that
+		\begin{equation*}
+			V(\mathfrak{p}) = V(\mathfrak{a}) \cup V(\mathfrak{b}) = V(\mathfrak{a}\cap \mathfrak{b}).
+		\end{equation*}
+		Recall that  $\mathfrak{p} = \sqrt{\mathfrak{a} \cap \mathfrak{b}} = \sqrt{\mathfrak{a}} \cap \sqrt{\mathfrak{b}}$ by commutative algebra. Since $\mathfrak{p}$ is prime, either $\mathfrak{p} = \sqrt{\mathfrak{a}}$ or $\mathfrak{p} = \sqrt{\mathfrak{b}}$. Hence $V(\mathfrak{p}) = V(\mathfrak{a})$ or $V(\mathfrak{p}) = V(\mathfrak{b})$. Thus $V(\mathfrak{p}) = \overline{Y}$ is irreducible, and so does $Y$.
+	\end{proof}
+	
+	\begin{proposition}
+		There is a one-to-one correspondence between $\Spec R$ and the set of closed irreducible subsets of $\Spec R$ given in one direction by $\mathfrak{p} \mapsto \overline{\Set{\mathfrak{p}}}$. Under this correspondence, minimal prime ideals of $R$ correspond bijectively to irreducible components of $\Spec R$.
+	\end{proposition}
+	\begin{proof}
+		If $\mathfrak{p}$ is prime, then $I(\Set{\mathfrak{p}}) = \mathfrak{p}$ and thus $\overline{\mathfrak{\Set{p}}} = V(I(\Set{\mathfrak{p}})) = V(\mathfrak{p})$ is irreducible by \cref{chap2:irreducible-iff-prime}. Now if $Y$ is a closed irreducible subset of $\Spec R$, then by \cref{chap2:irreducible-iff-prime}, $I(Y)$ is a prime ideal. Hence the correspondence is given by the functions $V(-)$ and $I(-)$ which are proved to be mutually inverse bijections in \cref{chap2:V-and-I-inverse}. 
+		
+		The second statement follows immediately from the observation that $\overline{\Set{\mathfrak{p}}} \subseteq \overline{\Set{\mathfrak{q}}}$ if and only if $\mathfrak{p} \supseteq \mathfrak{q}$ for all prime ideals $\mathfrak{p}, \mathfrak{q}$ of $R$. 
+	\end{proof}
+	
+	\subsection*{Special Points}
+	
+	\begin{definition}
+		Let $X$ be a topological space.
+		\begin{enumerate}
+			\item A point $x \in X$ is a \inlinedef{closed point} if $\Set{x}$ is closed.
+			\item A point $\eta \in X$ is a \inlinedef{generic point} if $\overline{\Set{\eta} }= X$.
+			
+			\item Let $x$ and $x'$ be points of $X$. We say that $x$ is a \inlinedef{generization} of $x'$ and that $x'$ is a \inlinedef{specialisation} of $x$ if $x' \in \overline{\Set{x}}$.
+			
+			\item A point $x \in X$ is a \inlinedef{maximal point} of $X$ if $\overline{\Set{x}}$ is an irreducible component of $X$.
+		\end{enumerate}
+	\end{definition}
+	
+	For spectra the above topological notions corresponds to the following algebraic statements.
+	
+	\begin{proposition}\label{chap2:spacial-points-of-rings} Let $R$ be a ring.
+		\begin{enumerate}
+			\item A point $x \in \Spec R$ is closed if and only if the ideal $\mathfrak{p}_x$ is maximal.
+			
+			\item A point $\eta \in \Spec R$ is generic if and only if the ideal $\mathfrak{p}_{\eta}$ is the unique minimal prime ideal.
+			
+			\item A point $x$ is a generization of $x'$ if and only if $\mathfrak{p}_x \subseteq \mathfrak{p}_{x'}$.
+			
+			\item A point $x \in \Spec R$ is maximal if and only if $\mathfrak{p}_x$ is a minimal prime ideal.
+		\end{enumerate}
+	\end{proposition}
+	
+	\begin{exercise}
+		Prove the proposition.
+	\end{exercise}
+	
+	\section{Spec as a Functor}
+	
+	We have seen that a ring $R$ gives rise to the topological space $\Spec R$. In addition to this, a ring homomorphism $\varphi \colon R \to S$ gives rise to a continuous map between the underlying topological space $\Spec S \to \Spec R$, as we shall see in the following lemma.
+	
+	\begin{lemma}
+		Let $\varphi \colon R \to S$ be a ring homomorphism. Then there is a continuous map $\Spec \varphi \colon \Spec S \to \Spec R$ given by $\mathfrak{q}  \mapsto \varphi^{-1}(\mathfrak{q})$. 
+		
+		In particular, the identity $(\Spec \varphi)^{-1}(V(\mathfrak{b})) = V(\varphi(\mathfrak{b}))$ holds for all ideals $\mathfrak{b}$ of $R$.
+	\end{lemma}
+	\begin{proof}
+		It is an easy exercise in commutative algebra to show that $\varphi^{-1}(\mathfrak{q})$ is a prime ideal of $R$ if $\mathfrak{q}$ is a prime ideal of $S$. To prove that $f \coloneqq \Spec \varphi$ is continuous, let $V(\mathfrak{b})$ be a closed subset of $\Spec R$. Then
+		\begin{equation*}
+			f^{-1}(V(\mathfrak{b})) = \Set{\mathfrak{p} \in \Spec S : \mathfrak{b} \subseteq \varphi^{-1}(\mathfrak{p}) },
+		\end{equation*}
+		from the definition, as one can check. But $\mathfrak{b} \subseteq \varphi^{-1}(\mathfrak{p})$ if and only if $\varphi(\mathfrak{b}) \subseteq \mathfrak{p}$, and thus $f^{-1}(V(\mathfrak{b})) = V(\varphi(\mathfrak{b}))$ as claimed. Since every preimage under $f$ of a closed set is closed, this shows that $f$ is continuous.
+	\end{proof}
+	
+	We left the reader to check that, for any ring $R$ and the identity map $\id_R \colon R \to R$, the map $\Spec(\id_R)$ is the identity function of $\Spec R$. Moreover, we have $\Spec(\psi \circ \varphi) = \Spec\varphi \circ \Spec \psi$ for any ring homomorphisms $\varphi\colon R \to S$ and $\psi \colon S \to T$. Hence $\Spec$ is a contravariant functor from the category of rings to the category of topological spaces.
+	
+	A continuous map between topological spaces $f \colon X \to Y$ is \inlinedef{dominant} if $f(X)$ is dense in $Y$. For the morphism $\Spec \varphi \colon \Spec S \to \Spec R$ between spectra, this happens precisely when $\ker \varphi$ is contained in the nilradical of $R$.
+	
+	\begin{corollary}\label{chap2:dominant-iff-kernel-in-nilradical}
+		Let $\varphi \colon R \to S$ be a ring homomorphism. Then $\Spec \varphi$ is dominant if and only if $\ker \varphi \subseteq \Nil(R)$.
+	\end{corollary}
+	\begin{proof}
+		See \cref{chap2:dominant-iff-kernel-in-nilradical-problem}.
+	\end{proof}
+	
+	\begin{proposition}
+		Let $\varphi \colon R \to S$ be a surjective homomorphism of rings. Then $\Spec \varphi$ defines a homeomorphism from $\Spec S$ to the set $V(\mathfrak{a})$ of $\Spec R$.
+	\end{proposition}
+	\begin{proof}
+		content...
+	\end{proof}
+	
+	Since every quotient homomorphism is surjective, we obtain the following corollary.
+	
+	\begin{corollary}[Homeomorphism between $\Spec R/\mathfrak{a}$ and $V(\mathfrak{a})$]
+		Let $R$ be a ring, $\mathfrak{a}$ its ideal, and $\pi \colon R \to R/\mathfrak{a}$ the quotient homomorphism. Then $\Spec \pi$ is a homeomorphism from $\Spec R/\mathfrak{a}$ onto the set $V(\mathfrak{a})$.
+	\end{corollary}
+	
+	\begin{proposition}
+		Let $R$ be a ring, $S \subseteq R$ a multiplicative subset, and $\psi \colon R \to S^{-1}R$ the canonical homomorphism $r \mapsto r/1$. Then $\Spec \psi$ is a homeomorphism from $\Spec(S^{-1}R)$ onto the set of prime ideals $\mathfrak{p}$ of $R$ with $\mathfrak{p} \cap S = \emptyset$.
+	\end{proposition}
+	
+	
+	\section{Problems}
+	
+	\begin{problems}
+		\item Prove that, for any ring $R$ and any ideal $I$ of $R$, $V(I) = \emptyset$ if and only if $I = R$.
+		
+		\item Prove the following theorem from commutative algebra: if $R$ is a ring and $\mathfrak{a}$ is an ideal of $R$, then
+		\begin{equation*}
+			\sqrt{\mathfrak{a}} = \bigcap_{\substack{\mathfrak{p} \text{ prime} \\ \mathfrak{p} \supseteq \mathfrak{a}}} \mathfrak{p}.
+		\end{equation*}
+		
+		\item Show that if $f \in R$ vanishes at every point of $\Spec R$ (that is, $f(\mathfrak{p}) = 0$ for all $\mathfrak{p} \in \Spec R$), then $f$ is nilpotent.
+		
+		
+		\item Prove that $\Spec R$ is irreducible if and only if the nilradical of $R$ is prime.
+		
+		\item Show that if $\mathfrak{p} \subseteq R$ is a prime ideal, then $\Set{\mathfrak{p}}$ is the only generic point of $V(\mathfrak{p})$.
+		
+		\item Show that if $R$ is an integral domain, then $\Spec R$ is irreducible.
+		
+		\item \label{chap2:property-of-spec-map} Given a ring homomorphism $\varphi \colon R \to S$, let $f$ denote the corresponding continuous map $\Spec \varphi \colon \Spec S \to \Spec R$. Show that 
+		\begin{problems}
+			\item $f^{-1}(D(r)) = D(\varphi(r))$ for all $r \in R$.
+			
+			\item $V(\varphi^{-1}(\mathfrak{b})) = \overline{f(V(\mathfrak{b}))}$ for all ideal $\mathfrak{b} \subseteq S$.
+		\end{problems}
+		
+		\item \label{chap2:dominant-iff-kernel-in-nilradical-problem} Prove \cref{chap2:dominant-iff-kernel-in-nilradical}. \textit{[Hint: Use \cref{chap2:property-of-spec-map}].}
+		
+		\item Let $R$ be a ring and $\mathfrak{p}$ a prime ideal of $R$. 
+		\begin{problems}
+			\item Prove that $\Spec R_{\mathfrak{p}}$ has a unique closed point.
+			
+			\item Prove that if $U$ is an open subset which contains the unique closed point of $\Spec R_{\mathfrak{p}}$, then $U = \Spec R_{\mathfrak{p}}$.
+		\end{problems}
+	\end{problems}
+
+	\chapter{Sheaves and Affine Schemes}
+	
+	\section{Presheaves}
+	
+	\begin{definition}
+		Let $X$ be a topological space. A \inlinedef{presheaf of Abelian groups} $\mathcal{F}$ on $X$ consists of the following data:
+		\begin{enumerate}
+			\item an assignment of an Abelian group $\mathcal{F}(U)$ to each open subset $U \subseteq X$;
+			\item for each inclusion of open subsets $U \subseteq V$, there is a group homomorphism $\res^V_U \colon \mathcal{F}(V) \to \mathcal{F}(U)$ such that
+			\begin{enumerate}
+				\item $\res^U_U = \id_{\mathcal{F}(U)}$ for all open subset $U$;
+				\item if $U \subseteq V \subseteq W$ are open subsets, then $\res^W_U = \res^V_U \circ \res^W_V$.
+			\end{enumerate}
+		\end{enumerate}
+	\end{definition}
+	
+	An element of $\mathcal{F}(U)$ is called a \inlinedef{section} of $\mathcal{F}$ over $U$. The morphism $\res^V_U$ is called the \inlinedef{restriction map} from $V$ to $U$. If $s \in \mathcal{F}(V)$, the more suggestive notation for $\res^V_U(s)$ is $s|_U$. The condition for restriction maps is then $(s|_V)|_U = s|_U$ for all open subsets $U \subseteq V \subseteq W$ and $s \in \mathcal{F}(W)$.
+	
+	\begin{example}\label{chap3:presheaf-of-smooth-functions}
+		An example of presheaves on a topological space is the presheaf of real-valued smooth function on a smooth manifold $M$. If $U \subseteq M$ is open, we define $\mathcal{C}^\infty(U)$ to be the set of real-valued smooth functions on $U$. The restriction maps are simply restriction of functions, which is the motivation for the notation $s|_U$.
+	\end{example}
+	
+	We now turn to the definition of morphisms between presheaves.
+	
+	\begin{definition}
+		Given two presheaves $\mathcal{F}$ and $\mathcal{G}$, a \inlinedef{morphism of presheaves} $f \colon \mathcal{F} \to \mathcal{G}$ is the collection of maps $f_U \colon \mathcal{F}(U) \to \mathcal{G}(U)$ for each open subset $U \subseteq X$ such that whenever $U \subseteq V$ are open subsets, the diagram
+		% https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXG1hdGhjYWx7Rn0oVikiXSxbMCwyLCJcXG1hdGhjYWx7Rn0oVSkiXSxbMiwyLCJcXG1hdGhjYWx7R30oVSkiXSxbMiwwLCJcXG1hdGhjYWx7R30oVikiXSxbMCwxLCJcXHJlc15WX1UiLDJdLFsxLDIsImZfVSIsMl0sWzAsMywiZl9WIl0sWzMsMiwiXFxyZXNeVl9VIl1d
+		\[\begin{tikzcd}
+			{\mathcal{F}(V)} && {\mathcal{G}(V)} \\
+			\\
+			{\mathcal{F}(U)} && {\mathcal{G}(U)}
+			\arrow["{f_V}", from=1-1, to=1-3]
+			\arrow["{\res^V_U}"', from=1-1, to=3-1]
+			\arrow["{\res^V_U}", from=1-3, to=3-3]
+			\arrow["{f_U}"', from=3-1, to=3-3]
+		\end{tikzcd}\]
+		commutes.
+	\end{definition}
+	
+	We can alternatively give a categorical perspective on presheaves. Let $X$ be a topological space. The open sets of $X$ form a category $(\operatorname{Ouv}(X))$ of open subsets of $X$. We declare that there is exactly one morphism $U \to V$ in $(\operatorname{Ouv}(X))$ if and only if $U \subseteq V$. Put simply, this is the order category of open subsets of $X$ with the ordering given by inclusion of sets. Then a presheaf on $X$ is simply a contravariant functor $\mathcal{F} \colon (\operatorname{Ouv}(X))^{\op} \to (\Abs)$. A morphism of presheaves $f \colon \mathcal{F} \to \mathcal{G}$ is then a natural transformation between the two functors.
+	
+	By changing the target so that $\mathcal{F} \colon (\operatorname{Ouv}(X))^{\op} \to\mathcal{C}$ maps to another category $\mathcal{C}$, we obtain a presheaf $\mathcal{F}$ on $X$ with value in $\mathcal{C}$, not just Abelian groups. In the following we mostly consider the following types of presheaves:
+	\begin{enumerate}
+		\item Presheaves of sets 
+		$(\operatorname{Ouv}(X))^{\op} \to(\Sets)$.
+		\item Presheaves of Abelian groups 
+		$(\operatorname{Ouv}(X))^{\op} \to(\Abs)$.
+		\item Presheaves of rings $(\operatorname{Ouv}(X))^{\op} \to(\Rings)$.
+		\item Given a ring $R$, presheaves of $R$-modules $(\operatorname{Ouv}(X))^{\op} \to(R\operatorname{-Mod})$ and presheaves of $R$-algebras $(\operatorname{Ouv}(X))^{\op} \to(R\operatorname{-Alg})$.		
+	\end{enumerate}
+	
+	\begin{example}[Constant Presheaf]
+		Let $A$ be a fixed Abelian group and let $X$ be a topological space. We can define a presheaf $\mathcal{A}$ on $X$ by setting $\mathcal{A}(U) = A$ for all open subsets $U \subseteq X$ and all restriction maps are the identity homomorphism. This is called the \inlinedef{constant presheaf} with value $A$ on $X$.
+	\end{example}
+	
+	\begin{example}[Restriction of Presheaf]
+		Let $X$ be a topological space and $\mathcal{F}$ a presheaf on $X$. If $U$ is an open subset of $X$, then the assignment
+		\begin{equation*}
+			\mathcal{F}|_{U}(V) = \mathcal{F}(V) \quad\text{for each open subset $V \subseteq U$}
+		\end{equation*}
+		define a presheaf on $U$. The presheaf $\mathcal{F}|_U$ is called the restriction of the presheaf $\mathcal{F}$ onto $U$.
+	\end{example}
+	
+	\begin{example}[Sub-presheaf]
+		Let $\mathcal{F}$ and $\mathcal{G}$ be a presheaf on a topological space $X$ with values in algebraic objects such as Abelian groups or rings. If $\mathcal{F}(U)$ is a subgroup of $\mathcal{G}(U)$ for all open $U \subseteq X$, then $\mathcal{F}$ is said to be a \inlinedef{sub-presheaf} of $\mathcal{G}$.
+	\end{example}
+	
+	\section{Sheaves}
+	
+	The fundamental property of functions on a topological space $X$ is that we can glue functions $f_i \colon U_i \to X$ defined on open subsets $U_i \subseteq X$ together into a function $f \colon U \to X$ defined on the union $U = \bigcup_i U_i$ of the open sets. Since we like to think of sections on $U$ as ``functions'' on $U$, the above property should hold for the type of presheaves which are desirable for our study. Hence we are led to the following definition.
+	
+	\begin{definition}
+		Let $\mathcal{F}$ be a presheaf of Abelian groups on a topological space $X$. We say that $\mathcal{F}$ is a \inlinedef{sheaf} if it satisfies the following two properties: for all open subsets $U \subseteq X$ and for all open coverings $\Set{U_i}_{i \in I}$ of $U$,
+		\begin{enumerate}
+			\item (Uniqueness) Let $s, t \in \mathcal{F}(U)$ be sections such that $s|_{U_i} = t|_{U_i}$ for all $i \in I$. Then $s = t$.
+			
+			\item (Gluing) Given a collection of sections $s_i \in \mathcal{F}(U_i)$ such that $s_i|_{U_i \cap U_j} = s_j|_{U_i \cap U_j}$ for all $i, j \in I$, there exists $s \in\mathcal{F}(U)$ such that $s|_{U_i} = s_i$ for all $i \in I$.
+		\end{enumerate}
+	\end{definition} 
+	
+	The above two properties are called the \inlinedef{sheaf axioms}. Given a collection of sections $s_i \in \mathcal{F}(U_i)$ and $s \in\mathcal{F}(U)$ as in the second part, the section $s$ is said to be obtained by \inlinedef{gluing the sections} $s_i$. It is unique by the first part.
+	
+	Note that we may replace the target category from the category of Abelian groups to other categories, as noted in the previous section. For sheaves with values in a category of algebraic structures, the sheaf axioms can be restated in terms of exact sequences as follows.
+	
+	\begin{lemma}\label{chap3:sheaf-as-exact-sequences}
+		Let $\mathcal{F}$ be a sheaf of Abelian groups (or rings, $R$-modules, $R$-algebras with $R$ a ring) on a topological space $X$. $\mathcal{F}$ is a sheaf if and only if for every open subset $U \subseteq X$ and open cover $\Set{U_i}_{i \in I}$ of $U$, the sequence
+		\begin{equation*}
+			0 \longrightarrow\mathcal{F}(U)\xlongrightarrow{\varphi} \prod_{i \in I} \mathcal{F}(U_i) \xlongrightarrow{\sigma} \prod_{(i, j) \in I \times I} \mathcal{F}(U_i \cap U_j),
+		\end{equation*}
+		is exact, where $\varphi\colon s \mapsto (s|_{U_i})_{i \in I}$ and $\sigma\colon (s_i)_{i \in I} \mapsto (s_i|_{U_i \cap U_j} - s_j|_{U_i \cap U_j})_{i, j}$.	
+	\end{lemma}
+	\begin{proof}
+		The uniqueness condition is equivalent to the sequence being exact at $\mathcal{F}(U)$. Similarly, the gluing condition is equivalent to the sequence being exact at $\prod_{i} \mathcal{F}(U_i)$.
+	\end{proof}
+	
+	A \inlinedef{morphism of sheaves} is a morphism of presheaves. We then obtain the category of sheaves on a topological space $X$, denoted by $(\Sheaf(X))$. Note that we really should have chosen a notation such as $(\Abs\Sheaf(X))$ to unambiguously clarify that it is the category of sheaves of \textit{Abelian groups} on $X$ that we are considering. Still, in this section and wherever appropriate, the proof works for any target category of sheaves. With this in mind, we shall prove most statement for sheaves of Abelian groups and left the other cases for the reader.
+	
+	The category of presheaves on $X$ is denoted by $(\PrSheaf(X))$. Clearly $(\Sheaf(X))$ is a full subcategory of $(\PrSheaf(X))$. 
+	
+	\begin{remark}
+		For a sheaf $\mathcal{F}$ on a topological space $X$, $\mathcal{F}(\emptyset)$ is precisely the final object in the respective category. This can be seen from \cref{chap3:sheaf-as-exact-sequences} by considering the empty covering of the empty set. Since the empty product is the terminal object, we obtain the exact sequence $0 \to \mathcal{F}(\emptyset) \to 0 \to 0$, showing that $\mathcal{F}(\emptyset) \cong 0$.
+		
+		When $\mathcal{F}$ is a sheaf of sets, we can argue directly from the definition of sheaves that $\mathcal{F}(\emptyset)$ is a set with one element. Note that \cref{chap3:sheaf-as-exact-sequences} does not apply to this case.
+	\end{remark}
+	
+	Presheaves and sheaves can be restricted onto any open subset.
+	
+	\begin{definition}
+		Suppose we have a presheaf $\mathcal{F}$ on a topological space $X$. If $U \subseteq X$ is an open subset, then the presheaf $\mathcal{F}|_U$ defined by $\mathcal{F}|_U(V) = \mathcal{F}(V)$ for all open subset $V \subseteq U$ is a presheaf on $U$ called the \inlinedef{restriction} of $\mathcal{F}$ to $U$.
+	\end{definition}
+	
+	Clearly $\mathcal{F}|_U$ is a sheaf if $\mathcal{F}$ is a sheaf. We now turn to more example of sheaves.
+	
+	\begin{example}[Sheaves of Continuous and Smooth Functions]
+		Let $X$ and $Y$ be topological spaces. Define $\mathcal{C}$ to be the presheaf of continuous functions, that is, for every open subset $U \subseteq X$,
+		\begin{equation*}
+			\mathcal{C}(U) \coloneqq \Set*{f \colon U \to Y : \text{ $f$ is continuous}}.
+		\end{equation*}
+		The restriction maps are restrictions of functions. 
+		
+		In a similar manner, let $M$ be a smooth manifold. Then the presheaf of real-valued smooth functions on $M$ (\cref{chap3:presheaf-of-smooth-functions}) is a sheaf.
+	\end{example}
+	
+	\begin{example}[Skyscraper Sheaves]
+		Let $X$ be a topological space and $A$ an Abelian group. The \inlinedef{skyscraper sheaf in the point $p \in X$ with value $A$} is defined to be the sheaf
+		\begin{equation*}
+			\mathcal{F}(U) = \begin{cases}
+				A,	& 	p \in U;\\
+				0,	&	p \notin U.
+			\end{cases}
+		\end{equation*}
+	\end{example}
+	
+	Not every presheaf is a sheaf, as the following non-examples show.
+	\begin{example}
+		Constant presheaves are in general not a sheaf. As an example, consider the two-point topological space $X = \Set{x, y}$ with discrete topology. The constant presheaf $\mathcal{F}$ with value $\ZZ$ is not a sheaf, as the reader may check.
+		
+		Note that, even if we modify $\mathcal{F}(\emptyset)$ to be equal to $\Set{0}$, it is still not a sheaf because the gluing axiom cannot be satisfied.
+	\end{example}
+	
+	\begin{example}[Presheaf of Bounded Functions]
+		Let $X$ be a topological space. For each open set $U \subseteq X$, define 
+		\begin{equation*}
+			\mathcal{F}(U) \coloneqq \Set*{f \colon U \to \RR : \text{ $f$ is bounded}}.
+		\end{equation*}
+		Then $\mathcal{F}$ is a presheaf on $X$. In general it will not be a sheaf.
+	\end{example}
+	\begin{exercise}
+		Verify all the examples.
+	\end{exercise}
+
+	
+	\subsection*{Sheaves on a Basis}
+	
+	Let $X$ be a topological space and $\mathcal{B}$ a basis of $X$. It will be useful, when we define affine schemes, to consider sheaves defined explicitly only on the basis $\mathcal{B}$. The main result of this section is that there is a unique sheaf on the whole topological space $X$ extending the sheaf defined on a basis.
+	
+	\begin{definition}
+		Suppose $X$ is a topological space and $\mathcal{B}$ a basis of $X$.
+		
+		\begin{enumerate}
+			\item A \inlinedef{presheaf on $\mathcal{B}$} is a contravariant functor $\mathcal{F}\colon \mathcal{B} \to (\Abs)$ where $\mathcal{B}$ is regarded as a full subcategory of $(\operatorname{Ouv}_X)$.
+			
+			\item A \inlinedef{sheaf on $\mathcal{B}$} is a presheaf $\mathcal{F}$ on $\mathcal{B}$ which satisfies the analogous conditions about gluing as for sheaves: for all $U \in\mathcal{B}$ and an open covering $U = \bigcup_{i \in I} U_i$ where $U_i \in \mathcal{B}$,
+			\begin{enumerate}
+				\item (Uniqueness) Let $s, t \in \mathcal{F}(U)$ be such that $s|_{U_i} = t|_{U_i}$ for all $i$. Then $s = t$.
+				
+				\item (Gluing) A collection of sections $s_i \in \mathcal{F}(U_i)$ is said to be \inlinedef{compatible} if for all $i, j \in I$, and all open set $U_k \in \mathcal{B}$ with $U_k \subseteq U_i \cap U_j$, we have
+				\begin{equation*}
+					s_i|_{U_k} = s_j|_{U_k}.
+				\end{equation*}
+				
+				It is required that, whenever the sections $s_i \in \mathcal{F}(U_i)$ are compatible, then there is a section $s \in \mathcal{F}(U)$ such that $s|_{U_i} = s_i$. 
+			\end{enumerate}
+		\end{enumerate}
+	\end{definition}
+	
+	Note that the gluing condition has to be modified from the gluing condition for sheaves. This is because the intersection of two basic open sets $U_i, U_j \in\mathcal{B}$ might not belong in $\mathcal{B}$. It is still open, however, and so we may cover the intersection $U_i \cap U_j$ by open sets from $\mathcal{B}$. So we need to check compatibility of sections in those smaller open sets instead.
+	
+	\begin{remark}
+		If the basis $\mathcal{B}$ is stable under finite intersection (as is the case for basis consisting of principal open subsets), then the usual gluing condition can be used instead. For such a basis $\mathcal{B}$ , a presheaf $\mathcal{F}$ on $\mathcal{B}$ is a sheaf if for all $U \in\mathcal{B}$ and an open covering $U = \bigcup_{i \in I} U_i$ where $U_i \in \mathcal{B}$,
+		\begin{enumerate}
+			\item it satisfy uniqueness, and,
+			\item for all sections $s_i \in \mathcal{F}(U_i)$, if $s_i|_{U_i \cap U_j} = s_j|_{U_i \cap U_j}$, then there is a section $s \in \mathcal{F}(U)$ such that $s|_{U_i} = s_i$.
+		\end{enumerate}  
+	\end{remark}
+	
+	
+	\begin{proposition}
+		Let $X$ be a topological space, $\mathcal{B}$ a basis of $X$, and $\mathcal{F}$ a sheaf on $\mathcal{B}$. There is a sheaf $\mathcal{F}'$ on $X$ such that $\mathcal{F}'(U) \cong \mathcal{F}(U)$ for all $U \in \mathcal{B}$. The sheaf $\mathcal{F}'$ is unique up to isomorphism.
+	\end{proposition}
+	
+	\begin{proof}
+		content...
+	\end{proof}
+	
+	Morphisms between sheaves on a basis can be extended to the morphisms between the extended sheaves.
+	
+	\section{Stalks}
+	
+	Let $X$ be a topological space and let $x \in X$ be a point. The collection of Abelian groups $\mathcal{F}(U)$, where $U$  is an open neighbourhood of $x$, with restriction maps is a direct system. The direct limit of this system leads to the notion of stalks.
+	
+	\begin{definition}
+		Let $\mathcal{F}$ be a presheaf on $X$. The \inlinedef{stalk} at $x \in X$ of $\mathcal{F}$ is the Abelian group
+		\begin{equation*}
+			\mathcal{F}_x \coloneq \varinjlim_{\substack{{U} \ni x, \\ {U} \text{ open}}} \mathcal{F}(U).
+		\end{equation*}
+	\end{definition}
+	
+	More explicitly, $\mathcal{F}_x$ is the set of equivalence classes of pairs $(U, s)$ where $U$ is an open neighbourhood of $x$ and $s \in \mathcal{F}(U)$. Two pairs $(U, s)$ and $(V, t)$ are definitionally equivalent if there is an open neighbourhood $W$ of $x$ such that $W \subseteq U \cap V$ and $s|_W = t|_W$. Let us denote the equivalence class of $(U, s)$ by $[U, s]$. The group operation on $\mathcal{F}_x$ is defined by
+	\begin{equation*}
+		[U, s] + [V, t] = [U \cap V, s|_{U\cap V} + t|_{U\cap V}].
+	\end{equation*}
+	
+	\begin{exercise}
+		Prove that the above relation is indeed an equivalence relation on the set of pairs $(U, x)$, and that the multiplication is well-defined which makes $\mathcal{F}_x$ into an Abelian group.
+	\end{exercise}
+	
+	By the definition of direct limits, for each open neighbourhood $U$ of $x$ there is a natural homomorphism $\mathcal{F}(U) \to \mathcal{F}_x$ given by $s \mapsto [U, s]$. If $U$ is understood, we shall write $s_x$ for the equivalent class $[U, s]$. The element $s_x$ is called the \inlinedef{germ} of $s$ in $x$.
+	
+	If $\mathcal{F}$ and $\mathcal{G}$ are presheaves on $X$ with a morphism $\varphi \colon \mathcal{F} \to \mathcal{G}$, then there is an induced homomorphism of Abelian group between stalks
+	\begin{align*}
+		\varphi_x \colon \mathcal{F}_x & \longrightarrow \mathcal{G}_x \\
+	[U, s] & \longmapsto [U, \varphi_U(s)].
+	\end{align*}
+	This is the same map from the universal property of direct limits. 
+	
+	\begin{exercise}
+		Show that $\varphi_x$ is a group homomorphism.
+	\end{exercise}
+	
+	We thus see that taking stalks gives a functor from the category of presheaves on $X$ to the category of Abelian groups. Further, if the presheaves take values in sets or rings, then stalks will be sets or rings, respectively. 
+	
+	\begin{lemma}
+		Let $\mathcal{F}$ be a sheaf on a topological space $X$ and let $s, t \mathcal{F}(X)$ be sections such that $s_x = t_x$ for all $x \in X$. Then $s = t$.
+	\end{lemma}
+	\begin{proof}
+		For each $x \in X$, there is an open neighbourhood $U_x$ such that $s|_{U_x} = t|_{U_x}$. Since the open sets of the form $U_x$ covers $X$, this shows that $s = t$.
+	\end{proof}
+	
+	Injectivity and bijectivity of morphisms in the data of a morphism of sheaves can be checked on stalks, as the following proposition shows.
+	
+	\begin{proposition}\label{chap3:injective-can-be-checked-on-stalks}
+		Let $X$ be a topological space, $\mathcal{F}$ and $\mathcal{G}$ sheaves on $X$, and $\varphi, \psi \colon \mathcal{F} \to \mathcal{G}$ morphisms of sheaves. Then
+		
+		\begin{enumerate}
+			\item The homomorphisms $\varphi_U \colon \mathcal{F}(U) \to \mathcal{G}(U)$ are injective for all open $U \subseteq X$ if and only if the induced morphisms $\varphi_x \colon \mathcal{F}_x \to \mathcal{G}_x$ are injective for all $x \in X$.
+			
+			\item The homomorphisms $\varphi_U \colon \mathcal{F}(U) \to \mathcal{G}(U)$ are bijective for all open $U \subseteq X$ if and only if the induced morphisms $\varphi_x \colon \mathcal{F}_x \to \mathcal{G}_x$ are bijective for all $x \in X$.
+			
+			\item $\varphi_x = \psi_x$ for all $x \in X$ if and only if $\varphi = \psi$.
+		\end{enumerate}
+	\end{proposition}
+	
+	\begin{remark}
+		The statement fails for surjections. It is in general not true that $\varphi_U \colon \mathcal{F}(U) \to \mathcal{G}(U)$ are surjective for all open $U \subseteq X$ if and only if the induced morphisms $\varphi_x \colon \mathcal{F}_x \to \mathcal{G}_x$ are surjective for all $x \in X$.
+	\end{remark}
+	
+	\begin{proposition}\label{chap3:morphisms-in-term-of-stalks}
+		Let $X$ be a topological space, $\mathcal{F}$, $\mathcal{G}$ sheaves on $X$, and $\varphi \colon \mathcal{F} \to \mathcal{G}$ a morphism of sheaves. Then
+		\begin{enumerate}
+			\item $\varphi$ is a monomorphism in $(\Abs(X))$ if and only if $\varphi_x$ is injective for all $x \in X$.
+			
+			\item $\varphi$ is an epimorphism in $(\Abs(X))$ if and only if $\varphi_x$ is surjective for all $x \in X$.
+			
+			\item $\varphi$ is an isomorphism in $(\Abs(X))$ if and only if $\varphi_x$ is bijective for all $x \in X$.
+		\end{enumerate}
+	\end{proposition}
+	\begin{proof}
+		(1) First assume that $\varphi$ is a monomorphism. In light of \cref{chap3:injective-can-be-checked-on-stalks}, it suffices to show that each morphism $\varphi_U \colon \mathcal{F} \to \mathcal{G}$ is injective. Let $\mathcal{K}$ be the kernel sheaf of $\varphi$, i.e. $\mathcal{K}(U) = \ker\varphi_U$ for all open $U\subseteq X$. This is a subsheaf of $\mathcal{F}$ (\cref{chap3:kernel-sheaf-is-a-sheaf}).
+		
+		Let $i \colon \mathcal{K} \to \mathcal{F}$ be the inclusion morphism, i.e. $i_U$ is the inclusion $\mathcal{K}(U) \hookrightarrow \mathcal{F}(U)$ for all open subset $U \subseteq X$. There is also another morphism of sheaves $0 \colon \mathcal{K} \to \mathcal{F}$ such that $0_U \colon \mathcal{K}(U) \to \mathcal{F}(U)$ is the zero homomorphism for all $U$. Clearly $\varphi \circ i = 0$. Since $\varphi$ is a monomorphism, $i = 0$. Hence for each open $U \subseteq X$, we see that $a = i_U(a) = 0_U(a) = 0$ for all $a \in \ker(\varphi_U)$. In other words, $\varphi_U$ is injective for all open subset $U$.
+		
+		Conversely, assume that $\varphi_x$ is injective for all $x \in X$. Suppose $\psi, \eta \colon\mathcal{H} \to \mathcal{F}$ are morphisms of sheaves such that $\varphi \circ \psi = \varphi \circ \eta$. Since taking stalks is a functor, $\varphi_x \circ \psi_x = \varphi_x \circ \eta_x$ for all $x \in X$. Using the fact that $\varphi_x$ is injective, we have $\psi_x = \eta_x$ for all $x \in X$. By \cref{chap3:injective-can-be-checked-on-stalks}, $\psi = \eta$, and so $\varphi$ is a monomorphism.
+		
+		(2)
+		
+		(3) 
+	\end{proof}
+	
+	\begin{remark}
+		\cref{chap3:morphisms-in-term-of-stalks} remains true if the sheaves considered are sheaves of sets instead of sheaves of Abelian groups, although the arguments must be modified.
+	\end{remark}
+	
+	Stalks behave well with basis.
+	\begin{lemma}[Stalks Can Be Computed on a Basis]\label{chap3:stalks-can-be-computed-on-basis}
+		Let $X$ be a topological space with a basis $\mathcal{B}$, $x \in X$ a point, and $\mathcal{F}$ a presheaf on $X$. The collection of Abelian groups of the form
+		\begin{equation*}
+			\mathcal{F}(B), \quad B \in \mathcal{B},
+		\end{equation*}
+		together with the restriction maps of $\mathcal{F}$ form a direct system. Furthermore, the direct limit of this system is equal to the stalk of $\mathcal{F}$ at $x$:
+		\begin{equation*}
+			\mathcal{F}_x = \varinjlim_{\substack{{B} \ni x, \\ B \in \mathcal{B} }} \mathcal{F}(B).
+		\end{equation*}
+	\end{lemma}
+	\section{Sheafification}
+	
+	\section{Direct Image and Inverse Image}
+	
+	\section{Locally Ringed Spaces}
+	
+	
+	\begin{definition}
+		A \inlinedef{ringed space} is a pair $(X, \mathcal{O}_X)$ where $X$ is a topological space and $\mathcal{O}_X$ is a sheaf of rings on $X$.
+	\end{definition}
+	
+	A \inlinedef{morphism of ringed spaces} $(f, f^\flat) \colon (X, \mathcal{O}_X) \to (Y,\mathcal{O}_Y)$ is a pair consisting of a continuous function $f \colon X \to Y$ and a morphism of sheaves $f^\flat \colon \mathcal{O}_Y \to f_\ast\mathcal{O}_Y$.
+
+	\section{Affine Schemes}
+	
+	Let $A$ be a ring. We are going to make $X = \Spec A$ into a locally ringed space by constructing a sheaf of rings on $X$. Recall that $X$ has a basis consisting of principal open subsets. Define a sheaf $\mathcal{O}_X$ on this basis by setting
+	\begin{equation*}
+		\mathcal{O}_X(D(f)) = A_f\quad\text{for each $ f\in A$},
+	\end{equation*}
+	where $A_f$ is the localisation of $A$ with respect to the set $\Set{f^i : i \geq 0}$. Let us denote the canonical homomorphism $A \to A_f$ by $i_f$. To see that this is well-defined, let $D(f) = D(g)$. By \cref{chap2:covering-trick}, $D(g) \subseteq D(f)$ if and only $g^n =  fa$ for some $a \in A$ and $n \geq 1$. In particular, $f/1$ is invertible in $A_g$ because $(a/g^n)(f/1) = 1$. By the universal property of localisation, there exists a unique ring homomorphism $\rho^f_g \colon A_f \to A_g$ such that $\rho^f_g\circ i_f = i_g$.
+	
+	Suppose $D(h) \subseteq D(g) \subseteq D(f)$. Then by uniqueness, $\rho^g_h \circ \rho^f_g = \rho^f_h$. In particular, if $D(g) = D(f)$, then $\rho^f_g$ is an isomorphism which allows us to identify $A_f$ with $A_g$. The condition $\rho^g_h \circ \rho^f_g = \rho^f_h$ implies that $\mathcal{O}_X$ is a presheaf of rings on $\mathcal{B}$ with the restriction maps given by $\rho^f_g$.
+	
+	\begin{theorem}
+		The presheaf $\mathcal{O}_X$ is a sheaf on $\mathcal{B}$.
+	\end{theorem}
+	\begin{proof}
+		Let $D(f)$ be a principal open subset and let $\Set{D(f_i) : i \in I}$ be an open cover of $D(f)$. By restricting the presheaf $\mathcal{O}_X$ to $D(f)$, and replacing $A_f$ with $A$, we may assume that $f = 1$, and hence $D(f) = X$, to ease the notation. Therefore the assumption translates to the statement that $X = \Spec A$ is covered by $\Set{D(f_i) : i \in I}$.
+		
+		We first prove the sheaf conditions when $I$ is finite.
+		
+		\begin{enumerate}
+			\item Let $s \in \mathcal{O}_X(X) = A$ satisfy $s|_{D(f_i)} = 0$ for all $i \in I$. For each $i$ there is $n_i \in \NN$ such that $f_i^{n_i}s = 0$. Set $n = \max_{i \in I} n_i$, so that $f_i^n s = 0$.
+			
+			Since $D(f_i) = D(f^n_i)$ for all $i$, it follows that $\bigcup_{i \in I}D(f_i^n) = \bigcup_{i \in I}D(f_i) = X$ and so $\sum_{i \in I}f^n_i A = A$. Thus there are $b_i \in A$ such that $\sum_{i \in I} f^n_i b_i = 1$. This gives
+			\begin{equation*}
+				s = \left(\sum_{i \in I} f^n_i b_i\right)s = \sum_{i \in I} f^n_i b_i s = 0.
+			\end{equation*}
+			
+			\item Let $s_i \in \mathcal{O}_X(D(f_i))$ satisfy $s_i|_{D(f_i) \cap D(f_j)} = s_j|_{D(f_i) \cap D(f_j)}$ for all $i, j \in I$. Let us write $s_i = \frac{a_i}{f_i^{n_i}}$. We may adjust the fractions so that all $n_i$ are equal, so that $s_i = \frac{a_i}{f_i^{n}}$, where $n \in \NN$ is independent of $i$.
+			
+			By hypothesis, for all $i, j \in I$,
+			\begin{equation*}
+			\left.\frac{a_i}{f_i^n}\right\vert_{D(f_if_j)}= \frac{a_if_j^n}{(f_if_j)^n} = \frac{a_jf_i^n}{(f_if_j)^n} = \left.\frac{a_j}{f_j^n}\right\vert_{D(f_if_j)}.
+			\end{equation*}
+			So that there is $m \geq 1$ such that $(f_if_j)^m(a_if_j^n - a_jf_i^n) = 0$. Again we may choose $m$ to be independent of $i$ and $j$. Thus by setting $k = n + m$, we obtain
+			\begin{equation*}
+				(f_i^m a_i) f_j^k = (f_j^ma_j)f_i^k
+			\end{equation*}
+			for all $i, j \in I$.
+			
+			Arguing as above, there are $b_i \in A$ such that $\sum_{j \in I} f^k_j b_j = 1$. Put $s \coloneqq\sum_{j \in I} b_j f_j^m a_j$. Then
+			\begin{equation*}
+				f_i^ks = f_i^k \left(\sum_{j \in I} b_j f_j^m a_j\right) = \sum_{j \in I} b_j (f_i^k f_j^m a_j) = \sum_{j \in I} b_j (f_i^m a_i f_j^k) = f_i^m a_i \left(\sum_{j \in I} b_j  f_j^k\right) = f_i^m a_i.
+			\end{equation*}
+			
+			Hence $s \in A = \mathcal{O}_X(X)$ is such that its image in $A_{f_i}$ is equal to
+			\begin{equation*}
+				\frac{s}{1} = \frac{f_i^k s}{f_i^k} = \frac{f_i^m a_i}{f_i^{n + m}} = \frac{a_i}{f_i^n} = s_i.
+			\end{equation*}
+		\end{enumerate}
+		
+		Finally we consider the case when $I$ is infinite. Via \cref{chap2:covering-trick}, there is a finite subset $J \subseteq I$ such that $1 = \sum_{j \in J} f_j A$. From what was just proved, we see that gluing sections indexed by finite subsets work.
+		
+		\begin{enumerate}
+			\item Let $s \in \mathcal{O}_X(X) = A$ satisfy $s|_{D(f_i)} = 0$ for all $i \in I$. Then $s|_{D(f_j)} = 0$ for all $j \in J$ and hence $s = 0$.
+			
+			\item Let $s_i \in \mathcal{O}_X(D(f_i))$ satisfy $s_i|_{D(f_i) \cap D(f_k)} = s_k|_{D(f_i) \cap D(f_k)}$ for all $i, k \in I$. Consider the sections $s_j$ with $j \in J$. From the finite case, they glue to a section $s \in \mathcal{O}_X(X)$ such that $s|_{D(f_j)} = s_j$ for all $j \in J$. We claim that the section $s$ is the one we get from gluing $s_i$.
+			
+			We only need to check that for all $i \in I$, $s|_{D(f_i)} = s_i$. Note that $\Set{D(f_i) \cap D(f_j)}_{j \in J}$ is a finite covering of $D(f_i)$. Hence, for all $i \in I$ and $j \in J$,
+			\begin{equation*}
+				s|_{D(f_i)}|_{D(f_i) \cap D(f_j)} = s|_{D(f_j)}|_{D(f_i) \cap D(f_j)} = s_j|_{D(f_i) \cap D(f_j)} = s_i|_{D(f_i) \cap D(f_j)}.
+			\end{equation*}
+			By (1), $s|_{D(f_i)} = s_i$. This finishes the proof. \qedhere
+		\end{enumerate}
+	\end{proof}
+	
+	\begin{corollary}
+		The sheaf $\mathcal{O}_X$ extends to a sheaf $\mathcal{O}_X$ on $X$, called the \inlinedef{structure sheaf} of $\Spec A$.
+	\end{corollary}
+	
+	\begin{lemma}[Stalks of $\Spec A$] 
+		Let $X = \Spec A$, $\mathcal{O}_X$ its structure sheaf, and $x \in \Spec A$. Then		
+		\begin{equation*}
+			\mathcal{O}_{X, x} = A_{\mathfrak{p}_x},
+		\end{equation*}
+		the localisation of $A$ at the prime ideal $\mathfrak{p}_x$. In particular, $(X, \mathcal{O}_X)$ is a locally ringed space.
+	\end{lemma}
+	\begin{proof}
+		By \cref{chap3:stalks-can-be-computed-on-basis}, we can compute the stalk $\mathcal{O}_{X, x}$ on the basis of principal open subsets, and thus
+		\begin{equation*}
+			\mathcal{O}_{X, x} = \varinjlim_{D(f) \ni x} \mathcal{O}_X(D(f)) = \varinjlim_{f \notin\mathfrak{p}} A_f = A_{\mathfrak{p}},
+		\end{equation*}
+		the last equality follows from the universal property of localisation.
+	\end{proof}
+	
+	\begin{definition}
+		A locally ringed space $(X, \mathcal{O}_X)$ is said to be an \inlinedef{affine scheme} if it is isomorphic to a locally ringed space $(\Spec A, \mathcal{O}_{\Spec A})$ for suitable ring $A$.
+	\end{definition}
+	
+	A \inlinedef{morphism of affine schemes} is simply a morphism of locally ringed spaces. We thus obtain the category of affine schemes which we shall denote by $(\Aff)$.
+	
+	Let $\varphi \colon A \to B$ be a ring homomorphism. We shall define a morphism of affine schemes $\Spec \varphi = (f, f^\flat) \colon (\Spec B, \mathcal{O}_{\Spec B}) \to(\Spec A, \mathcal{O}_{\Spec A})$. Here is the definition: 
+	\begin{enumerate}
+		\item $f = \Spec \varphi$ is the induced continuous map on spectra, and,
+		\item $f^\flat \colon \mathcal{O}_{\Spec A} \to f_\ast \mathcal{O}_{\Spec B}$ is given on principal open subsets by  
+		\begin{equation*}
+			f^\flat_{D(s)} : \mathcal{O}_{\Spec A}(D(s)) \to \mathcal{O}_{\Spec B}(f^{-1}(D(s))).
+		\end{equation*}
+		Since $f^{-1}(D(s)) = D(\varphi(s))$ by \cref{chap2:property-of-spec-map}, we need to define a map $f^\flat_{D(s)} \colon A_s \to B_{\varphi(s)}$. The natural map for this is the unique map $\varphi_s \colon A_s \to B_{\varphi(s)}$ induced by the canonical localisation maps:
+		% https://q.uiver.app/#q=WzAsNCxbMCwwLCJBIl0sWzEsMCwiQiJdLFswLDEsIkFfcyJdLFsxLDEsIkJfe1xcdmFycGhpKHMpfSJdLFswLDEsIlxcdmFycGhpIl0sWzIsMywiXFx2YXJwaGlfcyIsMl0sWzAsMl0sWzEsM11d
+		\[\begin{tikzcd}
+			A & B \\
+			{A_s} & {B_{\varphi(s)}}
+			\arrow["\varphi", from=1-1, to=1-2]
+			\arrow[from=1-1, to=2-1]
+			\arrow[from=1-2, to=2-2]
+			\arrow["{\varphi_s}"', from=2-1, to=2-2]
+		\end{tikzcd}\]
+		Therefore we take $f^\flat_{D(s)}$ to be $\varphi_s$.
+	\end{enumerate}
+	
+	\begin{proposition}
+		The maps $f^\flat_{D(s)}$ is compatible with restrictions, and hence define a morphism of sheaves.
+	\end{proposition}
+	
+	\subsection*{Anti-equivalence of the Categories $(\Aff)$ and $(\Rings)$}
+	
+	\section{Problems}
+	
+	\begin{problems}
+		\item \label{chap3:kernel-sheaf-is-a-sheaf} Prove that if $\varphi\colon\mathcal{F} \to \mathcal{G}$ is a morphism of sheaves on a topological space $X$, then the \inlinedef{kernel sheaf} $\mathcal{K}$ defined on each open subset $U \subseteq X$ by
+		\begin{equation*}
+			\mathcal{K}(U) = \ker(\varphi_U \colon \mathcal{F}(U) \to \mathcal{G}(U))
+		\end{equation*}
+		is a subsheaf of $\mathcal{F}$. The restriction maps of $\mathcal{K}$ is restricted from those of $\mathcal{F}$.
+		
+%		\item A function $f \colon X \to \RR$ is 
+	\end{problems}
+	
+	\chapter{Schemes}
+	
+	\section{Schemes}
+	
+	After defining affine schemes, we can now define schemes as locally ringed spaces that are affine schemes glued together.
+	
+	\begin{definition}
+		A \inlinedef{scheme} is a locally ringed space $(X, \mathcal{O}_X)$ which admits a covering by open subsets $\Set{U_i}_{i \in I}$ such that $(U_i, \mathcal{O}_{X | U_i})$ is isomorphic to an affine scheme for all $i \in I$.
+	\end{definition}
+	
+	A \inlinedef{morphism of schemes} is a morphism of the underlying locally ringed spaces. Schemes and morphisms of schemes together form the category of schemes, which is denoted by $(\Schs)$. The category of affine schemes is then a full subcategory of $(\Schs)$. We shall often write $X$ for the scheme $(X, \mathcal{O}_X)$; its structure sheaf is left implicit.
+	
+	\subsection*{Schemes Over a Base Scheme}
+	
+	Generalising the notion of varieties defined over a field $k$, there is a corresponding notion of schemes over a base scheme. Let $S$ be a scheme. An \inlinedef{$S$-scheme} is a scheme $X$ with a morphism of schemes $X \to S$, called the \inlinedef{structural morphism} of $X$. Given two $S$-schemes $X \to S$ and $Y \to S$, a \inlinedef{morphism of $S$-schemes} $f \colon X \to Y$ is a morphism of schemes such that the diagram
+	% https://q.uiver.app/#q=WzAsMyxbMCwwLCJYIl0sWzIsMCwiWSJdLFsxLDEsIlMiXSxbMCwyXSxbMSwyXSxbMCwxLCJmIl1d
+	\[\begin{tikzcd}
+		X && Y \\
+		& S
+		\arrow["f", from=1-1, to=1-3]
+		\arrow[from=1-1, to=2-2]
+		\arrow[from=1-3, to=2-2]
+	\end{tikzcd}\]
+	commutes. The scheme $S$ is called the \inlinedef{base scheme}. It is itself an $S$-scheme with the morphism $\id_S \colon S \to S$. In this manner, we have the \inlinedef{category of $S$-schemes} $(\Schs/S)$. Another way of viewing $(\Schs/S)$ is that it is the slice category of $(\Schs)$ over $S$. The set of morphisms between $X$ and $Y$ in the category of $S$-schemes will be denoted by $\Hom_S(X, Y)$, to avoid confusion with the hom-set $\Hom(X, Y)$ when $X, Y$ are just regarded as schemes.
+	
+	In many cases when the base scheme is affine, we shall employ a common shorthand notation. If $S$ is affine, say $S = \Spec R$, a scheme over $S$ is also called an \inlinedef{$R$-scheme} or a \inlinedef{scheme over $R$}. The hom-set of $R$-schemes $X$ and $Y$ is written by $\Hom_R(X, Y)$.
+	
+	\subsection*{Open Subschemes}
+	
+	
+	
+	\section{Gluing Lemmas}
+	
+	\begin{lemma}[Morphism Gluing Lemma]
+		Let $X$ and $Y$ be locally ringed spaces, and let $\Set{U_i}_{i \in I}$ be an open covering of $X$. Then a family of morphisms $f_i \colon U_i \to Y$ of locally ringed spaces together form a morphism $f \colon X \to Y$ if and only if the morphisms $f_i \colon U_i \to Y$ and $f_j \colon U_j \to Y$ coincide on $U_i \cap U_j$ for all $i, j \in I$. Furthermore, the resulting morphism $X \to Y$ is unique.
+	\end{lemma}
+	\begin{proof}
+		The only non-trivial part is constructing a morphism $f \colon X \to Y$ from the morphisms $f_i \colon U_i \to Y$. At the level of the underlying topological spaces this is always possible, so we obtain a continuous map $f\colon X \to Y$ such that $f|_{U_i} = f_i$ for all $i \in I$.
+		
+		We seek to define a morphism of sheaves $f^\flat \colon \mathcal{O}_Y \to f_\ast\mathcal{O}_X$. Let $V \subseteq Y$ be an open subset, so that $f^{-1}(V)$ is an open subset of $X$. For each $i \in I$, we are given a map
+		\begin{equation*}
+			\mathcal{O}_Y(V) \to (f_i)_{\ast}\mathcal{O}_{X|U_i}(V) = \mathcal{O}_{X}(U_i \cap f^{-1}(V)).
+		\end{equation*}
+		For each $s \in \mathcal{O}_Y(V)$, let $s_i$ denote the image of $s$ in $\mathcal{O}_{X}(U_i \cap f^{-1}(V))$ under the above map. The idea is to glue the sections $s_i$ together and take the resulting section to be $f^\flat_V(s)$. To make sure that the sections can be glued together, we need to show that
+		\begin{equation*}
+			s_i|_{U_i \cap U_j \cap f^{-1}(V)} = s_j|_{U_i \cap U_j \cap f^{-1}(V)}
+		\end{equation*}
+		for all $i, j \in I$. This is implied by our assumption that $f_i$ and $f_j$ coincide on $U_i \cap U_j$. Furthermore, $f^\flat_V(s)$ is well-defined by the uniqueness condition of sheaf axioms.
+		
+		The only thing left to check is that the maps $ f^\flat_V$ are compatible with restriction maps. Let $W \subseteq V$ be open subsets of $Y$. Then for all $s \in \mathcal{O}_Y(V)$ and $i \in I$,
+		\begin{align*}
+		f_V^\flat(s)|_{f^{-1}(W) \cap U_i} & = f_V^\flat(s)|_{f^{-1}(V) \cap U_i}|_{f^{-1}(W) \cap U_i} \\
+		& = s_i|_{f^{-1}(W) \cap U_i}\\
+		& = (s|_W)_i.
+		\end{align*}
+		By uniqueness, $f^\flat_V(s)|_{f^{-1}(W)} = f^\flat_W(s|_W)$. This proves that $f^\flat$ is compatible with restriction maps and so define a morphism of sheaves $\mathcal{O}_Y \to f_\ast\mathcal{O}_X$. For each $x \in X$, the induced map on stalks $f^\sharp_x$ is plainly a local ring homomorphism because taking stalk is local.
+	\end{proof}
+	
+	
+	
+	\begin{lemma}[Scheme Gluing Lemma]
+		content...
+	\end{lemma}
+	
+	\section{Immersions}
+	
+	\section{Problems}
+
+	
+	\chapter{Properties of Schemes}
+	
+	\section{Noetherian Schemes}
+	
+	Recall that a ring $R$ is \inlinedef{Noetherian} if it satisfies the \textit{ascending ideal condition}: every chain of ideals
+	\begin{equation*}
+		I_1 \subseteq I_2 \subseteq \dotsb \subseteq I_n \subseteq \dotsb
+	\end{equation*}
+	is eventually constant, that is, there is $N \in \NN$ such that $I_N = I_n$ for all $n \geq N$. Equivalently every ideal of $R$ is finitely generated. The corresponding notion for schemes is as follows.
+	
+	\begin{definition}
+		A scheme $X$ is \inlinedef{locally Noetherian} if $X$ admits an open covering $X = \bigcup_i U_i$ by affine open subschemes $U_i$ such that the ring $\mathcal{O}_X(U_i)$ is Noetherian. A scheme is \inlinedef{Noetherian} if it is quasi-compact and locally Noetherian.
+	\end{definition}
+	
+	Recall that every affine scheme is quasi-compact. Hence locally Noetherian affine scheme is automatically Noetherian. Since localisations of a Noetherian ring are again Noetherian, this means that every locally Noetherian scheme has a basis consisting of Noetherian affine open subschemes.
+	
+	\begin{proposition}
+		The following are equivalent for a scheme $X$.
+		\begin{enumerate}
+			\item $X$ is locally Noetherian.
+			\item Each point $x \in X$ has an affine open neighbourhood $U$ such that $\mathcal{O}_X({U})$ is Noetherian.
+			\item For every affine open subset $U \subseteq X$ the ring $\mathcal{O}_X(U)$ is Noetherian.
+		\end{enumerate}
+	\end{proposition}
+	\begin{proof}
+		Clearly (1) $\Longleftrightarrow$ (2) and (3) $\Rightarrow$ (1) because schemes are covered by affine open subsets. In turn we only need to show that (1) implies (3). 
+		
+		Let $U = \Spec R$ be an affine open subscheme. By the observation previously discussed, we may assume that $U$ can be covered by Noetherian affine open subschemes $U_i$.
+	\end{proof}
+	
+	\chapter{Schemes and Varieties}
+	
+	
+	
+	\chapter{Projective Spaces}
+	
+	\chapter{Fibre Products}
+	
+	\section{Fibre Products}
+	
+	We start with the definition of fibre products in any category.
+	\begin{definition}
+		Let $\mathcal{C}$ be a category, and let $f \colon X \to S$ and $g \colon Y \to S$ be morphisms in $\mathcal{C}$. A \inlinedef{fibre product} or \inlinedef{pullback} of $f$ and $g$ is an object $Z$ with morphisms $p \colon Z \to X$ and $q \colon Z \to Y$ which is universal with respect to the following property:
+		
+		The equation $f \circ p = g \circ q$ holds; and furthermore, for any object $T$ with morphisms $u \colon T \to X$ and $v \colon T \to Y$ such that $f \circ u = g \circ v$, there exists a unique morphism $h \colon T \to Z$ such that the following diagram commutes
+		% https://q.uiver.app/#q=WzAsNSxbMiwyLCJaIl0sWzQsMiwiWCJdLFsyLDQsIlkiXSxbNCw0LCJTIl0sWzAsMCwiVCJdLFsxLDMsImYiXSxbMiwzLCJnIiwyXSxbMCwyLCJxIiwyXSxbMCwxLCJwIl0sWzQsMSwidSIsMCx7ImN1cnZlIjotM31dLFs0LDIsInYiLDAseyJjdXJ2ZSI6NH1dLFs0LDAsImgiLDAseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XV0=
+		\[\begin{tikzcd}
+			T &&&& \\
+			\\
+			&& Z && X \\
+			\\
+			&& Y && {S.}
+			\arrow["h", dashed, from=1-1, to=3-3]
+			\arrow["u", curve={height=-18pt}, from=1-1, to=3-5]
+			\arrow["v", curve={height=24pt}, from=1-1, to=5-3]
+			\arrow["p", from=3-3, to=3-5]
+			\arrow["q"', from=3-3, to=5-3]
+			\arrow["f", from=3-5, to=5-5]
+			\arrow["g"', from=5-3, to=5-5]
+		\end{tikzcd}\]
+	\end{definition}
+	
+	A fibre product of $f$ and $g$ is also called a \inlinedef{fibre product of $X$ and $Y$ over $S$}. As with any universal objects, the fibre product of $f$ and $g$ is unique up to unique isomorphism if it exists. Thus we may denote the fibre product $Z$ of $f$ and $g$ by $X \times_S Y$. The morphisms $X \times_S Y \to X$ and $X \times_S Y \to Y$ are called the \inlinedef{projections} to the first and second factor, respectively.
+	
+	The unique morphism $h$ arising from $u$ and $v$ as in the definition of fibre product will often be denoted by $(u, v)_S$. The notation emphasises the fact that $p \circ (u, v)_S = u$ and $q \circ (u, v)_S = q$, showing that $p$ and $q$ acts like projections.
+	
+	For familiar categories such as the category of sets and the category of topological spaces, fibre products always exist and can be explictly described.
+	
+	\begin{example}\label{chap6:fibre-product-in-sets-and-tops}
+		Let $f \colon X \to S$ and $g \colon Y \to S$ be functions. Then the set
+		\begin{equation*}
+			Z = \Set*{(x, y) \in X \times Y : f(x) = g(y)},
+		\end{equation*}
+		together with projection maps $p \colon (x, y) \mapsto x$ and $q \colon (x, y) \mapsto y$, is the fibre product of $f$ and $g$ in $(\Sets)$.
+		
+		For the category of topological spaces, equip the set $Z$ above with the subspace topology induced from the product topology of $X \times Y$. The projection maps $p$ and $q$ are then continuous, and together with $Z$ form the fibre product of $f$ and $g$ in $(\Tops)$.
+	\end{example}
+	
+	Keeping the notation of \cref{chap6:fibre-product-in-sets-and-tops}, the fibre product of $f$ and $g$ can also be written as
+	\begin{equation*}
+		Z =	X \times_S Y = \bigcup_{s \in S} f^{-1}(s) \times g^{-1}(s),
+	\end{equation*}
+	hence the name \textit{fibre product}.
+	
+	\begin{exercise}
+		For any category $\mathcal{C}$ and object $S \in \mathcal{C}$, prove that the fibre product of $f \colon X \to S$ and $Y \to S$ is the same as the product of $f$ and $g$ taken in the slice category $\mathcal{C}/S$.
+	\end{exercise}
+	
+	\subsection*{Functoriality}
+	
+	We now turn to functoriality of fibre products. Suppose that in the category $\mathcal{C}$ all fibre products exist. Given morphisms $f \circ X \to S$ and $g \circ Y \to S$ we may form the fibre product $X \times_S Y$:
+	% https://q.uiver.app/#q=WzAsNCxbMCwwLCJYIFxcdGltZXNfUyBZIl0sWzIsMCwiWCJdLFswLDIsIlkiXSxbMiwyLCJTIl0sWzIsMywiZyIsMl0sWzEsMywiZiJdLFswLDIsInEiLDJdLFswLDEsInAiXV0=
+	\[\begin{tikzcd}
+		{X \times_S Y} && X \\
+		\\
+		Y && {S.}
+		\arrow["p", from=1-1, to=1-3]
+		\arrow["q"', from=1-1, to=3-1]
+		\arrow["f", from=1-3, to=3-3]
+		\arrow["g"', from=3-1, to=3-3]
+	\end{tikzcd}\]
+	
+	Now suppose $X'$ and $Y'$ are $S$-objects with $S$-morphisms $u \colon X' \to X$ and $v \colon Y' \to Y$. Again we make form the fibre product $(X'\times_S Y', p', q')$. Then there is a unique morphism $u \times_S v \colon X' \times_S Y' \to X \times_S Y$ such that the diagram
+	% https://q.uiver.app/#q=WzAsNyxbMiwyLCJYIFxcdGltZXNfUyBZIl0sWzQsMiwiWCJdLFsyLDQsIlkiXSxbNCw0LCJTIl0sWzAsMCwiWCcgXFx0aW1lc19TIFknIl0sWzAsMiwiWSciXSxbMiwwLCJYJyJdLFsyLDMsImciLDJdLFsxLDMsImYiXSxbMCwyLCJxIiwyXSxbMCwxLCJwIl0sWzUsMiwidiIsMl0sWzYsMSwidSJdLFs0LDAsInUiXSxbNCw2LCJwJyJdLFs0LDUsInEnIiwyXV0=
+	\[\begin{tikzcd}
+		{X' \times_S Y'} && {X'} && \\
+		\\
+		{Y'} && {X \times_S Y} && X \\
+		\\
+		&& Y && S
+		\arrow["{p'}", from=1-1, to=1-3]
+		\arrow["{q'}"', from=1-1, to=3-1]
+		\arrow["u \times_S v", from=1-1, to=3-3]
+		\arrow["u", from=1-3, to=3-5]
+		\arrow["v"', from=3-1, to=5-3]
+		\arrow["p", from=3-3, to=3-5]
+		\arrow["q"', from=3-3, to=5-3]
+		\arrow["f", from=3-5, to=5-5]
+		\arrow["g"', from=5-3, to=5-5]
+	\end{tikzcd}\]
+	is commutative. In fact, $u \times_S v = (u \circ p', v \circ q')_S$ is obtained by the universal property of fibre products, as one can easily check. 
+	
+	The following proposition is easy to prove either directly or via the Yoneda lemma.
+	
+	\begin{proposition}
+		Let $S$ be an object in $\mathcal{C}$ and let $X, Y, Z$  be $S$-objects. Then there are ``canonical'' isomorphisms
+		\begin{enumerate}
+			\item $X \times_S S \xrightarrow{\sim} X$.
+			\item $X \times_S Y \xrightarrow{\sim} Y \times_S X$.
+			\item $X \times_S (Y \times_S Z) \xrightarrow{\sim} (X \times_S Y) \times_S Z$.
+		\end{enumerate}
+		All of the isomorphisms are functorial in $X$, $Y$, and $Z$.
+	\end{proposition}
+	
+	Given a commutative diagram
+	% https://q.uiver.app/#q=WzAsNCxbMCwwLCJaIl0sWzIsMCwiWCJdLFswLDIsIlkiXSxbMiwyLCJTIl0sWzEsMywiZiJdLFsyLDMsImciLDJdLFswLDIsInEiLDJdLFswLDEsInAiXV0=
+	\[\begin{tikzcd}
+		Z && X \\
+		\\
+		Y && {S}
+		\arrow["p", from=1-1, to=1-3]
+		\arrow["q"', from=1-1, to=3-1]
+		\arrow["f", from=1-3, to=3-3]
+		\arrow["g"', from=3-1, to=3-3]
+	\end{tikzcd}\]
+	we say that this diagram is \inlinedef{cartesian} if $Z$ and the morphisms $p, q$ is the fibre product of $f$ and $g$. We denote a cartesian diagram using a square $\square$ in the middle as shown below:
+	% https://q.uiver.app/#q=WzAsNSxbMCwwLCJaIl0sWzIsMCwiWCJdLFswLDIsIlkiXSxbMiwyLCJTIl0sWzEsMSwiXFxzcXVhcmUiXSxbMSwzLCJmIl0sWzIsMywiZyIsMl0sWzAsMiwicSIsMl0sWzAsMSwicCJdXQ==
+	\[\begin{tikzcd}
+		Z && X \\
+		& \square \\
+		Y && S
+		\arrow["p", from=1-1, to=1-3]
+		\arrow["q"', from=1-1, to=3-1]
+		\arrow["f", from=1-3, to=3-3]
+		\arrow["g"', from=3-1, to=3-3]
+	\end{tikzcd}\]
+	
+	We finish this section with the \textit{pullback lemma}.
+	
+	\begin{lemma}[Pullback lemma] Suppose we are given the following commutative diagram in a category $\mathcal{C}$
+		% https://q.uiver.app/#q=WzAsNyxbMiwwLCJaIl0sWzQsMCwiWCJdLFsyLDIsIlkiXSxbNCwyLCJTIl0sWzMsMSwiXFxzcXVhcmUiXSxbMCwwLCJaJyJdLFswLDIsIlknIl0sWzEsMywiZiJdLFsyLDMsImciLDJdLFswLDIsInEiLDJdLFs2LDIsImcnIiwyXSxbNSwwLCJwJyJdLFs1LDYsInEnIiwyXSxbMCwxLCJwIl1d
+		\[\begin{tikzcd}
+			{Z'} && Z && X \\
+			&&& \square \\
+			{Y'} && Y && S
+			\arrow["{p'}", from=1-1, to=1-3]
+			\arrow["{q'}"', from=1-1, to=3-1]
+			\arrow["p", from=1-3, to=1-5]
+			\arrow["q"', from=1-3, to=3-3]
+			\arrow["f", from=1-5, to=3-5]
+			\arrow["{g'}"', from=3-1, to=3-3]
+			\arrow["g"', from=3-3, to=3-5]
+		\end{tikzcd}\]
+		in which the right square is cartesian. Then the left square is cartesian if and only if the outer rectangle is cartesian.
+	\end{lemma}
+	\begin{exercise}
+		Prove the pullback lemma either by diagram chasing or by  the Yoneda lemma.
+	\end{exercise}
+	
+	\section{Fibre Product of Schemes}
+	
+	The goal of this section is to prove that fibre products always exists in the category of schemes. We begin by showing that if all the schemes $X$, $Y$, and $S$ involved are affine, then the fibre product of $X$ and $Y$ over $S$ exists.
+	
+	\begin{theorem}
+		Let $X = \Spec A$, $Y = \Spec B$ and $S = \Spec R$ be affine schemes, and let $f \colon X \to S$ and $g \colon Y \to S$ be morphisms of schemes. Then the fibre product of $f$ and $g$ exists and is given by the affine scheme $Z = \Spec(A \otimes_R B)$. The projections $p \colon Z \to X$ and $q \colon Z \to Y$ are the morphisms corresponding to the ring homomorphisms
+		\begin{align*}
+			\alpha \colon A & \to A \otimes_R B, \quad a \mapsto a \otimes 1, \\
+			\beta \colon B & \to A \otimes_R B, \quad b \mapsto 1 \otimes b.
+		\end{align*}
+	\end{theorem}
+	\begin{proof}
+		Recall that a morphism of affine schemes $f \colon X \to S$ corresponds to a ring homomorphism $\varphi\colon R \to A$. Similarly, $g$ corresponds to a ring homomorphism $\psi \colon R \to B$. Hence $A$ and $B$ are $R$-algebras and so the tensor product $A \otimes_R B$ exists.
+	\end{proof}
+	
+	\begin{theorem}[Fibre Product of Schemes]
+		Let $S$ be a scheme and let $X$, $Y$ be $S$-schemes. Then the fibre product $X \times_S Y$ exists in the category of schemes.
+	\end{theorem}
+	
+	
+	\chapter{Schemes over Fields}
+	
+	\section{Dimension Theory}
+	
+	
+	\chapter{Separated Morphisms}
+	
+	Recall that a topological space $X$ is Hausdorff if for every two distinct points $x \neq y$, there are open neighbourhoods $U$ of $x$ and $V$ of $y$ such that $U \cap V = \emptyset$. The following conditions are equivalent to $X$ being Hausdorff:
+	\begin{enumerate}
+		\item The diagonal set $\Delta \coloneqq \Set{(x, x) : x \in X}$ is closed  in $X \times X$, where $X \times X$ is equipped with the product topology.
+		
+		\item For every topological space $Y$ and continuous map $f \colon Y \to X$, the graph $\Set{(y, f(y)) : y \in Y}$ is closed in $Y \times X$.
+		
+		\item For every topological space $Y$ and continuous maps $f, g\colon Y \to X$, the equaliser $\Set{y \in Y : f(y) = g(y)}$ is closed in $Y$.
+	\end{enumerate}
+	\begin{exercise}
+		Prove the asserted equivalence.
+	\end{exercise}
+	
+	Schemes are in general not Hausdorff. Nevertheless, the above characterisation serves as a motivation for an analogue of Hausdorff property of schemes.
+	
+	\section{Separated Morphisms}
+	
+	\subsection*{Diagonals, Graphs, and Equalisers}
+	
+	We first need to define diagonals, graphs and equalisers for arbitrary schemes. In more generality we shall define them for any category which has fibre products.
+	
+	In this section, let $\mathcal{C}$ be a category admitting all fibre products. Let $S \in \mathcal{C}$ and $u \colon X \to S$ an $S$-object. If $T \to S$ is another $S$-object, the set of all $S$-morphisms $T \to X$ is denoted by $X_S(T)$.
+	
+	\begin{definition} Situation as above.
+	\begin{enumerate}		\item The \inlinedef{diagonal} of $u\colon X \to S$ is the morphism
+		\begin{equation*}
+			\Delta_{X/S} \coloneqq \Delta_u \coloneqq (\id_X, \id_X)_S \colon X \to X \times_S X
+		\end{equation*}
+		obtained from the universal property of fibre products. Sometimes we write $\Delta$ for $\Delta_{X/S}$ if no confusion can arise
+		
+		\item Let $f \colon X \to Y$ be an $S$-morphism. The \inlinedef{graph} of $f$ is the morphism
+		\begin{equation*}
+			\Gamma_f \coloneqq (\id_X, f)_S \colon X \to X \times_S Y.
+		\end{equation*}
+		
+		\item Let $f, g \colon X \to Y$ be two $S$-morphisms. The \inlinedef{equaliser} $\Eqlsr(f, g)$ of $f, g$ is the categorical equaliser of $f$ and $g$ in the slice category over $S$. The universal $S$-morphism $i\colon \Eqlsr(f, g) \to X$ is called the \inlinedef{canonical} morphism.
+	\end{enumerate}
+	\end{definition}
+	
+	Unravelling the definition of equalisers, we can give another definition using universal mapping property as follows. The canonical morphism $i \colon \Eqlsr(f, g) \to X$ satisfies $f\circ i = g \circ i$ and for all $S$-morphism $x \colon T \to X$ such that $f \circ x = g \circ x$, there is a unique morphism $p \colon T \to \Eqlsr(f, g)$ such that $i \circ p = x$. This is indicated in the following commutative diagram:
+	% https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXEVxbHNyKGYsZykiXSxbMiwwLCJYIl0sWzQsMCwiWSJdLFswLDIsIlQiXSxbMSwyLCJmIiwwLHsib2Zmc2V0IjotMX1dLFsxLDIsImciLDIseyJvZmZzZXQiOjF9XSxbMCwxLCJpIl0sWzMsMSwieCJdLFszLDAsInAiLDAseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XV0=
+	\[\begin{tikzcd}
+		{\Eqlsr(f,g)} && X && {Y.} \\
+		\\
+		T
+		\arrow["i", from=1-1, to=1-3]
+		\arrow["f", shift left, from=1-3, to=1-5]
+		\arrow["g"', shift right, from=1-3, to=1-5]
+		\arrow["p", dashed, from=3-1, to=1-1]
+		\arrow["x", from=3-1, to=1-3]
+	\end{tikzcd}\]
+	
+	Alternatively, $i \colon K \to X$ is an equaliser of $f, g$ if and only if it represents the contravariant functor sending an $S$-object $T$ to the set $\Set{x \in X_S(T) : f(T)(x) = g(T)(x)}$.
+	
+	\begin{exercise}
+		Show that the canonical morphism $i \colon \Eqlsr(f, g) \to X$ is a monomorphism in the category of $S$-objects.
+	\end{exercise}
+	
+	The following lemma shows that the equaliser of two $S$-morphisms can be expressed in terms of fibre products, and so all equalisers exist in $\mathcal{C}$.
+	
+	\begin{lemma}
+		
+	\end{lemma}
+	
+	\begin{example}
+		In the category of sets, the diagonal
+	\end{example}
+	
+	\subsection*{Diagonals, Graphs, and Equalisers in the Category of Schemes}
+	
+	\begin{proposition}
+		Let $S = \Spec R$, $X = \Spec A$ and $\Spec B$.
+	\end{proposition}
+	
+	\chapter{Proper Morphisms}
+	
+	\begin{definition}[Closed and Universally Closed Morphisms]
+		Let $f \colon X \to Y$ be a morphism of schemes.
+		
+		\begin{enumerate}
+			\item We say that $f$ is \inlinedef{closed} if for every closed subset $Z \subseteq X$, its image $f(Z)$ is closed in $Y$. In other words, $f$ is closed as a topological map.
+			
+			\item The morphism $f$ is \inlinedef{universally closed} if for every morphism $Y' \to Y$, the base change $X \times_Y Y' \to Y'$ is closed.
+		\end{enumerate}
+	\end{definition}
+	
+	\begin{definition}
+		A morphism $f \colon X \to Y$ is \inlinedef{proper} if it is separated, of finite type, and universally closed.
+	\end{definition}
+	
+	\begin{lemma}
+		Let $\mathbf{P}$ be a property of morphisms such that
+		\begin{enumerate}
+			\item $\mathbf{P}$ is stable under composition;
+			\item $\mathbf{P}$ is stable under base change;
+			\item Every closed immersion has $\mathbf{P}$.
+		\end{enumerate}
+		
+	\end{lemma}
+	
+	\begin{proposition}
+	Closed immersions are proper.
+	\end{proposition}
+	
+	\chapter{Sheaves of Modules}
+	
+	\section{Sheaves of Modules}
+	
+	\begin{definition}
+		Let $(X, \mathcal{O}_X)$ be a ringed space. A \inlinedef{sheaf of modules} on $X$ or an \inlinedef{$\mathcal{O}_X$-module} is an Abelian sheaf $\mathcal{F}$ on $X$ satisfying the following properties:
+		\begin{enumerate}
+			\item For each open subset $U$ of $X$, $\mathcal{F}(U)$ is an $\mathcal{O}_X(U)$-module.
+			
+			\item The module structures are compatible with restriction maps: if $V \subseteq U$ are open subsets, $a \in \mathcal{O}_X(U)$, and $s \in \mathcal{F}(U)$, then
+			\begin{equation*}
+				(as)|_V = a|_V s|_V.
+			\end{equation*}
+		\end{enumerate}
+	\end{definition}
+	
+	\begin{example}
+		The sheaf $\mathcal{O}_X$ is trivially an $\mathcal{O}_X$-module. More generally, if $i \in \NN$, then the sheaf
+		\begin{equation*}
+			U \mapsto \underbrace{\mathcal{O}_X(U) \oplus \dotsb \oplus \mathcal{O}_X(U)}_{i \text{ summands}}
+		\end{equation*}
+		is an $\mathcal{O}_X$-module. We will generalise this construction later.
+	\end{example}
+	
+	Let $\mathcal{F}$ and $\mathcal{G}$ be $\mathcal{O}_X$-modules. A \inlinedef{morphism of $\mathcal{O}_X$-modules} $\varphi\colon \mathcal{F} \to \mathcal{G}$ is a morphism of sheaves such that for each open subset $U \subseteq X$, the map on
+	\begin{equation*}
+		\varphi_U : \mathcal{F}(U) \to \mathcal{G}(U)
+	\end{equation*} 
+	is also an $\mathcal{O}_X(U)$-module homomorphism. The identity morphism $\id\colon\mathcal{F} \to \mathcal{F}$ is immediately seen to be a morphism of $\mathcal{O}_X$-modules. Moreover, the composition of two morphisms of $\mathcal{O}_X$-modules is again a morphism of $\mathcal{O}_X$-modules. We thus obtain the category $(\mathcal{O}_X\mathrm{-Mod})$ of $\mathcal{O}_X$-modules. The set of all morphisms of $\mathcal{O}_X$-modules from $\mathcal{F}$ to $\mathcal{G}$ is denoted by $\Hom_{\mathcal{O}_X}(\mathcal{F}, \mathcal{G})$.
+	
+	\begin{exercise}
+		Show that $\Hom_{\mathcal{O}_X}(\mathcal{F}, \mathcal{G})$ is naturally an $\mathcal{O}_X(X)$-module. In particular, the hom-set $\Hom_{\mathcal{O}_X}(\mathcal{F}, \mathcal{G})$ is an Abelian group.
+	\end{exercise}
+	
+	\begin{exercise}\label{chap11:stalk-is-oxmodule}
+		Show that, for each $\mathcal{O}_X$-module $\mathcal{F}$, the stalk $\mathcal{F}_x$ at $x \in X$ has the induced $\mathcal{O}_{X, x}$-module structure. The multiplication of $[U, a]$ and $[V, s]$ where $U, V$ are open neighbourhood of $x$, $a \in \mathcal{O}_X(U)$ and $s \in \mathcal{F}(V)$, is defined to be
+		\begin{equation*}
+			[U, a][V, s] = [U \cap V, a|_{U\cap V}s|_{U \cap V}].
+		\end{equation*}
+		
+		Show that if $\varphi\colon \mathcal{F} \to \mathcal{G}$ is a morphism of $\mathcal{O}_X$-modules, then the map of stalks $\varphi_x \colon \mathcal{F}_x \to \mathcal{G}_x$ is a homomorphism of $\mathcal{O}_{X, x}$-modules.
+	\end{exercise}
+	
+	The result of \cref{chap11:stalk-is-oxmodule} implies that taking stalks defines a functor from $(\mathcal{O}_X\text{-Mod})$ to $(\mathcal{O}_{X, x}\text{-Mod})$.
+	
+	\begin{definition}
+		Let $(X, \mathcal{O}_X)$ be a locally ringed space, $\mathcal{F}$ an $\mathcal{O}_X$-module, and $x \in X$. By \cref{chap11:stalk-is-oxmodule}, the stalk $\mathcal{F}_x$ is an $\mathcal{O}_{X, x}$-module.  The tensor product
+		\begin{equation*}
+			\mathcal{F}(x) \coloneqq \mathcal{F}_x \otimes_{\mathcal{O}_{X, x}} \kappa(x),
+		\end{equation*}
+		where $\kappa(x)$ is the residue field of $x$, is an $\kappa(x)$-vector space. This is called the \inlinedef{stalk of $\mathcal{F}$ at $x$.}
+	\end{definition}
+	
+	We now turn to more examples of $\mathcal{O}_X$-modules. For the first example, recall that a \textit{zero object} in a category $\mathcal{C}$ is an object which is both initial and final.
+	
+	\begin{example}[The Zero Sheaf]
+		The sheaf $0$ defined by $0(U) = \Set{0}$ for all open subset $U \subseteq X$ is an $\mathcal{O}_X$-module. For every $\mathcal{O}_X$-module $\mathcal{F}$, there are unique morphisms $\mathcal{F} \to 0$ and $0 \to \mathcal{F}$ making $0$ the zero object in $(\mathcal{O}_X\mathrm{-Mod})$.
+	\end{example}
+	
+	\begin{example}[Sheaves of Abelian Groups as Sheaves of Modules]
+		content...
+	\end{example}
+	
+	
+	\section{Constructions on $\mathcal{O}_{X}$-modules}
+	
+	\section{Category of $\mathcal{O}_X$-modules is Abelian}
+	
+	\section{Sheaves of Modules Attached to Modules}
+	
+	In this section we show that modules over a ring give rise to sheaves of modules over the spectrum of that ring. Let $A$ be a ring and $M$ an $A$-module. Set $X = \Spec A$. Recall that the collection
+	\begin{equation*}
+		\mathcal{B} = \Set{D(f) : f \in A}
+	\end{equation*} 
+	of principal open subsets of $X$ is a basis of $X$. Define the sheaf $\tilde{M}$ on each principal open set $D(f) \subseteq X$ ($f \in A$) by the formula
+	\begin{equation*}
+		\tilde{M}(D(f)) = M_f,
+	\end{equation*}
+	where $M_f$ is the localisation of $M$ with respect to the multiplicative set $\Set{f^i : i \geq 0}$. If $D(f) \subseteq D(g)$, then the restriction map $\tilde{M})(D(g)) \to \tilde{M}(D(f))$ is taken to be the homomorphism of $A_g$-modules $M_g \to M_f$ obtained from the universal property of localisation. The same argument as in the definition of affine schemes show that $\tilde{M}$ is indeed a sheaf on the basis $\mathcal{B}$. 
+	
+	\begin{proposition}
+		The assignment $\tilde{M}$ is a sheaf on the basis $\mathcal{B}$.
+	\end{proposition}
+	
+	Hence $\tilde{M}$ extends to a sheaf on $X$ which we again denote by $\tilde{M}$. As is readily seen from the construction, $\tilde{M}(D(f)) = M_f$ is a module over $\mathcal{O}_X(D(f)) = A_f$. In fact, the module structure extends to the whole of $\tilde{M}$, rendering $\tilde{M}$ into an $\mathcal{O}_X$-module.
+	
+	\begin{lemma}
+		Let $U \subseteq \Spec A$ be an open subset. Then $\tilde{M}(U)$ carries an $\mathcal{O}_X(U)$-module structure making $\tilde{M}$ into an $\mathcal{O}_X$-module.
+	\end{lemma}
+	
+	\begin{proof}
+		Let $a \in \mathcal{O}_X(U)$ and $s \in \tilde{M}(U)$. We define the multiplication $as$ locally on each principal open subset of $U$ and then show that these local sections can be glued together. Let $D(f) \subseteq U$, $f \in A$ be a principal open subset. Then $a|_{D(f)} \in \mathcal{O}_X(D(f)) = A_f$ and $s|_{D(f)} \in \tilde{M}(D(f)) = M_f$. In particular, the multiplication $a|_{D(f)} s|_{D(f)}$ is defined plainly as the scalar multiplication of $M_f$.
+		
+		In order to glue these sections together, we have to check that for two principal open subsets $D(f)$ and $D(g)$ of $U$, 
+		\begin{equation*}
+			(a|_{D(f)}s|_{D(f)})|_{D(f) \cap D(g)} = (a|_{D(g)}s|_{D(g)})|_{D(f) \cap D(g)}.
+		\end{equation*}
+		
+		Recall that $D(f) \cap D(g) = D(fg)$, and so the restriction map $\tilde{M}(D(f)) \to \tilde{M}(D(fg))$ is simply the $A_f$-module homomorphism $M_f \to M_{fg}$. Similarly the restriction map $\tilde{M}(D(f)) \to \tilde{M}(D(fg))$ is the $A_g$-module homomorphism $M_g \to M_{fg}$. Using the fact that the restriction maps are module homomorphisms, we get
+		\begin{align*}
+			(a|_{D(f)}s|_{D(f)})|_{D(f) \cap D(g)} & = (a|_{D(f)})|_{D(f) \cap D(g)}(s|_{D(f)})|_{D(f) \cap D(g)} \\
+			& = a|_{D(fg)} s|_{D(fg)} \\
+			& = (a|_{D(g)})|_{D(f) \cap D(g)}(s|_{D(g)})|_{D(f) \cap D(g)} \\
+			& = (a|_{D(g)}s|_{D(g)})|_{D(f) \cap D(g)}.
+		\end{align*}
+		Hence the sections $a|_{D(f)}s|_{D(f)}$, where $D(f)$ runs over all principal open subsets of $U$, glue to a unique section $as \in \tilde{M}(U)$. The module axioms for $\tilde{M}(U)$ and the fact that the module structures are compatible with restriction maps can be checked locally in the similar manner as the above.
+	\end{proof}
+	
+	By construction, $\tilde{A} = \mathcal{O}_X$.
+	
+	\section{Quasi-coherent Modules}
+	
+	\chapter{Line Bundles and Divisors}
+	\section{Cartier Divisors}
+	
+	\chapter{Smoothness and Differentials}
+	
+	\chapter{Projective Schemes}
+	
+	
+	\chapter{\v{C}ech Cohomology}
+	
+	Let $X$ be a ringed space and let $\mathcal{U} = \Set{U_i}_{i \in I}$ be an open covering of $X$.
+	
+	
+	\chapter{Cohomology of Sheaves of Modules}
+	
+	\chapter{Serre Duality}
+	
+	\chapter{Cohomology and Base Change}
+	
+	\chapter{Grassmannians, Flag Varieties, Schubert Varieties}
+	
+	\chapter{Torsors}
+	
+	\section{Torsors}
+	Let $X$ be a topological space and $G$ a sheaf of groups on $X$. If $T$ is a sheaf of sets on $X$, then we say that $G$ \inlinedef{acts on} $T$ or that $T$ is a \inlinedef{$G$-sheaf} if there is a morphism of sheaves $G \times T \to T$ such that for every open subset $U \subseteq X$, the map $G(U) \times T(U) \to T(U)$ is a left group action of $G(U)$ on $T(U)$.
+	
+	A \inlinedef{morphism of $G$-sheaves} is a morphism of sheaves $\varphi\colon T \to T'$ such that $\varphi_U \colon T(U) \to T'(U)$ is $G(U)$-equivariant for all open subset $U \subseteq X$. By definition, this means that $\varphi_U(g\cdot t) = g\cdot \varphi_U(t)$ for all open subset $U \subseteq X$, $g \in G(U)$, and $t\in T(U)$.
+	
+	\begin{definition}
+		A $G$-sheaf $T$ is called a \inlinedef{$G$-torsor} if it satisfies the following two properties:
+		\begin{enumerate}
+			\item The group $G(U)$ acts simply transitively on $T(U)$ for every open subset $U \subseteq X$. (A group $G$ acts \textit{simply transitively} on $X$ if for all $t, s \in X$, there is a unique $g \in G$ such that $g\cdot t = s$.)
+			
+			\item There exists an open covering $\Set{U_i}_{i \in I}$ of $X$ such that $T(U_i) \neq \emptyset$ for all $i\in I$.
+		\end{enumerate}
+	\end{definition}
+	
+	An example of a $G$-torsor is $G$ itself under left multiplication action. It is called the \inlinedef{trivial $G$-torsor}. 
+	
+	\begin{remark}
+		A $G$-torsor $T$ is isomorphic to the trivial $G$-torsor if and only if $T(X) \neq \emptyset$. To see this, take any $t \in T(X)$ and define a morphism $f_U \colon G(U) \to T(U)$ by $g \mapsto gt|_U$ for all open subset $U \subseteq X$ and $g \in G(U)$. The fact that $G(U)$ acts simply transitively implies that each $f_U$ is an isomorphism. The morphisms $f_U$ are compatible with restriction maps and hence together form an isomorphism $f \colon G \to T$ of sheaves.
+	\end{remark}
+	
+	\chapter{Curves}
+	
+	\chapter{Category Theory}
+	%	\nocite{*}
+	%	\printbibliography
+	%	\addcontentsline{toc}{chapter}{Bibliography}
+\end{document}
