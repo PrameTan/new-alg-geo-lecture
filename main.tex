@@ -527,6 +527,10 @@ spacebelow=\baselineskip,
 	
 	\chapter{Spectra}
 	
+	In this chapter the notion of spectra is introduced. This is a way to define a topology on the set of prime ideals of a ring. We discuss spectra of familiar rings and the connection of this definition to classical algebraic geometry. Further topological properties of spectra are discussed; the most important one is the fact that the spectrum of a ring is quasi-compact. Finally we prove that mapping a ring to its spectrum defines a functor from the category of rings to the category of topological spaces.
+	
+	Recall our convention that rings are required to be commutative and unital, and every ring homomorphism is unital.
+	
 	\section{Spectrum of a Ring}
 	\begin{definition}
 		Given a ring $R$, its \inlinedef{(prime) spectrum} $\Spec R$ is the set of its prime ideals.
@@ -1119,7 +1123,7 @@ spacebelow=\baselineskip,
 	
 	We thus see that taking stalks gives a functor from the category of presheaves on $X$ to the category of Abelian groups. Further, if the presheaves take values in sets or rings, then stalks will be sets or rings, respectively. 
 	
-	\begin{lemma}
+	\begin{lemma}\label{chap3:germs-equal-implies-equal}
 		Let $\mathcal{F}$ be a sheaf on a topological space $X$ and let $s, t \mathcal{F}(X)$ be sections such that $s_x = t_x$ for all $x \in X$. Then $s = t$.
 	\end{lemma}
 	\begin{proof}
@@ -1157,7 +1161,7 @@ spacebelow=\baselineskip,
 	\begin{proof}
 		(1) First assume that $\varphi$ is a monomorphism. In light of \cref{chap3:injective-can-be-checked-on-stalks}, it suffices to show that each morphism $\varphi_U \colon \mathcal{F} \to \mathcal{G}$ is injective. Let $\mathcal{K}$ be the kernel sheaf of $\varphi$, i.e. $\mathcal{K}(U) = \ker\varphi_U$ for all open $U\subseteq X$. This is a subsheaf of $\mathcal{F}$ (\cref{chap3:kernel-sheaf-is-a-sheaf}).
 		
-		Let $i \colon \mathcal{K} \to \mathcal{F}$ be the inclusion morphism, i.e. $i_U$ is the inclusion $\mathcal{K}(U) \hookrightarrow \mathcal{F}(U)$ for all open subset $U \subseteq X$. There is also another morphism of sheaves $0 \colon \mathcal{K} \to \mathcal{F}$ such that $0_U \colon \mathcal{K}(U) \to \mathcal{F}(U)$ is the zero homomorphism for all $U$. Clearly $\varphi \circ i = 0$. Since $\varphi$ is a monomorphism, $i = 0$. Hence for each open $U \subseteq X$, we see that $a = i_U(a) = 0_U(a) = 0$ for all $a \in \ker(\varphi_U)$. In other words, $\varphi_U$ is injective for all open subset $U$.
+		Let $i \colon \mathcal{K} \to \mathcal{F}$ be the inclusion morphism, i.e. $i_U$ is the inclusion $\mathcal{K}(U) \hookrightarrow \mathcal{F}(U)$ for all open subset $U \subseteq X$. There is also another morphism of sheaves $0 \colon \mathcal{K} \to \mathcal{F}$ such that $0_U \colon \mathcal{K}(U) \to \mathcal{F}(U)$ is the zero homomorphism for all $U$. Clearly $\varphi \circ i = 0 = \varphi \circ 0$. Since $\varphi$ is a monomorphism, $i = 0$. Hence for each open $U \subseteq X$, we see that $a = i_U(a) = 0_U(a) = 0$ for all $a \in \ker(\varphi_U)$. In other words, $\varphi_U$ is injective for all open subset $U$.
 		
 		Conversely, assume that $\varphi_x$ is injective for all $x \in X$. Suppose $\psi, \eta \colon\mathcal{H} \to \mathcal{F}$ are morphisms of sheaves such that $\varphi \circ \psi = \varphi \circ \eta$. Since taking stalks is a functor, $\varphi_x \circ \psi_x = \varphi_x \circ \eta_x$ for all $x \in X$. Using the fact that $\varphi_x$ is injective, we have $\psi_x = \eta_x$ for all $x \in X$. By \cref{chap3:injective-can-be-checked-on-stalks}, $\psi = \eta$, and so $\varphi$ is a monomorphism.
 		
@@ -1181,7 +1185,89 @@ spacebelow=\baselineskip,
 			\mathcal{F}_x = \varinjlim_{\substack{{B} \ni x, \\ B \in \mathcal{B} }} \mathcal{F}(B).
 		\end{equation*}
 	\end{lemma}
+	
 	\section{Sheafification}
+	
+	As seen above, some presheaves fail to be sheaves because of the failure to glue sections.  There is a canonical way to associate a sheaf to a presheaf.
+	
+	\begin{theorem}[Sheafification]\label{chap3:sheafification}
+		Let $X$ be a topological space and $\mathcal{F}$ a presheaf. There exists a sheaf $\mathcal{F}^\dagger$ (called the \inlinedef{sheafification} of $\mathcal{F}$) with a morphism of presheaves $i \colon \mathcal{F} \to \mathcal{F}^\dagger$ such that if $\mathcal{G}$ is a sheaf with a morphism of presheaves $\varphi \colon \mathcal{F} \to \mathcal{G}$, then there is a unique morphism of sheaves ${\varphi}^\dagger \colon \mathcal{F}^\dagger \to \mathcal{G}$ such that the following diagram commutes:
+		
+		% https://q.uiver.app/#q=WzAsMyxbMCwwLCJcXG1hdGhjYWx7Rn0iXSxbMSwwLCJcXG1hdGhjYWx7Rn1eXFxkYWdnZXIiXSxbMSwxLCJcXG1hdGhjYWx7R30iXSxbMCwxLCJpIl0sWzEsMiwiXFx2YXJwaGleXFxkYWdnZXIiLDAseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XSxbMCwyLCJcXHZhcnBoaSIsMl1d
+		\[\begin{tikzcd}
+			{\mathcal{F}} & {\mathcal{F}^\dagger} \\
+			& {\mathcal{G}}
+			\arrow["i", from=1-1, to=1-2]
+			\arrow["\varphi"', from=1-1, to=2-2]
+			\arrow["{\varphi^\dagger}", dashed, from=1-2, to=2-2]
+		\end{tikzcd}\]
+		
+		The pair $(\mathcal{F}^\dagger, i)$ is unique up to unique isomorphism. Moreover, $i_x \colon \mathcal{F}_x \to \mathcal{F}^\dagger_x$ is an isomorphism for all $x \in X$.
+	\end{theorem}
+	
+	The sheaf $\mathcal{F}^\dagger$ is also called the \inlinedef{sheaf associated to the presheaf} $\mathcal{F}$.
+	
+	\begin{proof}
+	We define the proof into several parts.
+	
+	\textbf{[Definition.]} Let $U \subseteq X$ be an open subset. Define $\mathcal{F}^\dagger(U)$ to be the set of functions $f \colon U \to \coprod_{x \in U} \mathcal{F}_x$ satisfying
+		\begin{itemize}
+			\item [(\ast)] for all $x \in U$, there is an open neighbourhood $V \subseteq U$ of $x$ and $s \in \mathcal{F}(V)$ such that for all $y \in V$, $f(y) = s_y$.
+		\end{itemize} 
+	With pointwise addition this is an abelian group. The restriction map $\res^U_W \colon \mathcal{F}^\dagger(U) \to \mathcal{F}^\dagger(W)$ for $W \subseteq U$ is defined to be the restriction of functions, so $\res^U_W(f) = f|_W$ for all $f \in \mathcal{F}^\dagger(U)$. It is easily checked that $f|_W \in \mathcal{F}^\dagger(W)$, and that restrictions are group homomorphisms. From this it follows that $\mathcal{F}^\dagger$ is a presheaf on $X$.
+	
+	\textbf{[$\mathcal{F}^\dagger$ is a sheaf.]} To show that $\mathcal{F}^\dagger$ is a sheaf, we assume that $U \subseteq X$ is an open set with an open covering $\bigcup_{i \in I}U_i = U$.
+	
+	\begin{enumerate}
+		\item (Uniqueness) Easy.
+		
+		\item (Gluing.) For each $i \in I$, let $f_i \in \mathcal{F}^\dagger(U_i)$ be functions such that $f_i|_{U_i \cap U_j} = f_j|_{U_i \cap U_j}$ for all $i, j \in I$. Define $f \colon U \to \coprod_{x \in U} \mathcal{F}_x$ by $f(x) = f_i(x)$ if $U_i$ contains $x$. This is well-defined because if $U_i$ and $U_j$ both contains $x$, then $x \in U_i \cap U_j$ and so $f_i(x) = f_i|_{U_i \cap U_j}(x) = f_j|_{U_i \cap U_j} = f_j(x)$. Further, the condition (\ast) hold for $f$.
+	\end{enumerate}
+	
+	\textbf{[Definition of $i$.]} Next we define a morphism of presheaves $i \colon \mathcal{F} \to \mathcal{F}^\dagger$. For each $a \in \mathcal{F}(U)$, let $i_U(a)$ be the function $x \mapsto a_x$ for all $x \in U$. This is clearly seen to be a group homomorphism compatible with restriction maps of $\mathcal{F}$ and $\mathcal{F}^\dagger$. Thus $i$ is really a morphism of presheaves.
+	
+	\textbf{[$i_x$ is surjective.]} Let $x \in X$ We now show that $\mathcal{F}^\dagger_x \cong \mathcal{F}_x$ under the map $i_x$. Let $U$ be an open neighbourhood of $x$ and let $f \in \mathcal{F}^\dagger(U)$. By definition there is an open neighbourhood $V$ of $x$ and $s \in \mathcal{F}(V)$ such that for all $y \in V$, we have $f(y) = s_y$. Then $[U, f] = [V, i_V(s)]$. In particular, the map $i_x \colon \mathcal{F}_x \to \mathcal{F}^\dagger_x$ is a surjection. 
+	
+	\textbf{[$i_x$ is injective.]} To show that $i_x$ is injective, let $0$ denote the function $x \mapsto 0_x$ for all $x \in X$. Plainly, $[X, 0]$ is the additive identity of $\mathcal{F}_x$. Suppose that $V$ is a neighbourhood of $x$ and $s \in \mathcal{F}(V)$ is a section  such that $i_x([V,s ]) = [V, i_V(s)] = [X, 0]$. By definition, there is an open neighbourhood $W \subseteq V$ of $x$ such that $i_W(s|W) = i_V(s)|_W = 0|_W$. But this implies that $s_y = 0_y$ for all $y \in W$. By \cref{chap3:germs-equal-implies-equal}, $s|_W = 0$. Hence $[V, s] = [W, s|_W] = [W, 0]$, and so $i_x$ is an isomorphism.
+	
+	\textbf{[Universal property of $\mathcal{F}^\dagger$.]} Now we show the universal property. Let $\mathcal{G}$ be a sheaf and $\varphi\colon \mathcal{F} \to \mathcal{G}$ a morphism of presheaves. Consider the diagram
+	% https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXG1hdGhjYWx7Rn0iXSxbMSwwLCJcXG1hdGhjYWx7Rn1eXFxkYWdnZXIiXSxbMCwxLCJcXG1hdGhjYWx7R30iXSxbMSwxLCJcXG1hdGhjYWx7R31eXFxkYWdnZXIiXSxbMCwxLCJpIl0sWzAsMiwiXFx2YXJwaGkiLDJdLFsxLDMsIiIsMCx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX1dLFsyLDMsImoiLDJdXQ==
+	\[\begin{tikzcd}
+		{\mathcal{F}} & {\mathcal{F}^\dagger} \\
+		{\mathcal{G}} & {\mathcal{G}^\dagger}
+		\arrow["i", from=1-1, to=1-2]
+		\arrow["\varphi"', from=1-1, to=2-1]
+		\arrow[dashed, from=1-2, to=2-2]
+		\arrow["j"', from=2-1, to=2-2]
+	\end{tikzcd}\]
+	where $\mathcal{G}^\dagger$ is defined as set of functions similar to $\mathcal{F}^\dagger$, and $j$ is morphism of preshaves $\mathcal{G} \to \mathcal{G}^\dagger$. We have shown above that $j_x$ is an isomorphism for all $x \in X$, and so $j$ is an isomorphism of sheaves (\cref{chap3:morphisms-in-term-of-stalks}).
+	
+	Since we are given a morphism $\varphi \colon\mathcal{F} \to \mathcal{G}$, we have the induced morphisms on stalks $\varphi_x \colon \mathcal{F}_x \to \mathcal{G}_x$ for all $x \in X$. Define a morphism $\varphi^\sharp \colon \mathcal{F}^\dagger \to \mathcal{G}^\dagger$ on an open set $U \subseteq X$ by
+	\begin{equation*}
+		\varphi^\sharp_U(f) = \text{ the composition } U \xrightarrow{f} \coprod_{x \in U} \mathcal{F}_x \xrightarrow{\coprod_x \varphi_x} \coprod_{x \in U} \mathcal{G}_x,
+	\end{equation*}
+	that is, $	\varphi^\sharp_U(f)(x) = \varphi_x(f(x))$ for all $x \in U$. It is easy to check that this is a group homomorphism. By composing with $j^{-1}$ we get a morphism $\varphi^\dagger = j^{-1} \circ \varphi^\sharp \colon \mathcal{F}^\dagger \to \mathcal{G}$.
+	
+	To verify that $\varphi^\dagger \circ i = \varphi$, let $U \subseteq X$ be an open set and $s \in \mathcal{F}(U)$. Then $\varphi^\sharp_U(i_U(s))$ is equal to the function given by $s \mapsto  \varphi_U(s)_x$ for all $x \in X$. Because $j_U$ is an isomorphism, we immediately have $j^{-1}_U(\varphi^\sharp_U(i_U(s))) = \varphi_U(s)$. This proves the claim.
+	
+	The fact that $\mathcal{F}^\dagger$ and $\varphi^\dagger$ is unique follows from a standard uniqueness proof of universal objects.
+	\end{proof}
+	
+%	For each open subset $U \subseteq X$ and $f \in \mathcal{F}^\dagger(U)$, by definition each point $x \in U$ has an neighbourhood $V_x \subseteq U$ and a section $s(x) \in \mathcal{F}(V_x)$ such that for all $y \in V_x$, $f(y) = s(x)_y$. 
+
+%Clearly $\Set{V_x}_{x \in U}$ covers $U$. Further we claim that the sections $\varphi_{V_x}(s(x))$, $x\in U$, agree on the overlap and so they can be glued. To see this, we may assume $V_x \cap V_z \neq\emptyset$. Let $t \in V_x \cap V_z$, and so by definition $s(x)_t = f(t) = s(z)_t$. This implies that $s(x)|_{V_x \cap V_z} = s(z)|_{V_x \cap V_z}$, and so $\varphi_{V_x}(s(x))|_{V_x \cap V_z} = \varphi_{V_z}(s(z))|_{V_x \cap V_z}$ which is what we need to glue the sections together. Let $\varphi_U\dagger(f)$ equal to this section.
+%
+%This is independent of the cohice of the neighbourhood cover $\Set{V_x}_{x \in U}$ and sections $s(x) \in \mathcal{F}(V_x)$ as can be shown by comparing the resulting sections on stalks.
+
+	The most important fact about sheafification can be phrased in the following form: it is a left adjoint to the inclusion functor of sheaves into the category of presheaves.
+	
+	\begin{proposition}[Sheafification is left adjoint to the inclusion functor]
+		Let $X$ be a topological space.	Sheafification defines a functor $(-)^\dagger$ from the category of presheaves $(\PrSheaf(X))$ to the category of sheaves $(\Sheaf(X))$. Furthermore, the sheafification functor is left adjoint to the inclusion functor.
+	\end{proposition}
+	
+	\begin{proof}
+		Follows from \cref{chap3:sheafification}
+	\end{proof}
 	
 	\section{Direct Image and Inverse Image}
 	
@@ -1274,7 +1360,7 @@ spacebelow=\baselineskip,
 		\begin{equation*}
 			\mathcal{O}_{X, x} = \varinjlim_{D(f) \ni x} \mathcal{O}_X(D(f)) = \varinjlim_{f \notin\mathfrak{p}} A_f = A_{\mathfrak{p}},
 		\end{equation*}
-		the last equality follows from the universal property of localisation.
+		the last equality follows from commutative algebra (\cref{chap3:localisation-at-prime-as-direct-limit}).
 	\end{proof}
 	
 	\begin{definition}
@@ -1303,6 +1389,8 @@ spacebelow=\baselineskip,
 		Therefore we take $f^\flat_{D(s)}$ to be $\varphi_s$.
 	\end{enumerate}
 	
+	The above data actually define a morphism of ringed spaces $\Spec B \to \Spec A$, as shown in the following proposition.
+	
 	\begin{proposition}
 		The maps $f^\flat_{D(s)}$ is compatible with restrictions, and hence define a morphism of sheaves.
 	\end{proposition}
@@ -1312,12 +1400,13 @@ spacebelow=\baselineskip,
 	\section{Problems}
 	
 	\begin{problems}
-		\item \label{chap3:kernel-sheaf-is-a-sheaf} Prove that if $\varphi\colon\mathcal{F} \to \mathcal{G}$ is a morphism of sheaves on a topological space $X$, then the \inlinedef{kernel sheaf} $\mathcal{K}$ defined on each open subset $U \subseteq X$ by
+		\item \label{chap3:kernel-sheaf-is-a-sheaf} Prove that if $\varphi\colon\mathcal{F} \to \mathcal{G}$ is a morphism of sheaves on a topological space $X$, then the \inlinedef{kernel sheaf} $\mathcal{K}$ defined on each open subset $U \subseteq X$ by the formula
 		\begin{equation*}
 			\mathcal{K}(U) = \ker(\varphi_U \colon \mathcal{F}(U) \to \mathcal{G}(U))
 		\end{equation*}
-		is a subsheaf of $\mathcal{F}$. The restriction maps of $\mathcal{K}$ is restricted from those of $\mathcal{F}$.
+		is a subsheaf of $\mathcal{F}$. (The restriction maps of $\mathcal{K}$ is inherited from those of $\mathcal{F}$.)
 		
+		\item \label{chap3:localisation-at-prime-as-direct-limit} Let $A$ be a ring and $\mathfrak{p}$ a prime ideal. Show that the rings $(A_f)_{f \notin\mathfrak{p}}$ together with homomorphisms $A_f \to A_g$ whenever $g \in \sqrt{fA}$ form a direct system. Show that the limit of this direct system is $A_{\mathfrak{p}}$
 %		\item A function $f \colon X \to \RR$ is 
 	\end{problems}
 	
