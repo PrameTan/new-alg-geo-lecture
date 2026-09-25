@@ -1074,13 +1074,11 @@ spacebelow=\baselineskip,
 		\end{enumerate}	
 	\end{definition}
 
-
-	\begin{definition}
-		Let $(X, \mathcal{O}_X)$ be a locally ringed space, $x \in X$, and $\kappa(x)$ the residue field at $x$. If $f \in\mathcal{O}_X(U)$ is a section defined on an open neighbourhood $U$ of $x$, we define $f(x)$ to be the image of $f$ under the composition
-		\begin{equation*}
-			\mathcal{O}_X(U) \to \mathcal{O}_{X, x} \to \mathcal{O}_{X, x}/\mathfrak{m}_x = \kappa(x).
-		\end{equation*}
-	\end{definition}
+	Let $(X, \mathcal{O}_X)$ be a locally ringed space, $x \in X$, and $\kappa(x)$ the residue field at $x$. If $f \in\mathcal{O}_X(U)$ is a section defined on an open neighbourhood $U$ of $x$, we define $f(x)$ to be the image of $f$ under the composition
+	\begin{equation*}
+		\mathcal{O}_X(U) \to \mathcal{O}_{X, x} \to \mathcal{O}_{X, x}/\mathfrak{m}_x = \kappa(x).
+	\end{equation*}
+	In this manner we may think of a section on $U$ as a ``function'' from $U$ whose value at each point lies in the different fields $\kappa(x)$.
 	
 	\begin{lemma}\label{chap3:set-where-section-is-non-zero-is-closed}
 		Let $(X, \mathcal{O}_X)$ be a locally ringed space, and let $f \in \mathcal{O}_X(X)$. Define 
@@ -1236,9 +1234,24 @@ spacebelow=\baselineskip,
 		Let's consider the affine line $\AAA^1_k$ when $k$ is a field. Since $k[X]$ is a PID, every proper open subset of $\AAA^1_k$ is of the form $D(f)$ for some non-zero polynomial $f \in k[x]$. Then $\mathcal{O}_{\AAA^1_k}(D(f)) = k[X]_{f} = k[X, 1/f]$.
 	\end{example}
 	
-	\begin{proposition}
-		Let $A$ be a ring, $X = \Spec A$,. For each $f \in A$, the open set $(D(f))$ with the restricted sheaf $\mathcal{O}_{X|D(f)}$ is a locally ringed space isomorphic to the affine scheme $\Spec A_f$.
+	\begin{proposition}\label{chap3:principal-open-subset-is-affine}
+		Let $A$ be a ring and $X = \Spec A$. For each $f \in A$, the open set $(D(f))$ with the restricted sheaf $\mathcal{O}_{X|D(f)}$ is a locally ringed space canonically isomorphic to the affine scheme $\Spec A_f$.
 	\end{proposition}
+	
+	In this situation we also say that $(D(f), \mathcal{O}_{X|U})$ is an \inlinedef{affine open subscheme} of $A$.
+	
+	\begin{proof}
+		Clearly $(D(f), \mathcal{O}_{X|U})$ is a locally ringed space. Let $\varphi \colon A \to A_f$ denote the canonical localisation map and let $j \colon \Spec A_f \to \Spec A$ be the induced continuous map. We proved in \cref{chap2:localisations-isomorphic-to-spec} that $j$ is a homeomorphism from $\Spec A_f$ onto the open subset $D(f) \subseteq \Spec A$. Hence there is a morphism of locally ringed spaces
+		\begin{equation*}
+			(j, j^\flat) \colon (\Spec A_f, \mathcal{O}_{\Spec A_f}) \to (D(f), \mathcal{O}_{X|U})
+		\end{equation*}
+		where
+		$j^\flat = i^\flat\circ\varphi^\flat$ is the composition of morphisms of sheaves induced from $\varphi$ and the inclusion $i \colon D(f) \hookrightarrow X$. For each open subset $D(g) \subseteq D(f)$, we obtain
+		\begin{equation*}
+			\mathcal{O}_{X|U}(D(g)) = \mathcal{O}_X(D(g)) = A_g \cong (A_f)_{\varphi(g)} = \mathcal{O}_{\Spec A_f}(D(\varphi(g))) = (j_\ast\mathcal{O}_{\Spec f})(D(g)).
+		\end{equation*}
+		(Use \cref{chap2:property-of-spec-map}.) Hence $j^\flat$ is an isomorphism of sheaves when checked on the basis consisting of principal open subsets, and so $j^\flat$ is indeed an isomorphism.
+	\end{proof}
 	
 	\section{Problems}
 	
@@ -1325,9 +1338,7 @@ spacebelow=\baselineskip,
 		Let $(X, \mathcal{O}_X)$ be a scheme and $U \subseteq X$ an open subset. The locally ringed space $(U, \mathcal{O}_{X|U})$ is itself a scheme. 
 	\end{lemma}
 	\begin{proof}
-		It is clear that $(U, \mathcal{O}_{X|U})$ is a locally ringed space. Let $\Set{U_i}_{i \in I}$ be an open covering of $X$ such that each $(U_i, \mathcal{O}_{X|U_i})$ is isomorphic to an affine scheme. 
-		
-		For each $i \in I$, $U \cap U_i$ is an open subset of $U_i$. Using the fact that $U_i$ is affine, we see that there is an open covering of $U \cap U_i$ by principal open subsets $D(f_{i,j}), {j \in J}$. By \cref{chap2:localisations-isomorphic-to-spec}, $D(f_{i,j}) \cong \Spec \Gamma(U_i, \mathcal{O}_X)_{f_{i,j}}$, and so $U \cap U_i$ can be covered by affine schemes. It then follows that $U = \bigcup_i (U \cap U_i)$ can also be covered by affine schemes.
+		It is clear that $(U, \mathcal{O}_{X|U})$ is a locally ringed space. Let $\Set{U_i}_{i \in I}$ be an open covering of $X$ such that each $(U_i, \mathcal{O}_{X|U_i})$ is isomorphic to an affine scheme. For each $i \in I$, $U \cap U_i$ is an open subset of $U_i$. Using the fact that $U_i$ is affine, we see that there is an open covering of $U \cap U_i$ by principal open subsets $D(f_{i,j}), {j \in J}$. By \cref{chap3:principal-open-subset-is-affine}, $D(f_{i,j}) \cong \Spec \Gamma(U_i, \mathcal{O}_X)_{f_{i,j}}$ as affine schemes, and so $U \cap U_i$ can be covered by affine schemes. It then follows that $U = \bigcup_i (U \cap U_i)$ can also be covered by affine schemes.
 	\end{proof}
 	
 	\begin{definition}
