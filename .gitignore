@@ -1,0 +1,11 @@
+*.toc
+*.gz
+*.xml
+*.out
+main.aux
+main.bbl
+main.bcf
+main.blg
+main.log
+2-spectrum.aux
+*.aux

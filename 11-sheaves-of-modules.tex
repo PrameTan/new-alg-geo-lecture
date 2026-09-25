@@ -1,0 +1,482 @@
+\chapter{Sheaves of Modules}
+
+\section{Sheaves of Modules}
+
+\begin{definition}
+	Let $(X, \mathcal{O}_X)$ be a ringed space. A \inlinedef{sheaf of modules} on $X$ or an \inlinedef{$\mathcal{O}_X$-module} is an Abelian sheaf $\mathcal{F}$ on $X$ satisfying the following properties:
+	\begin{enumerate}
+		\item For each open subset $U$ of $X$, $\mathcal{F}(U)$ is an $\mathcal{O}_X(U)$-module.
+		
+		\item The module structures are compatible with restriction maps: if $V \subseteq U$ are open subsets, $a \in \mathcal{O}_X(U)$, and $s \in \mathcal{F}(U)$, then
+		\begin{equation*}
+			(as)|_V = a|_V s|_V.
+		\end{equation*}
+	\end{enumerate}
+\end{definition}
+
+We may rephrase the definition of $\mathcal{O}_X$-modules in terms of product sheaves. Recall that if $\mathcal{F}$ and $\mathcal{G}$ are sheaves on a topological space $X$, the presheaf
+\begin{equation*}
+	U \mapsto \mathcal{F}(U) \times \mathcal{G}(U)
+\end{equation*}
+is a sheaf (\cref{chap3:product-sheaf}). Then an $\mathcal{O}_X$-module consists of a sheaf $\mathcal{F}$ on $X$, the \textit{addition morphism} $\mathcal{F} \times \mathcal{F} \to \mathcal{F}$ defined for each open subset $U \subseteq X$ by
+\begin{align*}
+	\mathcal{F}(U) \times \mathcal{F}(U) & \to \mathcal{F}(U) \\
+	(s, s') & \mapsto s + s',
+\end{align*}
+and the \textit{multiplication morphism} $\mathcal{O}_X \times \mathcal{F} \to \mathcal{F}$ defined for each open subset $U \subseteq X$ by
+\begin{align*}
+	\mathcal{O}_X(U) \times \mathcal{F}(U) & \to \mathcal{F}(U) \\
+	(a, s) & \mapsto as',
+\end{align*}
+such that $\mathcal{F}(U)$ is an $\mathcal{O}_X(U)$-module.
+
+\begin{example}
+	The sheaf $\mathcal{O}_X$ is trivially an $\mathcal{O}_X$-module. More generally, if $i \in \NN$, then the sheaf
+	\begin{equation*}
+		U \mapsto \underbrace{\mathcal{O}_X(U) \oplus \dotsb \oplus \mathcal{O}_X(U)}_{i \text{ summands}}
+	\end{equation*}
+	is an $\mathcal{O}_X$-module. We will generalise this construction later.
+\end{example}
+
+Let $\mathcal{F}$ and $\mathcal{G}$ be $\mathcal{O}_X$-modules. A \inlinedef{morphism of $\mathcal{O}_X$-modules} $\varphi\colon \mathcal{F} \to \mathcal{G}$ is a morphism of sheaves such that for each open subset $U \subseteq X$, the map on
+\begin{equation*}
+	\varphi_U : \mathcal{F}(U) \to \mathcal{G}(U)
+\end{equation*} 
+is also an $\mathcal{O}_X(U)$-module homomorphism. The identity morphism $\id\colon\mathcal{F} \to \mathcal{F}$ is immediately seen to be a morphism of $\mathcal{O}_X$-modules. Moreover, the composition of two morphisms of $\mathcal{O}_X$-modules is again a morphism of $\mathcal{O}_X$-modules. We thus obtain the category $(\mathcal{O}_X\mathrm{-Mod})$ of $\mathcal{O}_X$-modules. The set of all morphisms of $\mathcal{O}_X$-modules from $\mathcal{F}$ to $\mathcal{G}$ is denoted by $\Hom_{\mathcal{O}_X}(\mathcal{F}, \mathcal{G})$.
+
+\begin{exercise}
+	Show that $\Hom_{\mathcal{O}_X}(\mathcal{F}, \mathcal{G})$ is naturally an $\mathcal{O}_X(X)$-module. In particular, the hom-set $\Hom_{\mathcal{O}_X}(\mathcal{F}, \mathcal{G})$ is an Abelian group.
+\end{exercise}
+
+\begin{exercise}\label{chap11:stalk-is-oxmodule}
+	Show that, for each $\mathcal{O}_X$-module $\mathcal{F}$, the stalk $\mathcal{F}_x$ at $x \in X$ has the induced $\mathcal{O}_{X, x}$-module structure. The multiplication of $[U, a]$ and $[V, s]$ where $U, V$ are open neighbourhood of $x$, $a \in \mathcal{O}_X(U)$ and $s \in \mathcal{F}(V)$, is defined to be
+	\begin{equation*}
+		[U, a][V, s] = [U \cap V, a|_{U\cap V}s|_{U \cap V}].
+	\end{equation*}
+	
+	Show that if $\varphi\colon \mathcal{F} \to \mathcal{G}$ is a morphism of $\mathcal{O}_X$-modules, then the map of stalks $\varphi_x \colon \mathcal{F}_x \to \mathcal{G}_x$ is a homomorphism of $\mathcal{O}_{X, x}$-modules.
+\end{exercise}
+
+The result of \cref{chap11:stalk-is-oxmodule} implies that taking stalks defines a functor from $(\mathcal{O}_X\text{-Mod})$ to $(\mathcal{O}_{X, x}\text{-Mod})$.
+
+\begin{definition}
+	Let $(X, \mathcal{O}_X)$ be a locally ringed space, $\mathcal{F}$ an $\mathcal{O}_X$-module, and $x \in X$. By \cref{chap11:stalk-is-oxmodule}, the stalk $\mathcal{F}_x$ is an $\mathcal{O}_{X, x}$-module.  The tensor product
+	\begin{equation*}
+		\mathcal{F}(x) \coloneqq \mathcal{F}_x \otimes_{\mathcal{O}_{X, x}} \kappa(x),
+	\end{equation*}
+	where $\kappa(x)$ is the residue class field of $x$, is an $\kappa(x)$-vector space. This is called the \inlinedef{stalk of $\mathcal{F}$ at $x$.}
+\end{definition}
+
+By definition the stalk at $x$ of $\mathcal{O}_X$, viewed as an $\mathcal{O}_X$-module, is the local ring $\mathcal{O}_{X, x}$ itself.
+
+We now turn to more examples of $\mathcal{O}_X$-modules. For the first example, recall that a \textit{zero object} in a category $\mathcal{C}$ is an object which is both initial and final.
+
+\begin{example}[The Zero Sheaf]
+	The sheaf $0$ defined by $0(U) = \Set{0}$ for all open subset $U \subseteq X$ is an $\mathcal{O}_X$-module. For every $\mathcal{O}_X$-module $\mathcal{F}$, there are unique morphisms $\mathcal{F} \to 0$ and $0 \to \mathcal{F}$ making $0$ the zero object in $(\mathcal{O}_X\mathrm{-Mod})$.
+\end{example}
+
+\begin{example}
+	Let $A$ be a ring. Let $X$ be a space that consists of a single point and let $\mathscr{O}_X$ be the sheaf of rings with $\mathscr{O}_X(X) = A$. Then an $\mathscr{O}_X$-module $\mathcal{F}$ is just an $A$-module $M$.
+\end{example}
+
+\begin{example}
+	Here is an example from differential geometry. Let $X$ be a smooth real manifold, and let $C^\infty(X)$ be the sheaf of rings of smooth functions on $X$. For each $i \geq 0$, let $\Omega^i(X)$ be the sheaf of smooth differential forms of degree $i$ on $X$. Then $\Omega^i(X)$ is a $C^\infty(X)$-module.
+\end{example}	
+
+\begin{proposition}[Sheaves of Abelian Groups as $\underline{\ZZ}$-modules]
+	Let $X$ be a topological space and let $\underline{\ZZ}$ be the constant sheaf of rings on $X$ with value $\ZZ$. Then sheaves of Abelian groups are the same thing as $\underline{\ZZ}$-modules.
+\end{proposition}
+\begin{proof}
+	Plainly, every $\underline{\ZZ}$-module is a sheaf of Abelian groups. On the other hand, suppose $\mathcal{F}$ is a sheaf of Abelian groups. For each open set $U$ of $X$, a section $a \in\underline{\ZZ}(U)$ is a locally constant function $U \to \ZZ$. Therefore the collection $\Set{a^{-1}(n)}_{n \in \ZZ}$ is an open cover of $U$ by disjoint open sets. We define the scalar multiplication by $a \in \underline{\ZZ}$ on $s \in \mathcal{F}(U)$ by
+	\begin{equation*}
+		as \coloneqq \text{ the section obtained from gluing $n \cdot (s|_{a^{-1}(n)})$ over the covering $\Set{a^{-1}(n)}_{n \in \ZZ}$.} 
+	\end{equation*}
+	Because our covering is disjoint, the sections $n \cdot (s|_{a^{-1}(n)})$ automatically satisfy the gluing condition, hence $as$ is well-defined. 
+	
+	Finally we check that this gives rise to a morphism of sheaves $\underline{\ZZ} \times \mathcal{F} \to \mathcal{F}$. This is equivalent to checking that, if $U \subseteq V$ are open subsets of $X$ and $(a, s) \in \underline{\ZZ} \times \mathcal{F}(V)$, then 
+	\begin{equation}\label{qcm:eq1}
+		\mathrm{res}^V_U(as) = a|_U s|_U.
+	\end{equation}
+	This can be locally checked on the covering $\Set{a^{-1}(n) \cap U}_{n \in \ZZ}$ of $U$. On $a^{-1}(n) \cap U$, we have
+	\begin{equation*}
+		\mathrm{res}^{U}_{a^{-1}(n) \cap U} \circ \mathrm{res}^V_{U}(as) = \mathrm{res}^V_{a^{-1}(n) \cap U}(as) = n\cdot (s|_{a^{-1}(n) \cap U}).
+	\end{equation*}
+	This follows because $as|_{a^{-1}(n)} = n \cdot s|_{a^{-1}(n)}$ by definition, hence the result after restricting this section further to $a^{-1}(n) \cap U$.
+	
+	For the right hand side of the equation, we see that $a|_U$ is obtained by restricting the domain of $a$ from $V$ to $U$. The resulting function $a|_U$ is therefore constant on each open set in the covering $\Set{a^{-1}(n) \cap U}_{n \in \ZZ}$. Hence $a|_U s|_U$ is, by definition, the section obtained from gluing $n \cdot (s|_{U})|_{a^{-1}(n) \cap U}$. It then follows immediately that
+	\begin{equation*}
+		(a|_{U} s|_{U})|_{a^{-1}(n) \cap U} = n \cdot (s|_{a^{-1} \cap U}).
+	\end{equation*}
+	As a consequence, the restrictions of the sections on each side of $\ref{qcm:eq1}$ are equal on $a^{-1}(n) \cap U$ for all $n$. Thus $\ref{qcm:eq1}$ holds by the sheaf condition. 
+	
+	We left the reader to verify that this multiplication satisfies the module axioms. The proof involves checking the axioms on good covering then gluing the sections back just like the one above. This establishes the fact that a sheaf of Abelian groups is the same as a $\underline{\ZZ}$-module.
+\end{proof}
+
+\begin{definition}
+	Let $X$ be a scheme and $\mathcal{F}$ an $\mathcal{O}_X$-module. An $\mathcal{O}_X$-\inlinedef{submodule} of $\mathcal{F}$ is an $\mathcal{O}_X$-module $\mathcal{G}$ such that $\mathcal{G}(U)$ is an $\mathcal{O}_X(U)$-submodule of $\mathcal{F}(U)$ for all open $U \subseteq X$.
+\end{definition}
+
+The inclusion $i \colon \mathcal{G} \to \mathcal{F}$ clearly defines a morphism of $\mathcal{O}_X$-modules. In the case where $\mathcal{F} = \mathcal{O}_X$, an $\mathcal{O}_X$-submodule of $\mathcal{O}_X$ is called an \inlinedef{ideal} of $\mathcal{O}_X$.
+
+\section{Constructions on $\mathcal{O}_{X}$-modules}
+
+In this section we discuss the construction of various $\mathcal{O}_X$-modules. This is in parallel to the theory of modules over a ring.
+
+\begin{remark}
+	Clearly there is also the notion of a \inlinedef{presheaf of modules}, i.e.~a sheaf $\mathcal{F}$ such that for all open subsets $U\subseteq X$, $\mathcal{F}(U)$ is an $\mathcal{O}_X(U)$-module and the module strictures are compatible with restriction maps. The sheafification of a presheaf of modules inherits the $\mathcal{O}_X$-module structure, so that the sheafification is then a sheaf of modules.
+\end{remark}
+
+In general, some constructions, such as the image presheaf or the cokernel presheaf of a morphism of $\mathcal{O}_X$-modules, fail to be sheaves. In this case we shall sheafify to obtain the sheaves.
+
+\subsection*{Kernel, Images and Cokernels}
+
+Let $X$ be a scheme and $w \colon \mathcal{F} \to \mathcal{F}'$ be a morphism of $\mathcal{O}_X$-modules.
+
+\begin{enumerate}
+	\item The \inlinedef{kernel} of $w$ is the sheaf $U \mapsto \ker(w_u \colon \mathcal{F}(U) \to \mathcal{F}'(U))$ denoted by $\ker(w)$.
+	
+	\item The \inlinedef{image} of $w$ is the sheaf $\Img(w)$ associated to the presheaf $U \mapsto \Img(w_u \colon \mathcal{F}(U) \to \mathcal{F}'(U))$.
+	
+	\item The \inlinedef{cokernel} of $w$ is the sheaf $\coker(w)$ associated to the presheaf $U \mapsto \coker(w_u \colon \mathcal{F}(U) \to \mathcal{F}'(U))$.
+\end{enumerate}
+
+Since the stalk at $x \in X$ of an associated sheaf agrees with the stalk at $x$ of the original presheaf, we deduce the following proposition.
+
+\begin{proposition}
+	Let $X$ be a scheme and $w \colon \mathcal{F} \to \mathcal{F}'$ be a morphism of $\mathcal{O}_X$-modules. Then
+	\begin{equation*}
+		\ker(w)_x = \ker(w_x), \quad \Img(w)_x = \Img(w_x), \quad\text{and } \coker(w)_x = \coker(w_x).
+	\end{equation*}
+\end{proposition} 
+
+\subsection*{Quotient Modules}
+
+Let $X$ be a scheme, and let $\mathcal{G}$ be an $\mathcal{O}_X$-submodule of $\mathcal{F}$. We define the \inlinedef{quotient module} of $\mathcal{F}$ by $\mathcal{G}$ to be the sheaf $\mathcal{F}/\mathcal{G}$ associated to the presheaf
+\begin{equation*}
+	U \mapsto \mathcal{F}(U)/\mathcal{G}(U).
+\end{equation*}
+It is an $\mathcal{O}_X$-module via the addition and scalar multiplication induced from $\mathcal{F}$.
+
+Let's determine the stalk at $x \in X$ of the quotient module $\mathcal{F}/\mathcal{G}$. Again, we may instead compute the stalk of the presheaf $U \mapsto \mathcal{F}(U)/\mathcal{G}(U)$. For all $x \in X$, we have
+\begin{equation*}
+	\varinjlim_{D(f) \ni x} \mathcal{F}(U)/\mathcal{G}(U) = \mathcal{F}_x/\mathcal{G}_x.
+\end{equation*}
+Hence $(\mathcal{F}/\mathcal{G})_x = \mathcal{F}_x/\mathcal{G}_x$ for all $x \in X$.
+
+\begin{proposition}
+	Every morphism $w \colon \mathcal{F} \to \mathcal{F}'$ of $\mathcal{O}_X$-modules give rise to canonical isomorphisms
+	\begin{equation*}
+		\mathcal{F}/\ker(w) \xrightarrow{\sim} \Img(w) \quad\text{and}\quad \mathcal{F'}/\Img(w) \xrightarrow{\sim} \coker(w).
+	\end{equation*}
+\end{proposition}
+
+\subsection*{Exact Sequences}
+A sequence
+\begin{equation*}
+	\mathcal{F} \xrightarrow{w} \mathcal{F}' \xrightarrow{w'} \mathcal{F}''
+\end{equation*}	
+of $\mathcal{O}_X$-modules is said to be \inlinedef{exact} if $\Img(w) = \ker(w')$. Equivalently, the sequence is exact if and only if the induced sequence of $\mathcal{O}_{X, x}$-modules
+\begin{equation*}
+	\mathcal{F}_x \xrightarrow{w_x} \mathcal{F}'_x \xrightarrow{w'_x} \mathcal{F}''_x
+\end{equation*}
+is exact for all $x \in X$.
+
+An infinite sequence of $\mathcal{O}_X$-modules indexed by $\NN$
+\begin{equation*}
+	\dotsb \to \mathcal{F}_{i - 2} \to \mathcal{F}_{i - 1} \xrightarrow{w_{i - 1}} \mathcal{F}_i \xrightarrow{w_i} \mathcal{F}_{i + 1} \to \mathcal{F}_{i + 2} \to \dotsb
+\end{equation*}
+is exact if $\mathcal{F}_{i - 1} \xrightarrow{w_{i - 1}} \mathcal{F}_i \xrightarrow{w_i} \mathcal{F}_{i + 1}$ is exact for all $i \in \NN$. A finite sequence of $\mathcal{O}_X$-modules can be viewed as an infinite sequence by padding zero modules.
+
+\subsection*{Module of Homomorphisms}
+
+Given two homomorphisms of $\mathcal{O}_X$-modules $w, w' \colon\mathcal{F} \to \mathcal{F}'$, their sum $w + w'$ is the obvious morphism defined by pointwise addition on each open set:
+\begin{equation*}
+	(w + w')_U \coloneqq w_U + w'_U \colon \mathcal{F}(U) \to \mathcal{F}'(U).
+\end{equation*}
+Now suppose $a \in \Gamma(X, \mathcal{O}_X)$. Then the multiplication $aw$ is defined by
+\begin{equation*}
+	(aw)_U \colon (a|_U) w|_U \colon \mathcal{F}(U) \to \mathcal{F}'(U).
+\end{equation*}
+In this way, the set of $\mathcal{O}_X$-modules homomorphism $\Hom_{\mathcal{O}_X}(\mathcal{F}, \mathcal{F}')$ has the structure of an $\Gamma(X, \mathcal{O}_X)$-module.
+
+\begin{proposition}[Left Exactness of $\Hom$]
+	A sequence $0 \to \mathcal{F}' \to \mathcal{F} \to \mathcal{F}''$ of $\mathcal{O}_X$-modules is exact if and only if for all open subsets $U \subseteq X$ and for all $\mathcal{O}_U$-modules $\mathcal{G}$, the sequence
+	\begin{equation*}
+		0 \to \Hom(\mathcal{G}, \mathcal{F}'|_{U}) \to \Hom(\mathcal{G}, \mathcal{F}|_{U}) \to \Hom(\mathcal{G}, \mathcal{F}''|_{U})
+	\end{equation*}
+	is an exact sequence of $\Gamma(U, \mathcal{O}_X)$-modules. Dually, $0 \to \mathcal{F}' \to \mathcal{F} \to \mathcal{F}''$ is exact if and only if for all open subsets $U \subseteq X$ and for all $\mathcal{O}_U$-modules $\mathcal{G}$, the sequence
+	\begin{equation*}
+		0 \to \Hom(\mathcal{F}''|_{U}, \mathcal{G})  \to \Hom(\mathcal{F}|_{U}, \mathcal{G}) \to \Hom(\mathcal{F}'|_{U}, \mathcal{G})
+	\end{equation*}
+	is an exact sequence of $\Gamma(U, \mathcal{O}_X)$-modules.
+\end{proposition}
+
+This result also follows from the category of sheaves of modules being Abelian (proven below) combined with the general fact that the Hom functor on an Abelian category is left exact. 
+
+\begin{proof}
+	\todo{Should I prove this?}
+\end{proof}
+
+\subsection*{Direct Sums and Products}
+
+Let $(\mathcal{F}_i)_{i \in I}$ be a family of $\mathcal{O}_X$-modules. Then we define the product presheaf by
+\begin{equation*}
+	U \mapsto \prod_{i \in I} \mathcal{F}_i(U).
+\end{equation*}
+It is actually a sheaf, and so we obtain the \inlinedef{product sheaf} of $(\mathcal{F}_i)_{i \in I}$, which we shall denote by $\prod_i \mathcal{F}_i$. Similarly there is the direct sum presheaf defined by
+\begin{equation*}
+	U \mapsto \bigoplus_{i \in I} \mathcal{F}_i(U).
+\end{equation*}
+However this is in general not a sheaf. Therefore the \inlinedef{direct sum sheaf} of $(\mathcal{F}_i)_{i \in I}$ is defined to be the associated sheaf of this presheaf, denoted by $\oplus_i \mathcal{F}_i$. The component-wise addition and scular multiplication endow those sheaves with the structure of $\mathcal{O}_X$-modules. There is a natural injective homomorphism
+\begin{equation*}
+	\bigoplus_{i \in I} \mathcal{F}_i \to \prod_{i \in I} \mathcal{F}_i.
+\end{equation*}
+This homomorphism is an isomorphism if $I$ is finite.
+
+In the important case when $\mathcal{F}_i = \mathcal{F}$ for all $i$, we shall use the notation $\mathcal{F}^{(I)}$ for the direct sum $\oplus_i \mathcal{F}_i$, and $\mathcal{F}^I$ for the product sheaf $\prod_i \mathcal{F}_i$.
+
+
+\todo{Stalks of direct sums and product sheaves.}
+
+\begin{theorem}
+	The category of $\mathcal{O}_X$-modules on a scheme $X$ is Abelian.
+\end{theorem}
+
+\subsection*{Tensor Products}
+
+Let $\mathcal{F}, \mathcal{G}$ be $\mathcal{O}_X$-modules. We have the presheaf
+\begin{equation*}
+	U \mapsto \mathcal{F}(U) \otimes_{\mathcal{O}_X(U)} \mathcal{G}(U)
+\end{equation*}
+whose restriction maps are tensor products of the restriction maps of $\mathcal{F}$ and $\mathcal{G}$. This presheaf has the obvious addition and scalar multiplication making it into a presheaf of modules. However, it is in general not a sheaf, and so we sheafify it to get the \inlinedef{tensor product sheaf}, denoted $\mathcal{F} \otimes_{\mathcal{O}_X}\mathcal{G}$.
+
+\begin{remark}
+	The tensor product sheaf $\mathcal{F} \otimes_{\mathcal{O}_X}\mathcal{G}$ can be characterised by a universal property similar to the one for tensor products of $R$-modules, although we shall not spell it out here.
+\end{remark}
+
+For each $s \in \mathcal{F}(U)$ and $t \in \mathcal{G}(U)$ we denote again by $s \otimes t$ the image of $s \otimes t \in \mathcal{F}(U) \otimes_{\mathcal{O}_X(U)} \mathcal{G}(U)$ in $(\mathcal{F} \otimes_{\mathcal{O}_X}\mathcal{G}) (U)$. 
+
+\begin{proposition}[Stalks of the Tensor Product Sheaf]
+	For all $x \in X$, the canonical homomorphism of $\mathcal{O}_{X, x}$-modules
+	\begin{equation*}
+		(\mathcal{F} \otimes_{\mathcal{O}_X}\mathcal{G})_x \to \mathcal{F}_x \otimes_{\mathcal{O}_{X, x}}\mathcal{G}_x
+	\end{equation*}
+	is an isomorphism.
+\end{proposition}
+
+This follows from the fact that inductive limits commute with tensor products. (Recall that the tensor product functor is left exact, hence it preserves colimits.)
+
+We define the $n$-times tensor product of $\mathcal{F}$ ($n \geq 0$) by the formula
+\begin{align*}
+	\mathcal{F}^{\otimes 0} & \coloneqq \mathcal{O}_X,\\
+	\mathcal{F}^{\otimes n} & \coloneqq \underbrace{\mathcal{F} \otimes_{\mathcal{O}_X} \mathcal{F} \otimes_{\mathcal{O}_X} \dotsb \otimes_{\mathcal{O}_X} \mathcal{F}}_{n \text{ terms}}.
+\end{align*}
+
+\section{Direct Image and Inverse Image}
+
+
+\section{Modules Generated by Sections}
+
+For a module $M$ over a ring $A$, an $A$-module homomorphism $\varphi \colon A \to M$ is completely determined by the image of 1 under $\varphi$, because $\varphi(r) = r \varphi(1)$ for all $r \in A$. There is an analogous statement for $\mathcal{O}_X$-modules.
+
+\begin{proposition}
+	Let $X$ be a scheme and let $\mathcal{F}$ be an $\mathcal{O}_X$-module. There is an isomorphism of $\Gamma(X, \mathcal{O}_X)$-modules
+	\begin{align*}
+		\Hom_{\mathcal{O}_X}(\mathcal{O}_X, \mathcal{F}) & \to \Gamma(X, \mathcal{F}) \\
+		w & \mapsto w_X(1)
+	\end{align*}
+	which is functorial in $\mathcal{F}$.
+\end{proposition}
+\begin{proof}
+	It is clear that this map is $\Gamma(X, \mathcal{O}_X)$-linear and functorial in $\mathcal{F}$. Now let $s \in \Gamma(X, \mathcal{F})$. Define a morphism $\psi_s \colon \mathcal{O}_X \to \mathcal{F}$ so that each morphism $\psi_{s, U} \colon \mathcal{O}_X(U) \to \mathcal{F}(U)$ is the unique homomorphism of $\mathcal{O}_X(U)$-modules determined by $\psi_{s, U}(1) = s|_U$. It is easy to see that $\psi_s$ is in fact a morphism of $\mathcal{O}_X$-modules, and that this gives the requisite bijection of the proposition.
+\end{proof}
+
+Let $I$ be any index set. Then we have the isomorphism of $\mathcal{O}_X$-modules
+\begin{equation*}
+	\Hom_{\mathcal{O}_X}(\mathcal{O}_X^{(I)}, \mathcal{F}) = \Hom_{\mathcal{O}_X}(\mathcal{O}_X, \mathcal{F})^I \to \Gamma(X, \mathcal{F})^I
+\end{equation*}
+which is functorial in $\mathcal{F}$. Note that this says that if we have some global sections $(s_i)_{i \in I}$ of $\mathcal{F}(X)$, then we can define a morphism $\mathcal{O}_X^{(I)} \to \mathcal{F}$.
+
+\begin{definition}
+	Let $\mathcal{F}$ be an $\mathcal{O}_X$-module, and $(s_i)_{i\in I}$ a family of sections in $\Gamma(X, \mathcal{F})$. 
+	
+	\begin{enumerate}
+		\item $\mathcal{F}$ is \inlinedef{generated by the sections} $(s_i)$ if the corresponding morphism $\mathcal{O}_X^{(I)} \to \mathcal{F}$ is an epimorphism.
+		
+		\item $\mathcal{F}$ is \inlinedef{generated by global sections} if there exists an epimorphism $\mathcal{O}_X^{(I)} \to \mathcal{F}$ for some index set $I$.
+		
+		\item $\mathcal{F}$ is \inlinedef{locally generated by sections} if for each $x \in X$, there is an open neighbourhood $U$ of $x$ such that $\mathcal{F}|_U$ is generated by global sections.
+	\end{enumerate}
+\end{definition}
+
+\subsection*{Module of Homomorphisms and Dual Modules}
+
+Let $\mathcal{F}, \mathcal{G}$ be $\mathcal{O}_X$-modules. The presheaf
+\begin{equation*}
+	U \mapsto \Hom_{\mathcal{O}_{X|U}}(\mathcal{F}|_{U}, \mathcal{G}|_{U})
+\end{equation*}
+is a sheaf (This is the Sheaf Gluing Lemma, \cref{chap3:sheaf-gluing-lemma}). Clearly $\Hom_{\mathcal{O}_{X|U}}(\mathcal{F}|_{U}, \mathcal{G}|_{U})$ has the structure of an $\Gamma(U, \mathcal{O}_X)$-module. Thus this is an $\mathcal{O}_X$-module which we shall promptly denote it by $\OHom_{\mathcal{O}_{X|U}}(\mathcal{F}, \mathcal{G})$.
+
+\begin{definition}
+	Let $\mathcal{F}$ be an $\mathcal{O}_X$-module. Its \inlinedef{dual $\mathcal{O}_X$-module} $\mathcal{F}^\dual$ is defined to be the $\mathcal{O}_X$-module $\OHom_{\mathcal{O}_{X}}(\mathcal{F}, \mathcal{O}_X)$.
+\end{definition}
+
+\section{Finite Locally Free Modules}
+
+The most important class of $\mathcal{O}_X$-modules are the locally free modules. As the name suggests, these are $\mathcal{O}_X$-modules that are locally isomorphic to $\mathcal{O}_X^{(I)}$. Here is the more precise definition.
+
+\begin{definition}
+	Let $X$ be a ringed space. An $\mathcal{O}_X$-module $\mathcal{F}$ is \inlinedef{locally free} if for all $x \in X$ there exists an open neighbourhood $U$ of $x$ such that $\mathcal{F}|_{U}$ is isomorphic to an $\mathcal{O}_{X|U}$-module of the form $\mathcal{O}_{X|U}^{(I)}$ for some index set $I$ ($I$ may depends on $x$).
+	
+	If, in the above definition, the index sets $I$ are all finite, then we say that $\mathcal{F}$ is \inlinedef{finite locally free} or \inlinedef{locally free of finite type}.
+\end{definition}
+
+If $\mathcal{F} \cong \mathcal{O}_X^{(I)}$, then we say that $\mathcal{F}$ is \inlinedef{free}. The \inlinedef{rank} of $\mathcal{F}$ is equal to the (finite or infinite) cardinality of $I$, and so the rank of a free $\mathcal{O}_X$-module is either a non-negative integer or $\infty$.
+
+In general, if $\mathcal{F}$ is only locally free, then the cardinality of $I$ might vary on $X$. However, if $\mathcal{F}|_{U}$ is isomorphic to $\mathcal{O}_{X|U}^{(I)}$ on an open subset $U$, then for each $x \in U$, the stalk $\mathcal{F}_x$ is isomorphic to $\mathcal{O}_{X, x}^{(I)}$ as an $\mathcal{O}_{X, x}$-module. Recall that the rank of a free module is well-defined. In particular, this implies that the cardinality of $I$ depends only on $\mathcal{F}$ and $x$. 
+
+Thus we define the \inlinedef{rank} of $\mathcal{F}$ to be the function $\rk(\mathcal{F}) \colon X \to \NN \cup \Set{\infty}$ sending $x$ to the rank of the module $\mathcal{F}_x$. This function is clearly locally constant. Furthermore, if $\mathcal{F}$ is a free $\mathcal{O}_X$-module such that $\mathcal{F} \cong \mathcal{O}_X^{(I)}$, then its rank is the constant function $x \mapsto \abs{I}$.
+
+We are mostly interested in $\mathcal{O}_X$-modules of constant finite rank, i.e.~$\rk(\mathcal{F})$ is a constant function $X \to \NN$. 
+\begin{definition}
+	An $\mathcal{O}_X$-module $\mathcal{F}$ is said to be \inlinedef{locally free of rank $n$} (also called a \inlinedef{vector bundle} of rank $n$) if $\rk(\mathcal{F})$ is the constant function $x \mapsto n$. 
+\end{definition}
+
+A few remarks is in order. Firstly, the definition of vector bundles is different, but it turns out that locally free $\mathcal{O}_X$-module of rank $n$ is the same thing as a vector bundle of rank $n$. It is for this reason that a locally free $\mathcal{O}_X$-module of rank 1 is also called a \inlinedef{line bundle}.
+
+Secondly, we may rephrase the definition above slightly by saying that $\mathcal{F}$ is locally free of rank $n$ if for all $x \in X$, $\mathcal{F}_x$ is isomorphic to $\mathcal{O}_{X, x}^{(n)}$ as an $\mathcal{O}_{X, x}$-module.
+
+\begin{proposition}
+	Let $\mathcal{F}$ be an $\mathcal{O}_X$-module locally free of rank $n$ and $\mathcal{G}$ an $\mathcal{O}_X$-module locally free of rank $m$. Then the $\mathcal{O}_X$-module $\OHom_{\mathcal{O}_X}(\mathcal{F}, \mathcal{G})$ is locally free of rank $mn$.
+\end{proposition}
+
+\begin{proof}
+	Let $x \in X$. Then there exists an open neighbourhood $U$ of $x$ such that $\mathcal{F}|_{U} \cong \mathcal{O}_{X|U}^{(n)}$ and $\mathcal{G}|_{U} \cong \mathcal{O}_{X|U}^{(m)}$. It follows that
+	\begin{align*}
+		\OHom_{\mathcal{O}_{X|U}}(\mathcal{F}|_{U}, \mathcal{G}|_{U}) & \cong \OHom_{\mathcal{O}_{X|U}}(\mathcal{O}_{X|U}^{(n)},\mathcal{O}_{X|U}^{(m)}) \\
+		& \cong (\mathcal{O}_{X|U}^{(m)})^{(n)} \\
+		& \cong \mathcal{O}_{X|U}^{(mn)}.
+	\end{align*}
+	Hence the rank of $\OHom_{\mathcal{O}_X}(\mathcal{F}, \mathcal{G})$ at $x$ is $mn$. Since this holds for all $x$, this proves the proposition.
+\end{proof}
+
+In particular, if $\mathcal{F}$ is locally free of rank $n$, then its dual $\mathcal{F}^\dual = \OHom_{\mathcal{O}_X}(\mathcal{F}, \mathcal{O}_X)$ is also locally free of rank $n$.
+
+\subsection*{Line Bundles as Invertible $\mathcal{O}_X$-Modules}
+
+
+
+\section{Sheaves of Modules Attached to Modules}
+
+In this section we show that modules over a ring give rise to sheaves of modules over the spectrum of that ring. Let $A$ be a ring and $M$ an $A$-module. Set $X = \Spec A$. Recall that the collection
+\begin{equation*}
+	\mathcal{B} = \Set{D(f) : f \in A}
+\end{equation*} 
+of principal open subsets of $X$ is a basis of $X$. Define the sheaf $\tilde{M}$ on each principal open set $D(f) \subseteq X$ ($f \in A$) by the formula
+\begin{equation*}
+	\tilde{M}(D(f)) = M_f,
+\end{equation*}
+where $M_f$ is the localisation of $M$ with respect to the multiplicative set $\Set{f^i : i \geq 0}$. If $D(f) \subseteq D(g)$, then the restriction map $\tilde{M}(D(g)) \to \tilde{M}(D(f))$ is taken to be the homomorphism of $A_g$-modules $M_g \to M_f$ obtained from the universal property of localisation. The same argument as in the definition of affine schemes show that $\tilde{M}$ is indeed a sheaf on the basis $\mathcal{B}$. 
+
+\begin{exercise}
+	The assignment $\tilde{M}$ is a sheaf on the basis $\mathcal{B}$.
+\end{exercise}
+
+Hence $\tilde{M}$ extends to a sheaf on $X$ which we again denote by $\tilde{M}$. As is readily seen from the construction, $\tilde{M}(D(f)) = M_f$ is a module over $\mathcal{O}_X(D(f)) = A_f$. In fact, the module structure extends to the whole of $\tilde{M}$, rendering $\tilde{M}$ into an $\mathcal{O}_X$-module.
+
+\begin{lemma}
+	Let $U \subseteq \Spec A$ be an open subset. Then $\tilde{M}(U)$ carries an $\mathcal{O}_X(U)$-module structure making $\tilde{M}$ into an $\mathcal{O}_X$-module.
+\end{lemma}
+
+\begin{proof}
+	Let $a \in \mathcal{O}_X(U)$ and $s \in \tilde{M}(U)$. We define the multiplication $as$ locally on each principal open subset of $U$ and then show that these local sections can be glued together. Let $D(f) \subseteq U$, $f \in A$ be a principal open subset. Then $a|_{D(f)} \in \mathcal{O}_X(D(f)) = A_f$ and $s|_{D(f)} \in \tilde{M}(D(f)) = M_f$. In particular, the multiplication $a|_{D(f)} s|_{D(f)}$ is defined plainly as the scalar multiplication of $M_f$.
+	
+	In order to glue these sections together, we have to check that for two principal open subsets $D(f)$ and $D(g)$ of $U$, 
+	\begin{equation*}
+		(a|_{D(f)}s|_{D(f)})|_{D(f) \cap D(g)} = (a|_{D(g)}s|_{D(g)})|_{D(f) \cap D(g)}.
+	\end{equation*}
+	
+	Recall that $D(f) \cap D(g) = D(fg)$, and so the restriction map $\tilde{M}(D(f)) \to \tilde{M}(D(fg))$ is simply the $A_f$-module homomorphism $M_f \to M_{fg}$. Similarly the restriction map $\tilde{M}(D(f)) \to \tilde{M}(D(fg))$ is the $A_g$-module homomorphism $M_g \to M_{fg}$. Using the fact that the restriction maps are module homomorphisms, we get
+	\begin{align*}
+		(a|_{D(f)}s|_{D(f)})|_{D(f) \cap D(g)} & = (a|_{D(f)})|_{D(f) \cap D(g)}(s|_{D(f)})|_{D(f) \cap D(g)} \\
+		& = a|_{D(fg)} s|_{D(fg)} \\
+		& = (a|_{D(g)})|_{D(f) \cap D(g)}(s|_{D(g)})|_{D(f) \cap D(g)} \\
+		& = (a|_{D(g)}s|_{D(g)})|_{D(f) \cap D(g)}.
+	\end{align*}
+	Hence the sections $a|_{D(f)}s|_{D(f)}$, where $D(f)$ runs over all principal open subsets of $U$, glue to a unique section $as \in \tilde{M}(U)$. The module axioms for $\tilde{M}(U)$ and the fact that the module structures are compatible with restriction maps can be checked locally in the similar manner as the above.
+\end{proof}
+
+We remark that, by viewing $A$ as an $A$-module, $\tilde{A} = \mathcal{O}_X$. Another easy consequence of the above construction is the stalks of $\tilde{M}$ are simply localisation of $M$ at prime ideals.
+
+\begin{lemma}\label{chap11:stalk-of-associated-module}
+	The stalk of $\tilde{M}$ at $x \in X$ is equal to $M_{\mathfrak{p}_x}$.
+\end{lemma}
+\begin{proof}
+	Follows from
+	\begin{equation*}
+		\tilde{M}_x = \varinjlim_{D(f) \ni x} \Gamma(D(f), \tilde{M}) = \varinjlim_{f \notin \mathfrak{p}_x} M_f = M_{\mathfrak{p}_x}.
+	\end{equation*}
+\end{proof}
+
+Suppose $\varphi \colon M \to N$ is a homomorphism of $A$-modules. Then we have the induced maps $\varphi_f \colon M_f \to N_f$ of $A_f$-modules for all $f \in A$. These morphism together define a morphism of sheaves $\tilde{\varphi}\colon \tilde{M} \to \tilde{N}$. Indeed, if $D(f) \subseteq D(g)$, then we have a commutative diagram
+\[\begin{tikzcd}
+	{M_f} & {N_f} \\
+	{M_g} & {N_g}
+	\arrow["{\varphi_f}", from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=1-2, to=2-2]
+	\arrow["{\varphi_g}"', from=2-1, to=2-2]
+\end{tikzcd}\]
+which proves the claim. Moreover, since each $\varphi_f$ is an $A_f$-module homomorphism, $\tilde{\varphi}$ is in fact a morphism of $\mathcal{O}_X$-modules. It is then clear that $M \mapsto \tilde{M}$ defines a functor from the category of $A$-modules to the category of $\mathcal{O}_X$-modules.
+
+\begin{theorem}
+	Let $A$ be a ring and $X = \Spec A$. Denote by $\Gamma$ the global section functor. Then there is a bijection
+	% https://q.uiver.app/#q=WzAsMixbMCwwLCJcXEhvbV97QS1cXG1hdGhybXtNb2R9fShNLCBOKSJdLFsyLDAsIlxcSG9tX3tcXG1hdGhjYWx7T31fWH0oXFx0aWxkZXtNfSwgXFx0aWxkZXtOfSkiXSxbMCwxLCJNIFxcbWFwc3RvIFxcdGlsZGV7TX0iLDAseyJvZmZzZXQiOi0yfV0sWzEsMCwiXFxHYW1tYSh3KSIsMCx7Im9mZnNldCI6LTJ9XV0=
+	\[\begin{tikzcd}
+		{\Hom_{A-\mathrm{Mod}}(M, N)} && {\Hom_{\mathcal{O}_X}(\tilde{M}, \tilde{N})}
+		\arrow["{M \mapsto \tilde{M}}", shift left=2, from=1-1, to=1-3]
+		\arrow["{\Gamma(-)}", shift left=2, from=1-3, to=1-1]
+	\end{tikzcd}\]
+	Consequently $M \mapsto \tilde{M}$ is fully faithful.
+\end{theorem}
+\begin{proof}
+	It follows form the definitions that $\Gamma(\tilde{\varphi}) = \varphi$. Now let $w \colon\tilde{M}\to \tilde{N}$ be a morphism of $\mathcal{O}_X$-modules, and set $u \coloneqq \Gamma(w) \colon M \to N$. For each $f \in A$, consider the morphism $w_{D(f)} \colon \tilde{M}(D(f)) \to \tilde{N}(D(f))$ which gives us the commutative diagram
+	% https://q.uiver.app/#q=WzAsNCxbMCwwLCJNIl0sWzIsMCwiTiJdLFswLDIsIlxcdGlsZGV7TX0oRChmKSkgPSBNX2YiXSxbMiwyLCJcXHRpbGRle059KEQoZikpID0gTl9mIl0sWzIsMywid197RChmKX0iXSxbMCwyXSxbMSwzXSxbMCwxLCJ1PXdfWCJdXQ==
+	\[\begin{tikzcd}
+		M && N \\
+		\\
+		{\tilde{M}(D(f)) = M_f} && {\tilde{N}(D(f)) = N_f.}
+		\arrow["{u}", from=1-1, to=1-3]
+		\arrow[from=1-1, to=3-1]
+		\arrow[from=1-3, to=3-3]
+		\arrow["{w_{D(f)}}", from=3-1, to=3-3]
+	\end{tikzcd}\]
+	But the lower horizontal homomorphism is also equal to $u_f$ by the universal property of localisation. Hence $u_f = w_{D(f)}$ for all $f$, and so $\tilde{u} = w$.
+\end{proof}
+
+\begin{theorem}[The Functor Associating $\mathcal{O}_X$-modules is Exact]
+	Let $A$ be a ring and $X = \Spec A$. 
+	\begin{enumerate}
+		\item A sequence of $A$-modules $M \to N \to P$ is exact if and only if the sequence of $\mathcal{O}_X$-modules $\tilde{M} \to \tilde{N} \to \tilde{P}$ is exact.
+		
+		\item Let $\varphi \colon M \to N$ be a homomorphism of $A$-modules. Then $\ker(\varphi)^{\sim} \cong \ker(\tilde{\varphi})$, $\Img(\varphi)^{\sim} \cong \Img(\tilde{\varphi})$ and $\coker(\varphi)^{\sim} \cong \coker(\tilde{\varphi})$.
+		
+		\item If $\varphi \colon M \to N$ be a homomorphism of $A$-modules, then $u$ is injective (resp.~surjective, resp.~bijective) if and only if $\tilde{u}$ is injective (resp.~surjective, resp.~bijective).
+		
+		\item The functor $M \mapsto \tilde{M}$ commutes with taking direct sums and colimits.
+	\end{enumerate}
+\end{theorem}
+\begin{proof}
+	By commutative algebra, the sequence $M \to N \to P$ is exact if and only if for all $x \in X$ the sequence $M_{\mathfrak{p}_x} \to N_{\mathfrak{p}_x} \to P_{\mathfrak{p}_x}$ is exact. The latter statement is equivalent to $\tilde{M} \to \tilde{N} \to \tilde{P}$ being exact by \cref{chap11:stalk-of-associated-module}. This proves (1.). The assertions (2.) and (3.) are immediate consequences of (1.).
+	
+	(4.) \todo{TODO.}
+\end{proof}
+
+\section{Quasi-coherent Modules}
+
+\section{Problems}
+
+\begin{problems}
+	\item Let $A$ be a ring, $X = \Spec A$, and let $M$ be an $A$-module. Prove that the $\mathcal{O}_X$-module $\tilde{M}$ is the sheafification of the presheaf $U \mapsto M \otimes_R \mathcal{O}_X(U)$.
+\end{problems}
+
