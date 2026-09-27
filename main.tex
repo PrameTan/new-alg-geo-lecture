@@ -802,7 +802,8 @@ spacebelow=\baselineskip,
 			& = \varphi_{W_y}(w(y))|_{W_x \cap W_y} && \text{(Definition of $w(y)$)}\\
 			& = \varphi_{W_x \cap W_y}(w(y)|_{W_x \cap W_y}) && \text{(Definition of morphism of sheaves)}.
 		\end{align*}
-		Since we have just proved that the morphism $\varphi_{W_x \cap W_y}$ is injective, and thus $w(x)|_{W_x \cap W_y} = w(y)|_{W_x \cap W_y}$ as claimed. In particular, the sections $w(x)$ can be glued together. Let $w \in \mathcal{F}(U)$ denote the resulting section so that $w|_{W_x} = w(x)$ for all $x \in U$. Then
+		
+		(From now on we will drop justification for routine computations like these.) Since we have just proved that the morphism $\varphi_{W_x \cap W_y}$ is injective, and thus $w(x)|_{W_x \cap W_y} = w(y)|_{W_x \cap W_y}$ as claimed. In particular, the sections $w(x)$ can be glued together. Let $w \in \mathcal{F}(U)$ denote the resulting section so that $w|_{W_x} = w(x)$ for all $x \in U$. Then
 		\begin{equation*}
 			\varphi_U(w)|_{W_x} = \varphi_{W_x}(w|_{W_x}) = \varphi_{W_x}(w(x)) = b|_{W_x}
 		\end{equation*}
@@ -1014,13 +1015,31 @@ spacebelow=\baselineskip,
 	\begin{lemma}[Stalk of Inverse Image Sheaf]
 		Let $f \colon X \to Y$ be a continuous map of topological spaces and $\mathcal{G}$ a sheaf on $Y$. Then for all $x \in X$,
 		\begin{equation*}
-			(f^\ast\mathcal{G})_x \cong \mathcal{G}_{f(x)}.
+			(f^{-1}\mathcal{G})_x \cong \mathcal{G}_{f(x)}.
 		\end{equation*}
 	\end{lemma}
 	\begin{proof}
-		\todo{content...}
+		By \cref{chap3:sheafification}, we can compute the stalk at $x \in X$ of the presheaf $f^+\mathcal{G}$ instead. We have
+		\begin{equation*}
+			(f^+\mathcal{G})_x = \varinjlim_{U \ni x } f^{-1}\mathcal{G}(U) = \varinjlim_{U \ni x}\varinjlim_{\substack{V \supseteq f(U) \\ V \text{ open in $Y$}}} \mathcal{G}(V).
+		\end{equation*}
+		Write $\mathcal{I}$ for the category of open neighbourhoods of $x$, and $\mathcal{J}$ for the category of open sets in $V$ containing $f(U)$. Then the stalks at $x$ of $f^+\mathcal{G}$ is equal to the nested colimit
+		\begin{equation*}
+			(f^+\mathcal{G})_x = \varinjlim_{U \in \mathcal{I}}\varinjlim_{V \in \mathcal{J}} \mathcal{G}_{U, V},
+		\end{equation*}
+		where we write $\mathcal{G}_{U, V}$ for $\mathcal{G}(V)$. By category theory, the nested colimit is equal to the colimit over the index category $\mathcal{I} \times \mathcal{J}$ and the ordering is given by $(U, V) \geq (U', V')$ if and only if $U \supseteq U'$ and $V \supseteq V'$. 
+		
+		Note that if $W$ is an open neighbourhood containing $f(x)$, then $f^{-1}(W)$ is an open set in $X$ containing $x$. Furthermore, $W \supseteq f(f^{-1}(W))$. Hence there is a subcategory of $\mathcal{I} \times \mathcal{J}$ whose objects are $(f^{-1}(W), W)$ for any open neighbourhood $W$ of $f(x)$. 
+		
+		It is in fact a cofinal subcategory of $\mathcal{I} \times \mathcal{J}$. Indeed, if $(U, V) \mathcal{I} \times \mathcal{J}$, then $V$ contains $f(x)$; and since $V \supseteq f(U)$, it follows that
+		\begin{equation*}
+			f^{-1}(V) \supseteq f^{-1}(f(U)) \supseteq U.
+		\end{equation*}
+		Hence $(U, V) \leq (f^{-1}(V), V)$. Therefore the colimit over $\mathcal{I} \times \mathcal{J}$ is equal to the colimit over this subcategory:
+		\begin{equation*}
+			(f^+\mathcal{G})_x = \varinjlim_{f^{-1}(W) \in \mathcal{O}} \varinjlim_{\substack{W \ni f(x), \\ W \text{ open}}} \mathcal{G}(V) = \mathcal{G}_{f(x)}. \qedhere
+		\end{equation*}
 	\end{proof}
-	
 	\begin{proposition}[Inverse Image is Left Adjoint to Direct Image]
 		Let $f \colon X \to Y$ be a continuous map between two topological spaces. Let $\mathcal{F}$ be a sheaf on $X$, and let $\mathcal{G}$ be a presheaf on $Y$. Then there is a bijection
 		\begin{equation*}
@@ -1028,6 +1047,94 @@ spacebelow=\baselineskip,
 		\end{equation*}
 		which is functorial in $\mathcal{F}$ and $\mathcal{G}$.
 	\end{proposition}
+	\begin{proof}		
+		We divide the proof into several steps.
+		\begin{enumerate}
+			\item We first determine the unit $\eta \colon 1_{(\PrSheaf(Y))} \Rightarrow f_\ast f^{-1}$ of this adjunction. Let $\mathcal{G}$ be a presheaf on $Y$. We need to find a morphism $\eta(\mathcal{G}) \colon \mathcal{G} \to f_\ast f^{-1} \mathcal{G}$. To do this, let $V \subseteq Y$ be an open subset. Since $f(f^{-1}(V)) \subseteq V$, the open set $V$ appears in the direct system in the definition of the presheaf $f^+ \mathcal{G}$:
+			\begin{equation*}
+				f^+\mathcal{G}(f^{-1}(V)) = \varinjlim_{\substack{O \supseteq f(f^{-1}(V)) \\ O \text{ open in $X$}}} \mathcal{G}(O).
+			\end{equation*}
+			Hence there is a canonical morphism $\mathcal{G}(V) \to f^+\mathcal{G}(f^{-1}(V))$. After passing to the sheafification, we obtain a morphism $\mathcal{G}(V) \to f^{-1}\mathcal{G}(f^{-1}(V)) = f_\ast f^{-1}\mathcal{G}(V)$. It is easily checked that this is compatible with restriction, and thus define a genuine morphism of presheaves $\eta(\mathcal{G}) \colon \mathcal{G} \to f_\ast f^{-1} \mathcal{G}$, which we take to be $\eta(\mathcal{G})$.
+			
+			We also write $\kappa^V_{f^{-1}(V)}$ for the canonical morphism $\mathcal{G}(v) \to f^+\mathcal{G}(f^{-1}(V))$ into the direct limit. Let $i \colon f^+\mathcal{G} \to f^{-1}\mathcal{G}$ be the sheafification map, and so $\eta(\mathcal{G})$ can also be given by the formula
+			\begin{equation*}
+				\eta(\mathcal{G})_V = i_{f^{-1}(V)} \circ \kappa^V_{f^{-1}(V)}.
+			\end{equation*}
+			
+			\item The proof that $\eta$ is a natural transformation essentially boils down to the fact that taking colimits and sheafification are natural. The proof is omitted.
+			
+			\item The next step is to define a morphism
+			\begin{equation*}
+				\Phi_{\mathcal{F}, \mathcal{G}}\colon	\Hom_{(\Sheaf(X))}(f^{-1}\mathcal{G}, \mathcal{F}) \to \Hom_{(\PrSheaf(Y))}(\mathcal{G}, f_\ast \mathcal{F}).
+			\end{equation*}
+			Let $\varphi \colon f^{-1}\mathcal{G} \to \mathcal{F}$ be a morphism of sheaves. We need to define a morphism $\Phi_{\mathcal{F}, \mathcal{G}}(\varphi)\colon\mathcal{G} \to f_\ast \mathcal{F}$. This is basically forced upon us since we know the unit $\eta$. Let $V \subseteq Y$ be an open set. Then define $\Phi_{\mathcal{F}, \mathcal{G}}(\varphi)_V$ by
+			\begin{equation*}
+				\mathcal{G}(V) \xrightarrow{\eta(\mathcal{G}_V)} f_\ast f^{-1}\mathcal{G}(V) = f^{-1}\mathcal{G}(f^{-1}(V)) \xrightarrow{\varphi_{f^{-1}(V)}} \mathcal{F}(f^{-1}(V)) = f_\ast \mathcal{F}(V).
+			\end{equation*}
+			In particular, $\Phi_{\mathcal{F}, \mathcal{G}}(\varphi) \coloneqq f_\ast\varphi \circ \eta(\mathcal{G})$. This shows that $\Phi_{\mathcal{F}, \mathcal{G}}(\varphi)$ is indeed a morphism of presheaves.
+			
+			\item We now construct the inverse $\Psi_{\mathcal{F}, \mathcal{G}}$ of $\Phi_{\mathcal{F}, \mathcal{G}}$. Let $\psi \colon \mathcal{G} \to f_\ast \mathcal{F}$ be a morphism of presheaves. We seek to define a morphism $\Psi(\psi) \colon f^{-1}\mathcal{G} \to \mathcal{F}$. By the universal property of sheafification (\cref{chap3:sheafification}) it is enough for us to define a morphism of presheaves $a \colon f^+\mathcal{G} \to \mathcal{G}$. Let $U \subseteq X$ be an open subset. As a reminder, $a_U$ is a morphism
+			\begin{equation*}
+				\varinjlim_{\substack{V \supseteq f(U), \\ V \text{ open in $Y$} }} \mathcal{G}(U) \to \mathcal{F}(U).
+			\end{equation*}
+			A morphism out of a direct limit is uniquely determined by the morphisms out of each object in the direct system. With this in mind, let $V \supseteq f(U)$ be an open subset of $Y$ and let $\kappa^V_U$ be the canonical map $\mathcal{G}(V) \to  f^+\mathcal{G}(U)$ into the direct limit. Then $f^{-1}(V) \supseteq f^{-1}(f(U)) \supseteq U$. Hence there exists a series of morphisms
+			\begin{equation*}
+				\mathcal{G}(V) \xrightarrow{\psi_{V}} f_\ast \mathcal{F}(V) = \mathcal{F}(f^{-1}(V)) \xrightarrow{\res^{f^{-1}(V)}_U} \mathcal{F}(U)
+			\end{equation*}
+			which is compatible with restriction.  Hence there is a unique morphism $a_U \colon f^+\mathcal{G}(U) \to \mathcal{F}(U)$ such that
+			\begin{equation*}
+				\res^{f^{-1}(V)}_U \circ \psi_{V} = a_U \circ \kappa^V_U.
+			\end{equation*}
+			Together they give rise to a morphism $a \colon f^+\mathcal{G} \to \mathcal{F}$ of presheaves, as is easily checked. Define $\Psi(\psi)$ to be the unique morphism of sheaves $a^\dagger \colon f^{-1}\mathcal{G} \to \mathcal{F}$ associated to $a$. In particular, if we write $i \colon f^+\mathcal{G} \to f^{-1}\mathcal{G}$ for the sheafification map, then $\Psi(\psi) \circ i = a$ and $\Psi(\psi)$ is uniquely determined by this formula.
+			
+			\item 	Finally we have to show that $\Phi_{\mathcal{F}, \mathcal{G}}$ and $\Psi_{\mathcal{F}, \mathcal{G}}$ are mutually inverse. This is simply algebra (or diagram chasing) from the properties we have already noted.
+			\begin{enumerate}
+				\item Let $\varphi \colon f^{-1}\mathcal{G} \to \mathcal{F}$ be a morphism of sheaves. Then $\Phi(\varphi) = f_\ast \varphi \circ \eta(\mathcal{G})$. By definition $\Psi(\Phi(\varphi))$ is the unique morphism such that
+				for any open subset $U \subseteq X$ and open subset $V \supseteq f(U)$, the equation
+				\begin{equation*}
+					\Psi(\Phi(\varphi))_U \circ i_U \circ \kappa^V_U = \res^{f^{-1}V}_U \circ \Phi(\varphi)_V
+				\end{equation*}
+				holds.
+				Hence we check that
+				\begin{align*}
+					\varphi_U \circ i_U \circ \kappa^V_U & = \varphi_U \circ i_U \circ (\res^{f^{-1}V}_U \circ \kappa^V_{f^{-1}V}) \\
+					& = \varphi_U \circ (\res^{f^{-1}V}_U \circ i_{f^{-1}V})  \circ \kappa^V_{f^{-1}V} \\
+					& = (\res^{f^{-1}V}_U \circ \varphi_{f^{-1}V}) \circ i_{f^{-1}V}  \circ \kappa^V_{f^{-1}V} \\
+					& = \res^{f^{-1}V}_U \circ (f_\ast \varphi_V \circ \eta(\mathcal{G})_V) \\
+					& = \res^{f^{-1}V}_U \circ \Phi(\varphi)_V
+				\end{align*}
+				using the fact that all the maps are compatible with restrictions. By uniqueness, $\Psi(\Phi(\varphi)) = \varphi$.
+				
+				\item We now show that $\Phi(\Psi(\psi)) = \psi$. Let $V \subseteq Y$ be an open set. Then by definition
+				\begin{align*}
+					\Phi(\Psi(\psi))_V = f_\ast\Psi(\psi)_V \circ \eta(\mathcal{G})_V & = \Psi(\psi)_{f^{-1}V} \circ (i_{f^{-1}V} \circ \kappa^V_{f^{-1}V}) \\
+					& = a_{f^{-1}V} \circ \kappa^V_{f^{-1}V} \\
+					& = \res^{f^{-1}V}_{f^{-1}V} \circ \psi_{V}  = \psi_{V}.
+				\end{align*}
+				Since this holds for every open set $V \subseteq Y$, $	\Phi(\Psi(\psi)) = \Psi$.
+				
+				\item We finally prove that $\Phi_{\mathcal{F}, \mathcal{G}}$ is natural in $\mathcal{F}$ and $\mathcal{G}$. First let $\rho \colon \mathcal{F} \to \mathcal{F}'$ and $\varphi \colon f^{-1}\mathcal{G} \to \mathcal{F}$ be morphisms of sheaves. Using the definition and expanding, we obtain
+				\begin{equation*}
+					\Phi_{\mathcal{F}, \mathcal{G}}(\rho \circ \varphi) = f_\ast(\rho \circ \varphi) \circ \eta(\mathcal{G}) = f_\ast \rho \circ f_\ast \varphi \circ \eta(\mathcal{G}) = f_\ast \rho \circ \Phi_{\mathcal{F}, \mathcal{G}}(\varphi).
+				\end{equation*}
+				Therefore $\Phi_{\mathcal{F}, \mathcal{G}}$ is natural in $\mathcal{F}$.
+				
+				Finally let us check that $\Phi_{\mathcal{F}, \mathcal{G}}$ is natural in $\mathcal{G}$. Let $\tau \colon \mathcal{G}' \to \mathcal{G}$ and $\psi \colon \mathcal{G} \to f_\ast \mathcal{F}$ be morphisms of sheaves. we have to show that 
+				\begin{equation*}
+					\Phi_{\mathcal{F}, \mathcal{G'}}(\psi \circ f^{-1}\tau) = \Phi_{\mathcal{F}, \mathcal{G}}(\psi) \circ \tau.
+				\end{equation*}
+				The left hand side is equal to 
+				\begin{equation*}
+					\Phi_{\mathcal{F}, \mathcal{G'}}(\psi \circ f^{-1}\tau) = f_\ast(\psi \circ f^{-1}\tau) \circ \eta(\mathcal{G}') = f_\ast(\psi) \circ f_\ast f^{-1}\tau \circ \eta(\mathcal{G}'),
+				\end{equation*}
+				whereas the right hand side is $\Phi_{\mathcal{F}, \mathcal{G}}(\psi) \circ \tau = f_\ast \psi \circ \eta(\mathcal{G}) \circ \tau$. We would be done if we can prove that
+				\begin{equation*}
+					f_\ast f^{-1}\tau \circ \eta(\mathcal{G}') = \eta(\mathcal{G}) \circ \tau,
+				\end{equation*}
+				but this is simply the naturality of $\eta$ with respect to the morphism $\tau$. \qedhere
+			\end{enumerate}
+		\end{enumerate}
+	\end{proof}
 	
 	\begin{lemma}[Sheaf Gluing Lemma]\label{chap3:sheaf-gluing-lemma}
 		Let $X$ be a topological space with an open cover $\Set{U_i}_{i \in I}$ $U_{ij}$ for $U_i \cap U_j$. Suppose we are given sheaves $\mathcal{F}_i$ on $U_i$ and an isomorphism of sheaves $\varphi_{ij} \colon \mathcal{F}_i|_{U_{ij}} \to \mathcal{F}_j|_{U_{ji}}$ for each $i, j \in I$ satisfying the following conditions:
@@ -1209,8 +1316,31 @@ spacebelow=\baselineskip,
 	The above data actually define a morphism of ringed spaces $\Spec B \to \Spec A$, as shown in the following proposition.
 	
 	\begin{proposition}
-		The maps $f^\flat_{D(s)}$ is compatible with restrictions, and furthermore, $f^\sharp_x$ is a local ring homomorphism for all $x \in X$. Hence $f, f^\flat$ define a morphism of locally ringed spaces.
+		The maps $f^\flat_{D(s)}$ is compatible with restrictions, and furthermore, $f^\sharp_x$ is a local ring homomorphism for all $x \in X$. Hence $(f, f^\flat)$ defines a morphism of locally ringed spaces.
 	\end{proposition}
+	\begin{proof}
+		Let $D(g) \subseteq D(s)$ be principal open subsets of $\Spec A$. Then 
+		\begin{equation*}
+			D(\varphi(g)) = f^{-1}(D(g)) \subseteq f^{-1}(D(s)) = D(\varphi(s)).
+		\end{equation*} 
+		Therefore we have a commutative diagram of ring homomorphisms
+% https://q.uiver.app/#q=WzAsOCxbMSwwLCJBX3MiXSxbMSwxLCJBX2ciXSxbMiwwLCJCX3tcXHZhcnBoaShzKX0iXSxbMiwxLCJCX3tcXHZhcnBoaShnKX0iXSxbMCwwLCJcXG1hdGhjYWx7T31fe1xcU3BlYyBBfShEKHMpKSJdLFswLDEsIlxcbWF0aGNhbHtPfV97XFxTcGVjIEF9KEQoZykpIl0sWzMsMCwiXFxtYXRoY2Fse099X3tcXFNwZWMgQn0oRChcXHZhcnBoaShzKSkpIl0sWzMsMSwiXFxtYXRoY2Fse099X3tcXFNwZWMgQn0oRChcXHZhcnBoaShnKSkpIl0sWzAsMV0sWzAsMiwiXFx2YXJwaGlfcyJdLFsyLDNdLFsxLDMsIlxcdmFycGhpX3tnfSIsMl0sWzQsMCwiXFxzaW1lcSJdLFs1LDEsIlxcc2ltZXEiLDJdLFs0LDVdLFsyLDYsIlxcc2ltZXEiXSxbMyw3LCJcXHNpbWVxIiwyXSxbNiw3XV0=
+	\[\begin{tikzcd}
+		{\mathcal{O}_{\Spec A}(D(s))} & {A_s} & {B_{\varphi(s)}} & {\mathcal{O}_{\Spec B}(D(\varphi(s)))} \\
+		{\mathcal{O}_{\Spec A}(D(g))} & {A_g} & {B_{\varphi(g)}} & {\mathcal{O}_{\Spec B}(D(\varphi(g)))}
+		\arrow["\simeq", from=1-1, to=1-2]
+		\arrow[from=1-1, to=2-1]
+		\arrow["{\varphi_s}", from=1-2, to=1-3]
+		\arrow[from=1-2, to=2-2]
+		\arrow["\simeq", from=1-3, to=1-4]
+		\arrow[from=1-3, to=2-3]
+		\arrow[from=1-4, to=2-4]
+		\arrow["\simeq"', from=2-1, to=2-2]
+		\arrow["{\varphi_{g}}"', from=2-2, to=2-3]
+		\arrow["\simeq"', from=2-3, to=2-4]
+	\end{tikzcd}\]
+		Hence $f^\flat$ assemble to a morphism of sheaves on the basis of principal open subsets, and so it extends to a unique morphism of sheaves $f^\flat \colon \mathcal{O}_{\Spec A} \to f_\ast \mathcal{O}_{\Spec B}$.
+	\end{proof}
 	
 	\subsection*{Anti-equivalence of the Categories $(\Aff)$ and $(\Rings)$}
 	
@@ -1220,19 +1350,8 @@ spacebelow=\baselineskip,
 		The functors $\Spec$ and $\Gamma$ form an anti-equivalence of the categories of affine schemes and the category of rings.
 	\end{theorem}
 	
-	\begin{example}
-		Let $k$ be a field. Then the scheme $\Spec k$ consists of a single point. The structure sheaf of $\Spec k$ is just $k$.
-	\end{example}
 	
-	\begin{example}
-		Let $R$ be a discrete valuation ring. Then $\Spec R$ consists of two points.
-	\end{example}
-	
-	\begin{example}[The Affine Space]
-		Let $R$ be a ring. Let $\AAA^n_R$ denote the affine scheme $\Spec R[X_1, \dotsc, X_n]$. This is called the \inlinedef{affine space of relative dimension $n$}. The inclusion $R \to R[X_1, \dotsc, X_n]$ define a morphism of affine schemes $\AAA^n_R \to \Spec R$.
-		
-		Let's consider the affine line $\AAA^1_k$ when $k$ is a field. Since $k[X]$ is a PID, every proper open subset of $\AAA^1_k$ is of the form $D(f)$ for some non-zero polynomial $f \in k[x]$. Then $\mathcal{O}_{\AAA^1_k}(D(f)) = k[X]_{f} = k[X, 1/f]$.
-	\end{example}
+	We use the anti-equivalence of the categories of affine schemes and the category of rings to prove that every principal open subset of an affine scheme is in itself an affine scheme with the inherited locally ringed space structure.
 	
 	\begin{proposition}\label{chap3:principal-open-subset-is-affine}
 		Let $A$ be a ring and $X = \Spec A$. For each $f \in A$, the open set $(D(f))$ with the restricted sheaf $\mathcal{O}_{X|D(f)}$ is a locally ringed space canonically isomorphic to the affine scheme $\Spec A_f$.
@@ -1252,6 +1371,23 @@ spacebelow=\baselineskip,
 		\end{equation*}
 		(Use \cref{chap2:property-of-spec-map}.) Hence $j^\flat$ is an isomorphism of sheaves when checked on the basis consisting of principal open subsets, and so $j^\flat$ is indeed an isomorphism.
 	\end{proof}
+	
+	\subsection*{Examples of Affine Schemes and Their Morphisms}
+	\begin{example}
+		Let $k$ be a field. Then the scheme $\Spec k$ consists of a single point. The structure sheaf of $\Spec k$ is just $k$.
+	\end{example}
+	
+	\begin{example}
+		Let $R$ be a discrete valuation ring. Then $\Spec R$ consists of two points.
+	\end{example}
+	
+	\begin{example}[The Affine Space]
+		Let $R$ be a ring. Let $\AAA^n_R$ denote the affine scheme $\Spec R[X_1, \dotsc, X_n]$. This is called the \inlinedef{affine space of relative dimension $n$}. The inclusion $R \to R[X_1, \dotsc, X_n]$ define a morphism of affine schemes $\AAA^n_R \to \Spec R$.
+		
+		Let's consider the affine line $\AAA^1_k$ when $k$ is a field. Since $k[X]$ is a PID, every proper open subset of $\AAA^1_k$ is of the form $D(f)$ for some non-zero polynomial $f \in k[x]$. Then $\mathcal{O}_{\AAA^1_k}(D(f)) = k[X]_{f} = k[X, 1/f]$.
+	\end{example}
+	
+	
 	
 	\section{Problems}
 	
@@ -1405,9 +1541,6 @@ spacebelow=\baselineskip,
 	
 	In many cases when the base scheme is affine, we shall employ a common shorthand notation. If $S$ is affine, say $S = \Spec R$, a scheme over $S$ is also called an \inlinedef{$R$-scheme} or a \inlinedef{scheme over $R$}. The hom-set of $R$-schemes $X$ and $Y$ is written by $\Hom_R(X, Y)$.
 	
-	
-
-	
 	\section{Gluing Lemmas}
 	
 	\begin{lemma}[Morphism Gluing Lemma]
@@ -1432,7 +1565,7 @@ spacebelow=\baselineskip,
 		& = s_i|_{f^{-1}(W) \cap U_i}\\
 		& = (s|_W)_i.
 		\end{align*}
-		By uniqueness, $f^\flat_V(s)|_{f^{-1}(W)} = f^\flat_W(s|_W)$. This proves that $f^\flat$ is compatible with restriction maps and so define a morphism of sheaves $\mathcal{O}_Y \to f_\ast\mathcal{O}_X$. For each $x \in X$, the induced map on stalks $f^\sharp_x$ is plainly a local ring homomorphism because taking stalk is local.
+		By uniqueness, $f^\flat_V(s)|_{f^{-1}(W)} = f^\flat_W(s|_W)$. This proves that $f^\flat$ is compatible with restriction maps and so define a morphism of sheaves $\mathcal{O}_Y \to f_\ast\mathcal{O}_X$. For each $x \in X$, the induced map on stalks $f^\sharp_x$ is plainly a local ring homomorphism because taking stalks is local.
 	\end{proof}	
 	
 	\begin{lemma}[Scheme Gluing Lemma]
@@ -1448,9 +1581,14 @@ spacebelow=\baselineskip,
 		Let $X$ be a scheme and $R$ a ring. Then there is a bijection
 		\begin{align*}
 			\Hom_{(\Schs)}(X, \Spec R) & \longrightarrow \Hom_{(\Rings)}(R, \Gamma(X, \mathcal{O}_X)) \\
-			f & \longmapsto f^\flat_{\Spec R}.
+			f & \longmapsto f^\flat_{\Spec R}
 		\end{align*}
+		which is functorial in $X$ and $R$.
 	\end{theorem}
+	
+	\begin{proof}
+		Since $X$ is a scheme, there is an affine open cover $U_i$ of $X$.
+	\end{proof}
 	
 	\begin{remark}
 		The theorem still holds if $X$ is a locally ringed space which is not necessarily a ring.
@@ -1459,6 +1597,8 @@ spacebelow=\baselineskip,
 	\subsection*{Morphisms from Spectrum of a Field}
 	
 	\section{Immersions}
+	
+	
 	
 	\subsection*{Open Immersions}
 	
@@ -2302,8 +2442,8 @@ spacebelow=\baselineskip,
 	
 	\chapter{Category Theory}
 	
-	
-	%	\nocite{*}
-	%	\printbibliography
-	%	\addcontentsline{toc}{chapter}{Bibliography}
+%	\chapter*{Bibliography}
+%	\nocite{*}
+%	\printbibliography
+%	\addcontentsline{toc}{chapter}{Bibliography}
 \end{document}
