@@ -1012,7 +1012,7 @@ spacebelow=\baselineskip,
 		content...
 	\end{proof}
 	
-	\begin{lemma}[Stalk of Inverse Image Sheaf]
+	\begin{lemma}[Stalk of Inverse Image Sheaf]\label{chap3:stalk-of-inverse-image}
 		Let $f \colon X \to Y$ be a continuous map of topological spaces and $\mathcal{G}$ a sheaf on $Y$. Then for all $x \in X$,
 		\begin{equation*}
 			(f^{-1}\mathcal{G})_x \cong \mathcal{G}_{f(x)}.
@@ -1037,16 +1037,19 @@ spacebelow=\baselineskip,
 		\end{equation*}
 		Hence $(U, V) \leq (f^{-1}(V), V)$. Therefore the colimit over $\mathcal{I} \times \mathcal{J}$ is equal to the colimit over this subcategory:
 		\begin{equation*}
-			(f^+\mathcal{G})_x = \varinjlim_{f^{-1}(W) \in \mathcal{O}} \varinjlim_{\substack{W \ni f(x), \\ W \text{ open}}} \mathcal{G}(V) = \mathcal{G}_{f(x)}. \qedhere
+			(f^+\mathcal{G})_x = \varinjlim_{f^{-1}(W) \in \mathcal{I}} \varinjlim_{\substack{W \ni f(x), \\ W \text{ open}}} \mathcal{G}(V) = \mathcal{G}_{f(x)}. \qedhere
 		\end{equation*}
 	\end{proof}
-	\begin{proposition}[Inverse Image is Left Adjoint to Direct Image]
+	\begin{proposition}[Inverse Image is Left Adjoint to Direct Image]\label{chap3:inverse-image-direct-image-adjunction}
 		Let $f \colon X \to Y$ be a continuous map between two topological spaces. Let $\mathcal{F}$ be a sheaf on $X$, and let $\mathcal{G}$ be a presheaf on $Y$. Then there is a bijection
 		\begin{equation*}
 			\Phi_{\mathcal{F}, \mathcal{G}}\colon	\Hom_{(\Sheaf(X))}(f^{-1}\mathcal{G}, \mathcal{F}) \to \Hom_{(\PrSheaf(Y))}(\mathcal{G}, f_\ast \mathcal{F})
 		\end{equation*}
 		which is functorial in $\mathcal{F}$ and $\mathcal{G}$.
 	\end{proposition}
+	
+	Hence there is an adjunction $f^{-1} \dashv f_\ast$.
+	
 	\begin{proof}		
 		We divide the proof into several steps.
 		\begin{enumerate}
@@ -1159,7 +1162,7 @@ spacebelow=\baselineskip,
 		A \inlinedef{ringed space} is a pair $(X, \mathcal{O}_X)$ where $X$ is a topological space and $\mathcal{O}_X$ is a sheaf of rings on $X$.
 	\end{definition}
 	
-	The sheaf $\mathcal{O}_X$ is called the \inlinedef{structure sheaf} of $X$. A \inlinedef{morphism of ringed spaces} $(f, f^\flat) \colon (X, \mathcal{O}_X) \to (Y,\mathcal{O}_Y)$ is a pair consisting of a continuous function $f \colon X \to Y$ and a morphism $f^\flat \colon \mathcal{O}_Y \to f_\ast\mathcal{O}_Y$ of sheaves of rings. 
+	The sheaf $\mathcal{O}_X$ is called the \inlinedef{structure sheaf} of $X$. A \inlinedef{morphism of ringed spaces} $(f, f^\sharp) \colon (X, \mathcal{O}_X) \to (Y,\mathcal{O}_Y)$ is a pair consisting of a continuous function $f \colon X \to Y$ and a morphism $f^\sharp \colon \mathcal{O}_Y \to f_\ast\mathcal{O}_X$ of sheaves of rings. 
 	
 	\begin{exercise}
 		Define the composition of two morphisms of ringed spaces. Use this to show that ringed spaces and their morphisms form a category of ringed spaces.
@@ -1169,11 +1172,19 @@ spacebelow=\baselineskip,
 	
 	Recall that a \inlinedef{local ring} is a ring $A$ with a unique maximal ideal. We write $\mathfrak{m}_A$ for the maximal ideal of $A$, and define the \inlinedef{residue class field} of $A$ to be $\kappa(A) = A/\mathfrak{m}_A$. A ring homomorphism $\varphi \colon A \to B$ between local rings is said to be \inlinedef{local} if $\varphi(\mathfrak{m}_A) \subseteq \mathfrak{m}_B$, or, equivalently, if $\varphi^{-1}(\mathfrak{m}_B) = \mathfrak{m}_A$.
 	
+	A morphism of ringed spaces $f \colon X \to Y$ induces a morphism on stalks at each point of $x \in X$ as follows. Let $f^\sharp \colon \mathcal{O}_Y \to f_\ast\mathcal{O}_X$ be the morphism of sheaves. Then by the adjunction between inverse image and direct image function, we have a morphism $f^\flat \colon f^{-1}\mathcal{O}_Y \to \mathcal{O}_X$ of sheaves on $X$. Let $x \in X$ and take the stalks at $x$ to get
+	\begin{equation*}
+		f^\sharp_x \colon \mathcal{O}_{Y, f(x)} = (f^{-1}\mathcal{O}_Y)_x \to \mathcal{O}_{X, x},
+	\end{equation*}
+	where the equality comes from \cref{chap3:stalk-of-inverse-image}. More concretely, $f^\sharp_x$ sends the class $[V, s]$ where $V$ is an open neighbourhood of $f(x)$, and $s \in \mathcal{O}_Y(V)$ to the class $[f^{-1}V, \varphi_V(s)]$.
+	
+	\todo{motivation for locally ringed condition required to make affine schemes equivalent to rings.}
+	
 	\begin{definition}~
 		\begin{enumerate}
 			\item A \inlinedef{locally ringed space} is a ringed space $(X, \mathcal{O}_X)$ such that for all $x \in X$ the stalk $\mathcal{O}_{X, x}$ is a local ring. The ring $\mathcal{O}_{X, x}$ is called the \inlinedef{local ring of $X$ in $x$}.
 			
-			\item A \inlinedef{morphism of locally ringed spaces} $(f, f^\flat) \colon (X, \mathcal{O}_X) \to (Y, \mathcal{O}_Y)$ is a morphism of ringed spaces such that the induced map of stalks
+			\item A \inlinedef{morphism of locally ringed spaces} $(f, f^\sharp) \colon (X, \mathcal{O}_X) \to (Y, \mathcal{O}_Y)$ is a morphism of ringed spaces such that the induced map of stalks
 			\begin{equation*}
 				f^\sharp_x \colon (f^{-1}\mathcal{O}_Y)_x = \mathcal{O}_{Y, f(x)} \to \mathcal{O}_{X, x}
 			\end{equation*}
@@ -1293,14 +1304,14 @@ spacebelow=\baselineskip,
 	
 	A \inlinedef{morphism of affine schemes} is simply a morphism of locally ringed spaces. We thus obtain the category of affine schemes which we shall denote by $(\Aff)$.
 	
-	Let $\varphi \colon A \to B$ be a ring homomorphism. We shall define a morphism of affine schemes $\Spec \varphi = (f, f^\flat) \colon (\Spec B, \mathcal{O}_{\Spec B}) \to(\Spec A, \mathcal{O}_{\Spec A})$. Here is the definition: 
+	Let $\varphi \colon A \to B$ be a ring homomorphism. We shall define a morphism of affine schemes $\Spec \varphi = (f, f^\sharp) \colon (\Spec B, \mathcal{O}_{\Spec B}) \to(\Spec A, \mathcal{O}_{\Spec A})$. Here is the definition: 
 	\begin{enumerate}
 		\item $f = \Spec \varphi$ is the induced continuous map on spectra, and,
-		\item $f^\flat \colon \mathcal{O}_{\Spec A} \to f_\ast \mathcal{O}_{\Spec B}$ is given on principal open subsets by  
+		\item $f^\sharp \colon \mathcal{O}_{\Spec A} \to f_\ast \mathcal{O}_{\Spec B}$ is given on principal open subsets by  
 		\begin{equation*}
-			f^\flat_{D(s)} : \mathcal{O}_{\Spec A}(D(s)) \to \mathcal{O}_{\Spec B}(f^{-1}(D(s))).
+			f^\sharp_{D(s)} : \mathcal{O}_{\Spec A}(D(s)) \to \mathcal{O}_{\Spec B}(f^{-1}(D(s))).
 		\end{equation*}
-		Since $f^{-1}(D(s)) = D(\varphi(s))$ by \cref{chap2:property-of-spec-map}, we need to define a map $f^\flat_{D(s)} \colon A_s \to B_{\varphi(s)}$. The natural map for this is the unique map $\varphi_s \colon A_s \to B_{\varphi(s)}$ induced by the canonical localisation maps:
+		Since $f^{-1}(D(s)) = D(\varphi(s))$ by \cref{chap2:property-of-spec-map}, we need to define a map $f^\sharp_{D(s)} \colon A_s \to B_{\varphi(s)}$. The natural map for this is the unique map $\varphi_s \colon A_s \to B_{\varphi(s)}$ induced by the canonical localisation maps:
 		% https://q.uiver.app/#q=WzAsNCxbMCwwLCJBIl0sWzEsMCwiQiJdLFswLDEsIkFfcyJdLFsxLDEsIkJfe1xcdmFycGhpKHMpfSJdLFswLDEsIlxcdmFycGhpIl0sWzIsMywiXFx2YXJwaGlfcyIsMl0sWzAsMl0sWzEsM11d
 		\[\begin{tikzcd}
 			A & B \\
@@ -1310,13 +1321,13 @@ spacebelow=\baselineskip,
 			\arrow[from=1-2, to=2-2]
 			\arrow["{\varphi_s}"', from=2-1, to=2-2]
 		\end{tikzcd}\]
-		Therefore we take $f^\flat_{D(s)}$ to be $\varphi_s$.
+		Therefore we take $f^\sharp_{D(s)}$ to be $\varphi_s$.
 	\end{enumerate}
 	
 	The above data actually define a morphism of ringed spaces $\Spec B \to \Spec A$, as shown in the following proposition.
 	
 	\begin{proposition}
-		The maps $f^\flat_{D(s)}$ is compatible with restrictions, and furthermore, $f^\sharp_x$ is a local ring homomorphism for all $x \in X$. Hence $(f, f^\flat)$ defines a morphism of locally ringed spaces.
+		The maps $f^\sharp_{D(s)}$ is compatible with restrictions, and furthermore, $f^\sharp_x$ is a local ring homomorphism for all $x \in \Spec B$. Hence $(f, f^\sharp)$ defines a morphism of locally ringed spaces.
 	\end{proposition}
 	\begin{proof}
 		Let $D(g) \subseteq D(s)$ be principal open subsets of $\Spec A$. Then 
@@ -1339,7 +1350,13 @@ spacebelow=\baselineskip,
 		\arrow["{\varphi_{g}}"', from=2-2, to=2-3]
 		\arrow["\simeq"', from=2-3, to=2-4]
 	\end{tikzcd}\]
-		Hence $f^\flat$ assemble to a morphism of sheaves on the basis of principal open subsets, and so it extends to a unique morphism of sheaves $f^\flat \colon \mathcal{O}_{\Spec A} \to f_\ast \mathcal{O}_{\Spec B}$.
+		Hence the homomorphisms $\varphi_s$ assemble to a morphism of sheaves on the basis of principal open subsets, and so it extends to a unique morphism of sheaves $f^\sharp \colon \mathcal{O}_{\Spec A} \to f_\ast \mathcal{O}_{\Spec B}$.
+		
+		Lastly we have to check that $f^\sharp_{\mathfrak{p}_x}$ is local for all $x \in \Spec B$. Unravelling the definition of $f^\sharp$, it is clear that $f^\sharp_{\mathfrak{p}_x}$ is the homomorphism
+		\begin{equation*}
+			\mathcal{O}_{\Spec A, f(x)} = A_{\varphi^{-1}(\mathfrak{p}_x)} \xrightarrow{\varphi_{\mathfrak{p}_x}} B_{\mathfrak{p}_x} = \mathcal{O}_{\Spec B, x}
+		\end{equation*}
+		induced from $\varphi \colon A \to B$, which is indeed local. This proves the proposition.
 	\end{proof}
 	
 	\subsection*{Anti-equivalence of the Categories $(\Aff)$ and $(\Rings)$}
@@ -1362,14 +1379,14 @@ spacebelow=\baselineskip,
 	\begin{proof}
 		Clearly $(D(f), \mathcal{O}_{X|U})$ is a locally ringed space. Let $\varphi \colon A \to A_f$ denote the canonical localisation map and let $j \colon \Spec A_f \to \Spec A$ be the induced continuous map. We proved in \cref{chap2:localisations-isomorphic-to-spec} that $j$ is a homeomorphism from $\Spec A_f$ onto the open subset $D(f) \subseteq \Spec A$. Hence there is a morphism of locally ringed spaces
 		\begin{equation*}
-			(j, j^\flat) \colon (\Spec A_f, \mathcal{O}_{\Spec A_f}) \to (D(f), \mathcal{O}_{X|U})
+			(j, j^\sharp) \colon (\Spec A_f, \mathcal{O}_{\Spec A_f}) \to (D(f), \mathcal{O}_{X|U})
 		\end{equation*}
 		where
-		$j^\flat = i^\flat\circ\varphi^\flat$ is the composition of morphisms of sheaves induced from $\varphi$ and the inclusion $i \colon D(f) \hookrightarrow X$. For each open subset $D(g) \subseteq D(f)$, we obtain
+		$j^\sharp = i^\sharp\circ\varphi^\sharp$ is the composition of morphisms of sheaves induced from $\varphi$ and the inclusion $i \colon D(f) \hookrightarrow X$. For each open subset $D(g) \subseteq D(f)$, we obtain
 		\begin{equation*}
 			\mathcal{O}_{X|U}(D(g)) = \mathcal{O}_X(D(g)) = A_g \cong (A_f)_{\varphi(g)} = \mathcal{O}_{\Spec A_f}(D(\varphi(g))) = (j_\ast\mathcal{O}_{\Spec f})(D(g)).
 		\end{equation*}
-		(Use \cref{chap2:property-of-spec-map}.) Hence $j^\flat$ is an isomorphism of sheaves when checked on the basis consisting of principal open subsets, and so $j^\flat$ is indeed an isomorphism.
+		(Use \cref{chap2:property-of-spec-map}.) Hence $j^\sharp$ is an isomorphism of sheaves when checked on the basis consisting of principal open subsets, and so $j^\sharp$ is indeed an isomorphism.
 	\end{proof}
 	
 	\subsection*{Examples of Affine Schemes and Their Morphisms}
@@ -1444,9 +1461,9 @@ spacebelow=\baselineskip,
 	
 	\item Let $\varphi \colon A \to B$ be a homomorphism of rings, and let $f \colon \Spec B \to \Spec A$ be the corresponding morphism of affine schemes. 
 	\begin{problems}
-		\item	Show that $\varphi$ is injective if and only if the morphism of sheaves $f^\flat \colon \mathcal{O}_{\Spec A} \to f_\ast\mathcal{O}_{\Spec B}$ is injective.
+		\item	Show that $\varphi$ is injective if and only if the morphism of sheaves $f^\sharp \colon \mathcal{O}_{\Spec A} \to f_\ast\mathcal{O}_{\Spec B}$ is injective.
 		
-		\item Show that if $\varphi$ is surjective, then the morphism of sheaves $f^\flat \colon \mathcal{O}_{\Spec A} \to f_\ast\mathcal{O}_{\Spec B}$ is surjective.
+		\item Show that if $\varphi$ is surjective, then the morphism of sheaves $f^\sharp \colon \mathcal{O}_{\Spec A} \to f_\ast\mathcal{O}_{\Spec B}$ is surjective.
 	\end{problems}
 	
 	\item Suppose that $\varphi \colon \mathcal{F} \to \mathcal{G}$ is a morphism of presheaves on a topological space $X$ such that $\varphi_U \colon \mathcal{F}(U) \to \mathcal{G}(U)$ is injective for all $U \subseteq X$. Show that for all $x \in X$, the induced morphism on stalks $\varphi_x \colon \mathcal{F}_x \to \mathcal{G}_x$ is injective. Hence deduce that the associated morphism of associated sheaves $\varphi^\dagger \colon \mathcal{F}^\dagger \to \mathcal{G}^\dagger$ is also injective.
@@ -1500,7 +1517,7 @@ spacebelow=\baselineskip,
 	\begin{equation*}
 		\Gamma(V, \mathcal{O}_X) \to \Gamma(V \cap U, \mathcal{O}_X) = \Gamma(j^{-1}(V), \mathcal{O}_{X|U}) = \Gamma(V, j_\ast\mathcal{O}_{X|U}).
 	\end{equation*}
-	This is compatible with restriction $W \subseteq V \subseteq U$, and thus define a morphism of sheaves $j^\flat\colon \mathcal{O}_X \to j_\ast\mathcal{O}_{X|U}$.
+	This is compatible with restriction $W \subseteq V \subseteq U$, and thus define a morphism of sheaves $j^\sharp\colon \mathcal{O}_X \to j_\ast\mathcal{O}_{X|U}$.
 	
 	The following lemma will be useful for working with affine subschemes.
 	
@@ -1549,23 +1566,23 @@ spacebelow=\baselineskip,
 	\begin{proof}
 		The only non-trivial part is constructing a morphism $f \colon X \to Y$ from the morphisms $f_i \colon U_i \to Y$. At the level of the underlying topological spaces this is always possible, so we obtain a continuous map $f\colon X \to Y$ such that $f|_{U_i} = f_i$ for all $i \in I$.
 		
-		We seek to define a morphism of sheaves $f^\flat \colon \mathcal{O}_Y \to f_\ast\mathcal{O}_X$. Let $V \subseteq Y$ be an open subset, so that $f^{-1}(V)$ is an open subset of $X$. For each $i \in I$, we are given a map
+		We seek to define a morphism of sheaves $f^\sharp \colon \mathcal{O}_Y \to f_\ast\mathcal{O}_X$. Let $V \subseteq Y$ be an open subset, so that $f^{-1}(V)$ is an open subset of $X$. For each $i \in I$, we are given a map
 		\begin{equation*}
 			\mathcal{O}_Y(V) \to (f_i)_{\ast}\mathcal{O}_{X|U_i}(V) = \mathcal{O}_{X}(U_i \cap f^{-1}(V)).
 		\end{equation*}
-		For each $s \in \mathcal{O}_Y(V)$, let $s_i$ denote the image of $s$ in $\mathcal{O}_{X}(U_i \cap f^{-1}(V))$ under the above map. The idea is to glue the sections $s_i$ together and take the resulting section to be $f^\flat_V(s)$. To make sure that the sections can be glued together, we need to show that
+		For each $s \in \mathcal{O}_Y(V)$, let $s_i$ denote the image of $s$ in $\mathcal{O}_{X}(U_i \cap f^{-1}(V))$ under the above map. The idea is to glue the sections $s_i$ together and take the resulting section to be $f^\sharp_V(s)$. To make sure that the sections can be glued together, we need to show that
 		\begin{equation*}
 			s_i|_{U_i \cap U_j \cap f^{-1}(V)} = s_j|_{U_i \cap U_j \cap f^{-1}(V)}
 		\end{equation*}
-		for all $i, j \in I$. This is implied by our assumption that $f_i$ and $f_j$ coincide on $U_i \cap U_j$. Furthermore, $f^\flat_V(s)$ is well-defined by the uniqueness condition of sheaf axioms.
+		for all $i, j \in I$. This is implied by our assumption that $f_i$ and $f_j$ coincide on $U_i \cap U_j$. Furthermore, $f^\sharp_V(s)$ is well-defined by the uniqueness condition of sheaf axioms.
 		
-		The only thing left to check is that the maps $ f^\flat_V$ are compatible with restriction maps. Let $W \subseteq V$ be open subsets of $Y$. Then for all $s \in \mathcal{O}_Y(V)$ and $i \in I$,
+		The only thing left to check is that the maps $ f^\sharp_V$ are compatible with restriction maps. Let $W \subseteq V$ be open subsets of $Y$. Then for all $s \in \mathcal{O}_Y(V)$ and $i \in I$,
 		\begin{align*}
-		f_V^\flat(s)|_{f^{-1}(W) \cap U_i} & = f_V^\flat(s)|_{f^{-1}(V) \cap U_i}|_{f^{-1}(W) \cap U_i} \\
+		f_V^\sharp(s)|_{f^{-1}(W) \cap U_i} & = f_V^\sharp(s)|_{f^{-1}(V) \cap U_i}|_{f^{-1}(W) \cap U_i} \\
 		& = s_i|_{f^{-1}(W) \cap U_i}\\
 		& = (s|_W)_i.
 		\end{align*}
-		By uniqueness, $f^\flat_V(s)|_{f^{-1}(W)} = f^\flat_W(s|_W)$. This proves that $f^\flat$ is compatible with restriction maps and so define a morphism of sheaves $\mathcal{O}_Y \to f_\ast\mathcal{O}_X$. For each $x \in X$, the induced map on stalks $f^\sharp_x$ is plainly a local ring homomorphism because taking stalks is local.
+		By uniqueness, $f^\sharp_V(s)|_{f^{-1}(W)} = f^\sharp_W(s|_W)$. This proves that $f^\sharp$ is compatible with restriction maps and so define a morphism of sheaves $\mathcal{O}_Y \to f_\ast\mathcal{O}_X$. For each $x \in X$, the induced map on stalks $f^\sharp_x$ is plainly a local ring homomorphism because taking stalks is local.
 	\end{proof}	
 	
 	\begin{lemma}[Scheme Gluing Lemma]
@@ -1581,7 +1598,7 @@ spacebelow=\baselineskip,
 		Let $X$ be a scheme and $R$ a ring. Then there is a bijection
 		\begin{align*}
 			\Hom_{(\Schs)}(X, \Spec R) & \longrightarrow \Hom_{(\Rings)}(R, \Gamma(X, \mathcal{O}_X)) \\
-			f & \longmapsto f^\flat_{\Spec R}
+			f & \longmapsto f^\sharp_{\Spec R}
 		\end{align*}
 		which is functorial in $X$ and $R$.
 	\end{theorem}
@@ -1603,7 +1620,7 @@ spacebelow=\baselineskip,
 	\subsection*{Open Immersions}
 	
 	\begin{definition}
-		A morphism of schemes $f \colon X \to Y$ is an \inlinedef{open immersion} if the underlying continuous map is a homeomorphism of $Y$ with an open subset of $X$, and the sheaf homomorphism $f^\flat\colon \mathcal{O}_X \to f_\ast \mathcal{O}_{Y}$ induces an isomorphism $\mathcal{O}_{X|U} \cong (f_\ast \mathcal{O}_Y)|_{U}$.
+		A morphism of schemes $f \colon X \to Y$ is an \inlinedef{open immersion} if the underlying continuous map is a homeomorphism of $Y$ with an open subset of $X$, and the sheaf homomorphism $f^\sharp\colon \mathcal{O}_X \to f_\ast \mathcal{O}_{Y}$ induces an isomorphism $\mathcal{O}_{X|U} \cong (f_\ast \mathcal{O}_Y)|_{U}$.
 	\end{definition}
 	
 	\subsection*{Closed Immersions}
