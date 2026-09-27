@@ -1023,15 +1023,13 @@ spacebelow=\baselineskip,
 		\begin{equation*}
 			(f^+\mathcal{G})_x = \varinjlim_{U \ni x } f^{-1}\mathcal{G}(U) = \varinjlim_{U \ni x}\varinjlim_{\substack{V \supseteq f(U) \\ V \text{ open in $Y$}}} \mathcal{G}(V).
 		\end{equation*}
-		Write $\mathcal{I}$ for the category of open neighbourhoods of $x$, and $\mathcal{J}$ for the category of open sets in $V$ containing $f(U)$. Then the stalks at $x$ of $f^+\mathcal{G}$ is equal to the nested colimit
+		Write $\mathcal{I}$ for the category of open neighbourhoods of $x$, and $\mathcal{J}$ for the category of open sets in $Y$ containing $f(U)$. Then the stalks at $x$ of $f^+\mathcal{G}$ is equal to the nested colimit
 		\begin{equation*}
 			(f^+\mathcal{G})_x = \varinjlim_{U \in \mathcal{I}}\varinjlim_{V \in \mathcal{J}} \mathcal{G}_{U, V},
 		\end{equation*}
 		where we write $\mathcal{G}_{U, V}$ for $\mathcal{G}(V)$. By category theory, the nested colimit is equal to the colimit over the index category $\mathcal{I} \times \mathcal{J}$ and the ordering is given by $(U, V) \geq (U', V')$ if and only if $U \supseteq U'$ and $V \supseteq V'$. 
 		
-		Note that if $W$ is an open neighbourhood containing $f(x)$, then $f^{-1}(W)$ is an open set in $X$ containing $x$. Furthermore, $W \supseteq f(f^{-1}(W))$. Hence there is a subcategory of $\mathcal{I} \times \mathcal{J}$ whose objects are $(f^{-1}(W), W)$ for any open neighbourhood $W$ of $f(x)$. 
-		
-		It is in fact a cofinal subcategory of $\mathcal{I} \times \mathcal{J}$. Indeed, if $(U, V) \mathcal{I} \times \mathcal{J}$, then $V$ contains $f(x)$; and since $V \supseteq f(U)$, it follows that
+		Note that if $W$ is an open neighbourhood containing $f(x)$, then $f^{-1}(W)$ is an open set in $X$ containing $x$. Furthermore, $W \supseteq f(f^{-1}(W))$. Hence there is a subcategory of $\mathcal{I} \times \mathcal{J}$ whose objects are $(f^{-1}(W), W)$ for any open neighbourhood $W$ of $f(x)$. It is in fact a cofinal subcategory of $\mathcal{I} \times \mathcal{J}$. Indeed, if $(U, V) \in\mathcal{I} \times \mathcal{J}$, then $V$ contains $f(x)$; and since $V \supseteq f(U)$, it follows that
 		\begin{equation*}
 			f^{-1}(V) \supseteq f^{-1}(f(U)) \supseteq U.
 		\end{equation*}
@@ -1139,8 +1137,12 @@ spacebelow=\baselineskip,
 		\end{enumerate}
 	\end{proof}
 	
+	\begin{remark}
+		The proof might be simpler if we instead show that $f^+ \dashv f_\ast$ and use category theory to formally conclude that $f^{-1} \dashv f_\ast$.
+	\end{remark}
+	
 	\begin{lemma}[Sheaf Gluing Lemma]\label{chap3:sheaf-gluing-lemma}
-		Let $X$ be a topological space with an open cover $\Set{U_i}_{i \in I}$ $U_{ij}$ for $U_i \cap U_j$. Suppose we are given sheaves $\mathcal{F}_i$ on $U_i$ and an isomorphism of sheaves $\varphi_{ij} \colon \mathcal{F}_i|_{U_{ij}} \to \mathcal{F}_j|_{U_{ji}}$ for each $i, j \in I$ satisfying the following conditions:
+		Let $X$ be a topological space with an open cover $\Set{U_i}_{i \in I}$. Write $U_{ij}$ for $U_i \cap U_j$. Suppose we are given sheaves $\mathcal{F}_i$ on $U_i$ and an isomorphism of sheaves $\varphi_{ij} \colon \mathcal{F}_i|_{U_{ij}} \to \mathcal{F}_j|_{U_{ji}}$ for each $i, j \in I$ satisfying the following conditions:
 		\begin{enumerate}
 			\item $\varphi_{ii} = \id_{\mathcal{F}_i}$.
 			
@@ -2364,7 +2366,7 @@ spacebelow=\baselineskip,
 	\begin{equation*}
 		(U_i \cap V_j, f_ig_j) \quad\text{and}\quad (U'_k \cap V'_m, h_ka_m).
 	\end{equation*}
-	It is easily checked that $f_ig_j(h_ka_m)^{-1} \in \Gamma(U_i \cap V_j \cap U'_k \cap V'_m, \mathcal{O}_X^\times)$. This addition is clearly commutative and associative. The identity of $\Div(X)$ is the Cartier divisor $(X, 1)$ and the inverse of the Cartier divisor $(U_i, f_i)_{i \in I}$ is then $(U_i, f_i^{-1})_{i \in I}$. We will use the additive notation for this Abelian group structure on $\Div(X)$.
+	It is easily checked that $f_ig_j(h_ka_m)^{-1} \in \Gamma(U_i \cap V_j \cap U'_k \cap V'_m, \mathcal{O}_X^\times)$, so the two tuples are equivalent Cartier divisor. The defined operation is clearly commutative and associative. The identity of $\Div(X)$ is the Cartier divisor $(X, 1)$ and the inverse of the Cartier divisor $(U_i, f_i)_{i \in I}$ is then $(U_i, f_i^{-1})_{i \in I}$. We will use the additive notation for this Abelian group structure on $\Div(X)$.
 	
 	\begin{remark}
 		If $X$ be an integral scheme, then $\Div(X) = \Gamma(X, \mathcal{K}_X^\times/\mathcal{O}_X^\times)$.
