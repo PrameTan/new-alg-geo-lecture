@@ -440,6 +440,8 @@ spacebelow=\baselineskip,
 \newcommand{\Div}{\operatorname{Div}}
 \newcommand{\DivCl}{\operatorname{DivCl}}
 
+\newcommand{\reduced}{\mathrm{red}}
+
 \usepackage{psvectorian}
 \usepackage{hyperref}
 %\usepackage{theoremref}
@@ -999,7 +1001,11 @@ spacebelow=\baselineskip,
 		Show that $f^+\mathcal{G}$ is a presheaf.
 	\end{exercise}
 
-	The \inlinedef{inverse image sheaf} $f^{-1}\mathcal{G}$ of $\mathcal{G}$ is the sheafification of the presheaf $f^+\mathcal{G}$ defined above.	Note that, even if $\mathcal{G}$ is a sheaf, $f^+\mathcal{G}$ might not be a sheaf, so the sheafification is required.
+	The \inlinedef{inverse image sheaf} $f^{-1}\mathcal{G}$ of $\mathcal{G}$ is the sheafification of the presheaf $f^+\mathcal{G}$ defined above.	Note that, even if $\mathcal{G}$ is a sheaf, $f^+\mathcal{G}$ might not be a sheaf, so the sheafification is required. If $i \colon Z \to X$ is the inclusion of a subspace $Z$ into $X$, and $\mathcal{G}$ is a sheaf on $X$, then we also write $\mathcal{G}|_{Z}$ for the inverse image sheaf $i^{-1}\mathcal{G}$.
+	
+	\begin{remark}
+		Let $X$ be a topological space and $\mathcal{G}$ a sheaf on $X$. If $U \subseteq X$ is an open subset and $i \colon U \to X$ is the inclusion map, then the inverse image presheaf $f^+\mathcal{G}$ is already a sheaf because it is equal to $\mathcal{G}|_{U}$. It then follows that $i^{-1}\mathcal{G} = \mathcal{G}|_{U}$ in this case.
+	\end{remark}
 	
 	\begin{proposition}
 		Let $f\colon X \to Y$ and $g\colon Y \to Z$ be continuous maps of topological spaces, and let $\mathcal{G}$ be a sheaf on $Z$. Then
@@ -1023,21 +1029,36 @@ spacebelow=\baselineskip,
 		\begin{equation*}
 			(f^+\mathcal{G})_x = \varinjlim_{U \ni x } f^{-1}\mathcal{G}(U) = \varinjlim_{U \ni x}\varinjlim_{\substack{V \supseteq f(U) \\ V \text{ open in $Y$}}} \mathcal{G}(V).
 		\end{equation*}
-		Write $\mathcal{I}$ for the category of open neighbourhoods of $x$, and $\mathcal{J}$ for the category of open sets in $Y$ containing $f(U)$. Then the stalks at $x$ of $f^+\mathcal{G}$ is equal to the nested colimit
+		Write $\mathcal{I}$ for the category of pairs
 		\begin{equation*}
-			(f^+\mathcal{G})_x = \varinjlim_{U \in \mathcal{I}}\varinjlim_{V \in \mathcal{J}} \mathcal{G}_{U, V},
+			\Set*{(U, V) : U \text{ open in $X$}, U \ni x, V \text{ open in $Y$}, Y \supseteq f(U)}.
 		\end{equation*}
-		where we write $\mathcal{G}_{U, V}$ for $\mathcal{G}(V)$. By category theory, the nested colimit is equal to the colimit over the index category $\mathcal{I} \times \mathcal{J}$ and the ordering is given by $(U, V) \geq (U', V')$ if and only if $U \supseteq U'$ and $V \supseteq V'$. 
+		There is a unique morphism $(U, V) \to (U', V')$ if and only if $U \supseteq U'$ and $V \supseteq V'$. Then the stalks at $x$ of $f^+\mathcal{G}$ is equal to the colimit
+		\begin{equation*}
+			(f^+\mathcal{G})_x = \varinjlim_{\mathcal{I}} \mathcal{G}(V).
+		\end{equation*}
 		
-		Note that if $W$ is an open neighbourhood containing $f(x)$, then $f^{-1}(W)$ is an open set in $X$ containing $x$. Furthermore, $W \supseteq f(f^{-1}(W))$. Hence there is a subcategory of $\mathcal{I} \times \mathcal{J}$ whose objects are $(f^{-1}(W), W)$ for any open neighbourhood $W$ of $f(x)$. It is in fact a cofinal subcategory of $\mathcal{I} \times \mathcal{J}$. Indeed, if $(U, V) \in\mathcal{I} \times \mathcal{J}$, then $V$ contains $f(x)$; and since $V \supseteq f(U)$, it follows that
+		Now define $\mathcal{J}$ to be the category of open neighbourhoods of $f(x)$ ordered by inverse inclusion.	Let $p \colon \mathcal{I} \to \mathcal{J}$ be the projection functor defined by $p(U, V) = V$ for all $(U, V) \in \mathcal{I}$. Then $p$ is a final functor. Indeed, if $W \in \mathcal{J}$, then the comma category
+		$(W \downarrow p)$ is equal to the category of pairs $(U, V) \in \mathcal{I}$ such that $V \subseteq W$. There is a morphism $(U, V) \to (U', V')$ if and only if $V' \subseteq V$ and this morphism is unique. (Unravel the definition!) It is then clear that $(W \downarrow p)$ is not empty because $(f^{-1}(W), W) \in \mathcal{I}$. Further, given two pairs $(U, V)$ and $(U', V')$, there is an object
 		\begin{equation*}
-			f^{-1}(V) \supseteq f^{-1}(f(U)) \supseteq U.
+			(U \cap U', V \cap V') \in \mathcal{I}
 		\end{equation*}
-		Hence $(U, V) \leq (f^{-1}(V), V)$. Therefore the colimit over $\mathcal{I} \times \mathcal{J}$ is equal to the colimit over this subcategory:
+		such that $(U, V) \to (U \cap U', V \cap V') \leftarrow (U', V')$. Hence $W$ is non-empty and connected, and so $p$ is a final functor as needed.
+		
+		By definition, it follows that restricting diagrams along $p$ does not change their colimit. Consequently,
 		\begin{equation*}
-			(f^+\mathcal{G})_x = \varinjlim_{f^{-1}(W) \in \mathcal{I}} \varinjlim_{\substack{W \ni f(x), \\ W \text{ open}}} \mathcal{G}(V) = \mathcal{G}_{f(x)}. \qedhere
+			(f^+\mathcal{G})_x = \varinjlim_{\mathcal{I}} \mathcal{G} \circ p \cong \varinjlim_{W \in \mathcal{J}} \mathcal{G}(W)  = \mathcal{G}_{f(x)}. \qedhere
 		\end{equation*}
 	\end{proof}
+	
+	\begin{remark}
+		Let $X$ be a topological space with $\mathcal{G}$ a sheaf on $X$. Suppose that $i \colon \Set{x} \to X$ is an inclusion of a point $x \in X$ into $X$. Then
+		\begin{equation*}
+			i^{-1}\mathcal{G} = \mathcal{G}_x.
+		\end{equation*}
+		The latter is to be interpreted as a sheaf on $\Set{x}$ which is equal to $\mathcal{G}_x$ on $\Set{x}$. This gives another proof of \cref{chap3:stalk-of-inverse-image}.
+	\end{remark}
+	
 	\begin{proposition}[Inverse Image is Left Adjoint to Direct Image]\label{chap3:inverse-image-direct-image-adjunction}
 		Let $f \colon X \to Y$ be a continuous map between two topological spaces. Let $\mathcal{F}$ be a sheaf on $X$, and let $\mathcal{G}$ be a presheaf on $Y$. Then there is a bijection
 		\begin{equation*}
@@ -1215,7 +1236,7 @@ spacebelow=\baselineskip,
 		This equation implies that $f_y$ is invertible for all $y \in V$, and so $f(y) \neq 0$ for all $y \in V$. Hence $x \in V \subseteq X_f$ and thus the set $X_f$ is open.
 	\end{proof}
 	
-	Compare this to the case of affine varieties.
+	\todo{Compare this to the case of affine varieties.}
 	
 	\section{Affine Schemes}
 	
@@ -1445,7 +1466,13 @@ spacebelow=\baselineskip,
 		is a subsheaf of $\mathcal{F}$. (The restriction maps of $\mathcal{K}$ is inherited from those of $\mathcal{F}$.)
 		
 		We will define more sheaves based on algebraic constructions such as the cokernel sheaves and image sheaves later.
-		
+	
+	\item \label{chap3:quotient-presheaf} \textit{Quotient Presheaf and its Stalk.} Let $X$ be a topological space, $\mathcal{F}$ a sheaf of Abelian groups and $\mathcal{F}'$ a sheaf such that $\mathcal{F}'(U)$ is an ideal of $\mathcal{F}(U)$ for all open subset $U \subseteq X$. Show that the assignment
+	\begin{equation*}
+		U \mapsto \mathcal{F}(U) / \mathcal{F}'(U)
+	\end{equation*}
+	is a presheaf on $X$, called the \inlinedef{quotient presheaf}. Show that the stalk at $x \in X$ of the quotient presheaf is equal to $\mathcal{F}_x /\mathcal{F}'_x$.
+	
 	\item\label{chap3:product-sheaf} \textit{Product Sheaf.} Let $\mathcal{F}$ and $\mathcal{G}$ be sheaves on a topological space $X$. Show that the presheaf $U \mapsto \mathcal{F}(U) \times \mathcal{G}(U)$ is already sheaf. It is called the \inlinedef{product sheaf} of $\mathcal{F}$ and $\mathcal{G}$.
 		
 	\item Let $X$ be a topological space. Show that if $\mathcal{G}$ is a sheaf and $\mathcal{F}$ a sub-presheaf of $\mathcal{G}$, then there is a smallest subsheaf $\mathcal{H}$ of $\mathcal{G}$ such that $\mathcal{F}$ is a sub-presheaf of $\mathcal{H}$. Furthermore, $\mathcal{F}_x = \mathcal{H}_x$ for all $x \in X$.
@@ -1469,6 +1496,17 @@ spacebelow=\baselineskip,
 	\end{problems}
 	
 	\item Suppose that $\varphi \colon \mathcal{F} \to \mathcal{G}$ is a morphism of presheaves on a topological space $X$ such that $\varphi_U \colon \mathcal{F}(U) \to \mathcal{G}(U)$ is injective for all $U \subseteq X$. Show that for all $x \in X$, the induced morphism on stalks $\varphi_x \colon \mathcal{F}_x \to \mathcal{G}_x$ is injective. Hence deduce that the associated morphism of associated sheaves $\varphi^\dagger \colon \mathcal{F}^\dagger \to \mathcal{G}^\dagger$ is also injective.
+	
+	\item Let $\mathcal{F}$ be a presheaf and $\mathcal{G}$ be a sheaf on a topological space $X$. Let $\mathcal{B}$ be a basis of $X$. Suppose that $\mathcal{F}|_{\mathcal{B}} = \mathcal{G}|_{\mathcal{B}}$ are equal as presheaves on $\mathcal{B}$ (hence as sheaves on $\mathcal{B}$ because $F|_{\mathcal{B}}$ is). Prove that $\mathcal{G}$ is the sheafification of $\mathcal{F}$.
+	
+	\item\label{chap3:stalks-of-pushforward-sheaves} \textit{Stalks of Pushforward Sheaves from a Subspace.} Let $X$ be a topological space and let $i \colon Z \to X$ denote the inclusion from a subspace $Z$ into $X$. Let $\mathcal{F}$ be a sheaf (of Abelian groups) on $X$.
+	\begin{problems}
+		\item Show that if $x \notin \bar{Z}$, then $(i_\ast \mathcal{F})_x = \Set{0}$. (More generally, it is the final object in the target category of $\mathcal{F}$)
+		
+		\item Show that if $x \in Z$, then $(i_\ast \mathcal{F})_x = \mathcal{F}_x$.
+	\end{problems}
+	
+%	{\itshape [Hint: Let $\mathcal{F}^{\mathrm{ext}}$ be the unique extension of $\mathcal{F}$ to a sheaf on $X$. Then $\mathcal{F}^{\mathrm{ext}}(U) = \mathcal{F}(U)$ for all open subsets in the basis $\mathcal{B}$. Hence we have an isomorphism $\mathcal{F}^{\mathrm{ext}}|_{\mathcal{B}} \cong \mathcal{G}|_{\mathcal{B}}$. Use the equivalence of the categories of sheaves on $X$ and sheaves on $\mathcal{B}$ to conclude.]}
 	
 %		\item A function $f \colon X \to \RR$ is 
 	\end{problems}
@@ -1622,10 +1660,112 @@ spacebelow=\baselineskip,
 	\subsection*{Open Immersions}
 	
 	\begin{definition}
-		A morphism of schemes $f \colon X \to Y$ is an \inlinedef{open immersion} if the underlying continuous map is a homeomorphism of $Y$ with an open subset of $X$, and the sheaf homomorphism $f^\sharp\colon \mathcal{O}_X \to f_\ast \mathcal{O}_{Y}$ induces an isomorphism $\mathcal{O}_{X|U} \cong (f_\ast \mathcal{O}_Y)|_{U}$.
+		A morphism of schemes $f \colon Y \to X$ is an \inlinedef{open immersion} if the underlying continuous map is a homeomorphism of $Y$ with an open subset of $X$, and the sheaf homomorphism $f^\sharp\colon \mathcal{O}_X \to f_\ast \mathcal{O}_{Y}$ induces an isomorphism $\mathcal{O}_{X|U} \cong (f_\ast \mathcal{O}_Y)|_{U}$.
 	\end{definition}
 	
+	A continuous map $f \colon Y \to X$ such that $f$ is a homeomorphism of $Y$ onto an open subset of $X$ (that is, $Y$ is homeomorphic to the image $f(Y)$ which is open in $X$) is called a \inlinedef{topological open immersion}. It is clear that if $U$ is an open subscheme of $X$, then the inclusion $i \colon U \hookrightarrow X$ is an open immersion.
+	
 	\subsection*{Closed Immersions}
+		
+	For closed immersions, the definition is more involved. This is because there can be different closed subscheme of a scheme $X$ which has the same underlying topological space. Thus the definition of a closed immersion should related to the structure sheaf of $X$. 
+	
+	Let $(X, \mathcal{O}_X)$ be a ringed space. A \inlinedef{sheaf of ideal} (or an \inlinedef{ideal sheaf}) is a subsheaf $\mathcal{I} \subseteq \mathcal{O}_X$ such that $\mathcal{I}(U)$ is an ideal of $\mathcal{O}_X(U)$ for all open subset $U \subseteq X$. 
+	Define the \inlinedef{quotient sheaf} $\mathcal{O}_X/\mathcal{I}$ to be the sheaf associated to the presheaf
+	\begin{equation*}
+		U \mapsto \mathcal{O}_X(U)/\mathcal{I}(U).
+	\end{equation*}
+	We remark that there is a canonical projection $\mathcal{O}_X \to \mathcal{O}_X/\mathcal{I}$, which is surjective because one may check surjectivity on stalks.
+	
+	\begin{definition}
+		Let $X$ be a scheme. A \inlinedef{closed subscheme} of $X$ is given by a closed subset $Z \subseteq X$ and an ideal sheaf $\mathcal{I} \subseteq \mathcal{O}_X$ such that
+		\begin{equation*}
+			Z = \Set*{ x \in X : (\mathcal{O}_X/\mathcal{I})_x \neq 0}
+		\end{equation*}
+		and $(Z, (\mathcal{O}_X/\mathcal{I})|_{Z})$ is a scheme.
+	\end{definition}
+	
+	\begin{definition}
+		Let $j \colon Z \to X$ be a morphism of schemes. We say that $j$ is a \inlinedef{closed immersion} if $j$ is a homeomorphism from $Z$ to a closed subset of $X$, and the sheaf homomorphism $j^\sharp \colon \mathcal{O}_X \to j_\ast\mathcal{O}_Z$ is surjective. 
+	\end{definition}
+	
+	\begin{proposition}
+		Let $Z \subseteq X$ be a closed subscheme given by an ideal sheaf $\mathcal{I}$. Then the inclusion $j \colon Z \to X$ is a closed immersion.
+	\end{proposition}
+	\begin{proof}
+		Let us define $\mathcal{O}_Z = j^{-1}(\mathcal{O}_X/\mathcal{I})$. Consider the identity morphism $\id_{\mathcal{O}_Z} \colon \mathcal{O}_Z \to \mathcal{O}_Z$. By the adjunction $j^{-1} \dashv j_\ast$ (\cref{chap3:inverse-image-direct-image-adjunction}) this gives us a morphism
+		\begin{equation*}
+			i^\sharp \colon \mathcal{O}_X/\mathcal{I} \to j_\ast \mathcal{O}_Z.
+		\end{equation*}
+		In other words, this is the morphism $\eta(\mathcal{O}_X/\mathcal{I})$ given by the unit of the adjunction with the notation of the aforementioned proposition. By \cref{chap3:stalks-of-pushforward-sheaves}, we can calculate the stalks
+		\begin{equation*}
+			(j_\ast \mathcal{O}_Z)_{x} = \begin{cases}
+				(\mathcal{O}_Z)_x, & x \in Z\\
+				0,	&	x \notin Z.
+			\end{cases}
+		\end{equation*}
+		Further, $(\mathcal{O}_Z)_x = (\mathcal{O}_X/\mathcal{I})_{j(x)} = \mathcal{O}_{X, x}/\mathcal{I}_x$. (Use \cref{chap3:stalk-of-inverse-image} and \cref{chap3:quotient-presheaf}.)
+	\end{proof}
+	
+	For an affine scheme $X = \Spec A$, closed subschemes of $X$ are in one-to-one correspondence with ideals of $A$, which is what one expected.
+	
+	\begin{proposition}
+		Let $X = \Spec A$ be an affine scheme and let $\mathfrak{a} \subseteq A$ be an ideal. Then the closed subset $Z = V(\mathfrak{a})$ is a closed subscheme of $X$ with the sheaf structure coming from $V(\mathfrak{a}) \cong \Spec A/\mathfrak{a}$.
+	\end{proposition}
+	
+	%%% This proof does not work because it j^{-1}j_\ast is not isomorphic to id
+%	\begin{proof}
+%		Let $\varphi \colon A \to A/\mathfrak{a}$ be the quotient map. It induces a morphism of affine schemes $(f, f^\sharp) \colon \Spec A/\mathfrak{a} \to \Spec A$. Define the ideal sheaf $\mathcal{I}_Z$ of $Z$ to be the kernel sheaf of $f^\sharp$, that is,
+%		\begin{equation*}
+%			\mathcal{I}_Z(U) = \ker\left(f^\sharp_U \colon \mathcal{O}_X(U) \to f_\ast\mathcal{O}_{\Spec A/\mathfrak{a}}(U) \right).
+%		\end{equation*} 
+%		On a principal open subset $D(f)$ of $X$, we have 
+%		\begin{equation*}
+%			\mathcal{I}_Z(D(f)) = \ker\left(A_f \to (A/\mathfrak{a})_{\varphi(f)}\right) = \mathfrak{a}A_{f}.
+%		\end{equation*}
+%		Notice that the presheaf $\mathcal{F} \colon U \mapsto \mathcal{O}_X(U)/\mathcal{I}_Z(U)$ agrees with the sheaf $f_\ast\mathcal{O}_{\Spec(A/\mathfrak{a})}$ on the basis $\mathcal{B}$ consisting of principal open subsets. This is because $f^{\sharp}_{D(f)}$ gives rise to the isomorphism
+%		\begin{equation*}
+%			\mathcal{F}(D(f)) = A_f/\mathfrak{a}A_f \to (A/\mathfrak{a})_{\varphi(f)} = \mathcal{O}_{\Spec(A/\mathfrak{a})}(D(\varphi(f))) = f_\ast\mathcal{O}_{\Spec(A/\mathfrak{a})}(D(f)).
+%		\end{equation*}
+%		Write $h^\sharp_{D(f)}$ for the above isomorphism. This is compatible with restriction $D(g) \subseteq D(f)$, and so define a morphism of sheaves on $\mathcal{B}$ which we again denote by $h^\sharp$. It follows that the quotient sheaf $\mathcal{O}_X/\mathcal{I}_Z$, which is the sheafification of $\mathcal{F}$, is isomorphic to the sheaf $f_\ast\mathcal{O}_{\Spec A/\mathfrak{a}}$ via the morphism $h^\sharp \colon \mathcal{O}_X/\mathcal{I}_Z \to f_\ast\mathcal{O}_{\Spec A/\mathfrak{a}}$.
+%		
+%		We now show that $Z = \Set*{ x \in X : (\mathcal{O}_X/\mathcal{I}_Z)_x \neq 0}$. Calculating gives
+%		\begin{equation*}
+%			(\mathcal{O}_X/\mathcal{I}_Z)_x = \varinjlim_{D(f) \ni x} \mathcal{O}_X(D(f))/\mathcal{I}_Z(D(f)) = \varinjlim_{f \notin {\mathfrak{p}}_x} (A/\mathfrak{a})_{f} = (A/\mathfrak{a})_{\mathfrak{p}_x} =  A_{\mathfrak{p}_x}/\mathfrak{a}A_{\mathfrak{p}_x}.
+%		\end{equation*}
+%		If $x \in V(\mathfrak{a})$, then $\mathfrak{a} \subseteq \mathfrak{p}$, and so the ideal $\mathfrak{a}A_{\mathfrak{p}_x}$ is proper. Hence $(\mathcal{O}_X/\mathcal{I}_Z)_x \neq 0$ in this case. On the other hand, if $x$ is a point outside of $V(\mathfrak{a})$ so that $\mathfrak{a} \not\subseteq \mathfrak{p}_x$, then there exists $g \in \mathfrak{a} \cap (A\setminus \mathfrak{p}_x)$, forcing $\mathfrak{a}A_{\mathfrak{p}_x} = A_{\mathfrak{p}_x}$ and the localisation is zero. Thus $Z = V(\mathfrak{a})$.
+%		
+%		Finally we show that $(Z, (\mathcal{O}_X/\mathcal{I}_Z)|_{Z})$ is a scheme. We would be done if we can show that the sheaf $(\mathcal{O}_X/\mathcal{I}_Z)|_{Z}$ is isomorphic to the sheaf $\mathcal{O}_{\Spec A/\mathfrak{a}}$. Let us write $j \colon Z \hookrightarrow X$ for the inclusion morphism. The morphism $f \colon \Spec A/\mathfrak{a} \to \Spec A$ factors through a homeomorphism $g \colon \Spec A/\mathfrak{a} \to Z$ and the inclusion $j$ making $f = j \circ g$. By the adjunction of inverse image and direct image functor, the isomorphism 
+%		\begin{equation*}
+%			h^\sharp \colon \mathcal{O}_X/\mathcal{I}_Z \to (j \circ g)_\ast\mathcal{O}_{\Spec A/\mathfrak{a}}
+%		\end{equation*}
+%		gives rise to an isomorphism
+%		\begin{equation*}
+%			h^\flat \colon j^{-1}\mathcal{O}_X/\mathcal{I}_Z \to j^{-1}j_\ast g_\ast \mathcal{O}_{\Spec A/\mathfrak{a}} \cong g_\ast \mathcal{O}_{\Spec A/\mathfrak{a}}.
+%		\end{equation*}
+%		Hence the ringed space $(Z, (\mathcal{O}_X/\mathcal{I}_Z)|_{Z})$ is isomorphic to the scheme $(Z, g_\ast \mathcal{O}_{\Spec A/\mathfrak{a}})$ which in turn is isomorphic to $(\Spec A/\mathfrak{a}, \mathcal{O}_{\Spec A/\mathfrak{a}})$. This finishes the proof.
+%	\end{proof}
+	
+	\begin{proposition}
+		Let $X = \Spec A$ be an affine scheme. 
+		\begin{enumerate}
+			\item Let $Z$ be a closed subscheme of $X$, then $Z$ is of the form $V(\mathfrak{a})$ for some ideal $\mathfrak{a}$ of $A$.
+			
+			\item The map $\mathfrak{a} \mapsto V(\mathfrak{a})$ is a bijection from the set of ideals of $A$ and the set of closed subschemes of $X$.
+		\end{enumerate}
+	\end{proposition}
+	
+	\begin{proof}
+		
+		
+		Let $i \colon V(\mathfrak{a}) \to X$ be the inclusion morphism,  Note that if $D(f)$ is a principal open subset of $X$, then the inverse image presheaf of $\mathcal{O}_X$ under $i$ gives
+		\begin{equation*}
+			(i^{+}\mathcal{O}_X)(D(f)) = \mathcal{O}_X(D(f) \cap V(\mathfrak{a})) = 
+		\end{equation*}
+	\end{proof}
+	
+	\begin{definition}
+		A morphism $j \colon Z \to X$ of scheme is a \inlinedef{closed immersion} if $i$ is a homeomorphism from $Z$ to a closed subset of $X$, and the sheaf homomorphism $j^\sharp \colon \mathcal{O}_X \to i_\ast\mathcal{O}_Z$ is surjective. 
+	\end{definition}
 		
 	\section{Problems}
 	
@@ -1906,6 +2046,29 @@ spacebelow=\baselineskip,
 	\end{proof}
 	
 	\section{Underlying Reduced Subscheme} 
+	
+	Given a scheme $X$, there could be distinct closed subschemes with same underlying topological space as $X$. As an example, given an ideal $\mathfrak{a} \subseteq A$, the subschemes $V(\mathfrak{a})$ and $V(\mathfrak{a}^k)$ agrees as topological subspaces of the scheme $\Spec A$.
+	
+	However, among closed subschemes of $X$ with the same underlying topological space, there is a smallest one which is characterised by the fact that it is reduced. To prove this result, we define the subsheaf $\mathcal{N}_X$ of $\mathcal{O}_X$ to be the sheaf associated to the presheaf
+	\begin{equation*}
+		U \mapsto \Nil(\Gamma(U, \mathcal{O}_X)), \quad U \subseteq X \text{ open}.
+	\end{equation*}
+	This is called the \inlinedef{nilradical} sheaf of $X$.
+	
+	\begin{theorem}
+		The ringed space $(X_{\reduced}, \mathcal{O}_X)$ is a reduced closed subscheme of $X$ with the same underlying topological space as $X$. Furthermore, if $T \subseteq X$ is a closed subscheme of $X$ with the same underlying topological space as $X$, then the inclusion $X_{\reduced} \hookrightarrow X$ factors through a closed immersion $X_{\reduced} \to T$.
+	\end{theorem}
+	\begin{proof}
+		We first show that $X_{\reduced}$ is a scheme. It suffice to prove this in the case when $X = \Spec A$ is affine. We claim that the presheaf $U \mapsto \Nil(\Gamma(U, \mathcal{O}_X))$ restricted to the basis of principal open subsets of $X$ is a sheaf. Indeed, suppose $D(f)$ is principal open and $D(f) = \bigcup_{i \in I}D(f_i)$ is an open covering, which we may assume that $I$ is finite because $D(f)$ is quasi-compact. The uniqueness part of the sheaf condition is clearly satisfied, so we only need to show that it satisfies gluing condition.
+		
+		Let $s_i \in \Nil(\Gamma(D(f_i), \mathcal{O}_X)) = \Nil(A_{f_i})$ be sections such that $s_i|_{D(f_if_j)} = s_j|_{D(f_if_j)}$ for all $i, j \in J$. They glue to a section $s \in \Gamma(D(f_i), \mathcal{O}_X)$ such that $s|_{D(f_i)} = s_i$ for all $i$, and thus we have to check whether $s$ is nilpotent or not. Because $I$ is finite, there is $N \geq 1$ such that $(s|_{D(f_i)})^N = s_i^N = 0$ independent of $i$, forcing $s^N = 0$. This proves the claim.
+		
+		
+	\end{proof}
+	
+	\begin{corollary}
+		If $X = \Spec A$ is an affine scheme, then $\mathcal{N}_X(U) = \Nil(\mathcal{O}_X(U))$ for all affine open subscheme $U \subseteq X$ and $X_{\reduced} = \Spec(A/\Nil(A))$.
+	\end{corollary}
 	
 	\section{Properties of Morphisms}
 	
@@ -2210,7 +2373,7 @@ spacebelow=\baselineskip,
 			&  \cong \Hom_{(R-\mathrm{Alg})}(A, \Gamma(T, \mathcal{O_T})) \times \Hom_{(R-\mathrm{Alg})}(A, \Gamma(T, \mathcal{O_T})) \\
 			& \cong \Hom_{(\Schs/S)}(T, A) \times \Hom_{(\Schs/S)}(T, B),
 		\end{align*}
-		where the second bijection is induced by compositon with $\alpha$ and $\beta$. This is functorial in $T$. Therefore, by the Yoneda lemma, $Z$ is the fibre product of $X$ and $Y$ over $S$.
+		where the second bijection is induced by composition with $\alpha$ and $\beta$. This is functorial in $T$. Therefore, by the Yoneda lemma, $Z$ is the fibre product of $X$ and $Y$ over $S$.
 	\end{proof}
 	
 	\begin{theorem}[Fibre Product of Schemes]
