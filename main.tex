@@ -1375,7 +1375,7 @@ spacebelow=\baselineskip,
 	\end{tikzcd}\]
 		Hence the homomorphisms $\varphi_s$ assemble to a morphism of sheaves on the basis of principal open subsets, and so it extends to a unique morphism of sheaves $f^\sharp \colon \mathcal{O}_{\Spec A} \to f_\ast \mathcal{O}_{\Spec B}$.
 		
-		Lastly we have to check that $f^\sharp_{\mathfrak{p}_x}$ is local for all $x \in \Spec B$. Unravelling the definition of $f^\sharp$, it is clear that $f^\sharp_{\mathfrak{p}_x}$ is the homomorphism
+		Lastly we have to check that $f^\sharp_x$ is local for all $x \in \Spec B$. Unravelling the definition of $f^\sharp$, it is clear that $f^\sharp_x$ is the homomorphism
 		\begin{equation*}
 			\mathcal{O}_{\Spec A, f(x)} = A_{\varphi^{-1}(\mathfrak{p}_x)} \xrightarrow{\varphi_{\mathfrak{p}_x}} B_{\mathfrak{p}_x} = \mathcal{O}_{\Spec B, x}
 		\end{equation*}
@@ -1677,6 +1677,25 @@ spacebelow=\baselineskip,
 	We remark that there is a canonical projection $\mathcal{O}_X \to \mathcal{O}_X/\mathcal{I}$, which is surjective because one may check surjectivity on stalks.
 	
 	\begin{definition}
+		Let $j \colon Z \to X$ be a morphism of schemes. We say that $j$ is a \inlinedef{closed immersion} if $j$ is a homeomorphism from $Z$ to a closed subset of $X$, and the sheaf homomorphism $j^\sharp \colon \mathcal{O}_X \to j_\ast\mathcal{O}_Z$ is surjective. 
+	\end{definition}
+	
+	In \cref{chap2:quotient-isomorphic-to-V}, we see that, given a ring $A$ and an ideal $\mathfrak{a}$ of $A$, the spectrum $\Spec(A/\mathfrak{a})$ is homeomorphic to the closed subset $V(\mathfrak{a})$ of $\Spec A$ via the continuous map induced from the quotient map $\varphi \colon A \to A/\mathfrak{a}$. In fact, the morphism of schemes induced from $\varphi$ is a closed immersion of $\Spec(A/\mathfrak{a})$ into $\Spec A$, as the proposition below shows.
+	
+	\begin{proposition}
+		Let $A$ be a ring, $\mathfrak{a} \subseteq A$ an ideal, and let $\varphi \colon A \to A/\mathfrak{a}$ be the quotient homomorphism. Define $X = \Spec A$ and $Z = \Spec (A/\mathfrak{a})$. Then the morphism of affine schemes $(j, j^\sharp) \colon Z \to X$  induced from $\varphi$ is a closed immersion.
+	\end{proposition}
+	\begin{proof}
+		It is shown in \cref{chap2:quotient-isomorphic-to-V} that $j$ is a homeomorphism from $Z$ to the closed subset $V(\mathfrak{a})$ of $X$. We check that $j^\sharp$ is surjective by checking it on stalks. Let $x \in Z$, and so $\mathfrak{q}_x$ is a prime ideal of $A/\mathfrak{a}$. Hence $\mathfrak{q}_x = \mathfrak{p}/\mathfrak{a}$ for some prime ideal $\mathfrak{p}$ of $A$ containing $\mathfrak{a}$. The morphism $j^\sharp_x$ is then equal to the ring homomorphism between localisations
+		\begin{equation*}
+			A_{\mathfrak{p}} \xrightarrow{\varphi_{\mathfrak{p}}} (A/\mathfrak{a})_{\mathfrak{q}_x}
+		\end{equation*}
+		which is induced from $\varphi \colon A \to A/\mathfrak{a}$. This is easily seen to be surjective.
+	\end{proof}
+	
+	In the above situation, we would like to think that the closed subset $V(\mathfrak{a})$ is a closed subscheme of $\Spec A$ with the scheme structure inherited from $X$. Thus we make the following definition.
+	
+	\begin{definition}
 		Let $X$ be a scheme. A \inlinedef{closed subscheme} of $X$ is given by a closed subset $Z \subseteq X$ and an ideal sheaf $\mathcal{I} \subseteq \mathcal{O}_X$ such that
 		\begin{equation*}
 			Z = \Set*{ x \in X : (\mathcal{O}_X/\mathcal{I})_x \neq 0}
@@ -1684,26 +1703,103 @@ spacebelow=\baselineskip,
 		and $(Z, (\mathcal{O}_X/\mathcal{I})|_{Z})$ is a scheme.
 	\end{definition}
 	
-	\begin{definition}
-		Let $j \colon Z \to X$ be a morphism of schemes. We say that $j$ is a \inlinedef{closed immersion} if $j$ is a homeomorphism from $Z$ to a closed subset of $X$, and the sheaf homomorphism $j^\sharp \colon \mathcal{O}_X \to j_\ast\mathcal{O}_Z$ is surjective. 
-	\end{definition}
+	We need the following lemma.
+	\begin{lemma}\label{chap4:canonical-morphism-of-sheaves-on-closed-subset}
+		Let $X$ be a topological space and $j \colon Z \to X$ is an inclusion of a closed subset $Z$ into $X$.
+		\begin{enumerate}
+			\item Let $\varphi \colon {G} \to \mathcal{H}$ be a morphism of presheaves on $Z$. For each $x \in Z$, there is a commutative square
+				% https://q.uiver.app/#q=WzAsNCxbMCwwLCIoal9cXGFzdCBcXG1hdGhjYWx7R30pX3giXSxbMCwxLCIoal9cXGFzdCBcXG1hdGhjYWx7SH0pX3giXSxbMSwwLCJcXG1hdGhjYWx7R31feCJdLFsxLDEsIlxcbWF0aGNhbHtIfV94Il0sWzIsMywiXFx2YXJwaGlfeCJdLFswLDIsIlxcc2ltIl0sWzEsMywiXFxzaW0iLDJdLFswLDEsIihqX1xcYXN0XFx2YXJwaGkpX3giLDJdXQ==
+				\[\begin{tikzcd}
+					{(j_\ast \mathcal{G})_x} & {\mathcal{G}_x} \\
+					{(j_\ast \mathcal{H})_x} & {\mathcal{H}_x}
+					\arrow["\sim", from=1-1, to=1-2]
+					\arrow["{(j_\ast\varphi)_x}"', from=1-1, to=2-1]
+					\arrow["{\varphi_x}", from=1-2, to=2-2]
+					\arrow["\sim"', from=2-1, to=2-2]
+				\end{tikzcd}\]
+				where the horizontal maps are isomorphisms.
+			
+			\item For every sheaf $\mathcal{F}$ on $X$ such that $\mathcal{F}_x = 0$ for all $x \in X \setminus Z$, the canonical morphism
+			\begin{equation*}
+				\eta(\mathcal{F}) \colon \mathcal{F} \to j_\ast j^{-1} \mathcal{F}
+			\end{equation*}
+			is an isomorphism.
+		\end{enumerate}
+	\end{lemma}
 	
-	\begin{proposition}
-		Let $Z \subseteq X$ be a closed subscheme given by an ideal sheaf $\mathcal{I}$. Then the inclusion $j \colon Z \to X$ is a closed immersion.
-	\end{proposition}
 	\begin{proof}
-		Let us define $\mathcal{O}_Z = j^{-1}(\mathcal{O}_X/\mathcal{I})$. Consider the identity morphism $\id_{\mathcal{O}_Z} \colon \mathcal{O}_Z \to \mathcal{O}_Z$. By the adjunction $j^{-1} \dashv j_\ast$ (\cref{chap3:inverse-image-direct-image-adjunction}) this gives us a morphism
+		(1.) is straightforward after unravelling all the definitions. (See \cref{chap3:stalks-of-pushforward-sheaves}).
+		
+		We now turn to (2.). Note that $j^{-1}(U) = U \cap Z$ for all open set $U \subseteq X$. The canonical morphism is the morphism $\eta(\mathcal{F})$ given by the unit of the adjunction $j^{-1} \dashv j_\ast$. On an open set $U \subseteq X$, it sends $\mathcal{F}(U)$ to $j^+\mathcal{F}(j^{-1}(U))$ via the map
 		\begin{equation*}
-			i^\sharp \colon \mathcal{O}_X/\mathcal{I} \to j_\ast \mathcal{O}_Z.
-		\end{equation*}
-		In other words, this is the morphism $\eta(\mathcal{O}_X/\mathcal{I})$ given by the unit of the adjunction with the notation of the aforementioned proposition. By \cref{chap3:stalks-of-pushforward-sheaves}, we can calculate the stalks
+			\kappa^U_{U \cap Z} \colon \mathcal{F}(U) \to \varinjlim_{\substack{V \supseteq U \cap Z \\ V \text{ open in $X$}}} \mathcal{F}(V) = j^+\mathcal{F}(U \cap Z),
+		\end{equation*} 
+		then to the sheafification $j^{-1}\mathcal{F}(U \cap Z)$. Let's use the notation $\eta^{pre}(\mathcal{F})$ for the morphism $\mathcal{F} \to j_\ast j^+\mathcal{F}$ above and $i \colon j^{+}\mathcal{F} \to j^{-1}\mathcal{F}$ for the sheafification. With this, $\eta(\mathcal{F})$ is equal to the composition
 		\begin{equation*}
-			(j_\ast \mathcal{O}_Z)_{x} = \begin{cases}
-				(\mathcal{O}_Z)_x, & x \in Z\\
-				0,	&	x \notin Z.
-			\end{cases}
+			\eta(\mathcal{F}) = j_\ast(i)\circ \eta^{pre}(\mathcal{F}).
 		\end{equation*}
-		Further, $(\mathcal{O}_Z)_x = (\mathcal{O}_X/\mathcal{I})_{j(x)} = \mathcal{O}_{X, x}/\mathcal{I}_x$. (Use \cref{chap3:stalk-of-inverse-image} and \cref{chap3:quotient-presheaf}.)
+	
+		If $x \in Z$, then the stalk of $j_\ast j^{+} \mathcal{F}$ at $x \in X$ is, by definition,
+		\begin{equation*}
+			\varinjlim_{U \ni x} \varinjlim_{\substack{V \supseteq U \cap Z \\ V \text{ open in $X$}}} \mathcal{F}(V).
+		\end{equation*}
+		The morphism on stalks $\eta^{pre}(\mathcal{F})_x \colon \mathcal{F}_x \to (j_\ast j^{+} \mathcal{F})_x$ sends $[U, s]$ into $[U, \kappa^U_{U \cap Z}(s)]$. We now show that it is an isomorphism. First suppose that $[U, \kappa^U_{U \cap Z}(s)] = [X, 0]$. Then there is an open neighbourhood $W \subseteq U$ of $x$ such that
+		\begin{equation*}
+			0 = \res^U_W \circ \kappa^U_{U \cap Z}(s) = \kappa^W_{W \cap Z}(s|_W).
+		\end{equation*}
+		By definition of colimit, there is an open set $W' \supseteq W \cap Z$ such that $s|_W|_{W'} = 0$ in $\mathcal{F}(W')$. Since $x \in Z \cap W$, it follows that $W'$ also contains $x$, and thus 
+		\begin{equation*}
+			[U, s] = [W, s|_{W'}] = [W, 0].
+		\end{equation*}
+		Therefore $\eta^{pre}(\mathcal{F})_x$ is injective.
+		
+		For surjectivity, let $[U, t] \in (j_\ast j^{+} \mathcal{F})_x$. Then $U$ is an open neighbourhood of $x$, and $t \in j_\ast j^{+} \mathcal{F}(U)$. By definition, there is a section $s$ in $\mathcal{F}(V)$ for some open subset $V$ such that $V \supseteq U \cap Z$ and $\kappa^V_{U \cap Z}(s) = t$. Clearly $V$ is also an open neighbourhood of $x$ which contains $V \cap Z$. We claim that $[U, t] = [V, \kappa^V_{V \cap Z}(s)]$. Indeed, the intersection $U \cap V$ is an open neighbourhood of $x$, and so
+		\begin{equation*}
+			t|_{U \cap V} = \res^{V}_{U \cap V} (\kappa^V_{U \cap Z}(s) )= \kappa^{V}_{U \cap V \cap Z}(s) = \res^V_{V \cap U}(\kappa^V_{V \cap Z}(s)) = \kappa^V_{V \cap Z}(s)|_{U \cap V},
+		\end{equation*}
+		which is obtained by chasing through the diagram
+		% https://q.uiver.app/#q=WzAsNixbMCwwLCJcXG1hdGhjYWx7Rn0oVikiXSxbMSwxLCJcXG1hdGhjYWx7Rn0oVSBcXGNhcCBWKSJdLFswLDIsIlxcbWF0aGNhbHtGfShVKSJdLFszLDEsImpfXFxhc3Qgal57LTF9XFxtYXRoY2Fse0Z9KFVcXGNhcCBWKSJdLFsyLDAsImpfXFxhc3Qgal57LTF9XFxtYXRoY2Fse0Z9KFYpIl0sWzIsMiwial9cXGFzdCBqXnstMX1cXG1hdGhjYWx7Rn0oVSkiXSxbMiwxXSxbMCwxXSxbMSwzLCJcXGthcHBhXntVXFxjYXAgVn1fe1UgXFxjYXAgViBcXGNhcCBafSIsMl0sWzUsM10sWzQsM10sWzAsNCwiXFxrYXBwYV5WX3tWIFxcY2FwIFp9Il0sWzIsNSwiXFxrYXBwYV5VX3tVIFxcY2FwIFp9IiwyXV0=
+		\[\begin{tikzcd}
+			{\mathcal{F}(V)} && {j_\ast j^{-1}\mathcal{F}(V)} & \\
+			& {\mathcal{F}(U \cap V)} && {j_\ast j^{-1}\mathcal{F}(U\cap V)} \\
+			{\mathcal{F}(U)} && {j_\ast j^{-1}\mathcal{F}(U)}
+			\arrow["{\kappa^V_{V \cap Z}}", from=1-1, to=1-3]
+			\arrow[from=1-1, to=2-2]
+			\arrow[from=1-3, to=2-4]
+			\arrow["{\kappa^{U\cap V}_{U \cap V \cap Z}}"', from=2-2, to=2-4]
+			\arrow[from=3-1, to=2-2]
+			\arrow["{\kappa^U_{U \cap Z}}"', from=3-1, to=3-3]
+			\arrow[from=3-3, to=2-4]
+		\end{tikzcd}
+		\]
+		But $[V, \kappa^V_{V \cap Z}(s)]$ is the image of $[V, s]$ under $\eta^{pre}(\mathcal{F})_x$. This shows that $\eta^{pre}(\mathcal{F})_x$ is surjective.
+		
+		By taking stalks of $\eta(\mathcal{F})$ at $x \in Z$, we get
+		\begin{equation*}
+			\eta(\mathcal{F})_x = (j_\ast(i))_x \circ \eta^{pre}(\mathcal{F})_x.
+		\end{equation*}
+		We have just shown that $\eta^{pre}(\mathcal{F})_x$ is an isomorphism. Furthermore, \cref{chap3:sheafification} says that the morphism $i_x \colon (j^{+}\mathcal{F})_x \to (j^{-1}\mathcal{F})_x$ is an isomorphism, therefore $(j_\ast(i))_x$ is also an isomorphism by (1.). It follows that $\eta(\mathcal{F})_x$ is an isomorphism for all $x \in Z$.
+		
+		Finally, if $x \notin Z$, then \cref{chap3:stalks-of-pushforward-sheaves} shows us that the morphism of stalks $\eta(\mathcal{F})_x$ reduces to the zero map $0 \to 0$ which is also an isomorphism. Combining with the above case, we see that $\eta(\mathcal{F})$ is an isomorphism of sheaves.
+	\end{proof}
+	
+	\begin{lemma}
+		Let $Z \subseteq X$ be a closed subscheme given by an ideal sheaf $\mathcal{I}$. Then the inclusion $j \colon Z \to X$ is a closed immersion.
+	\end{lemma}
+	\begin{proof}
+		Let us write $\mathcal{O}_Z = j^{-1}(\mathcal{O}_X/\mathcal{I})$. By \cref{chap4:canonical-morphism-of-sheaves-on-closed-subset}, the canonical morphism given by the unit of the adjunction
+		\begin{equation*}
+			i^\sharp \colon \mathcal{O}_X/\mathcal{I} \to j_\ast j^{-1}\mathcal{O}_X/\mathcal{I} = j_\ast \mathcal{O}_Z.
+		\end{equation*}
+		is an isomorphism of sheaves. Now let $j^\sharp$ be the composition of the canonical projection $\mathcal{O}_X \to \mathcal{O}_X/\mathcal{I}$, which is surjective, followed by the isomorphism $i^\sharp$ above. Then $(j, j^\sharp)$ is a closed immersion.
+	\end{proof}
+	
+	The converse is also true.
+	\begin{lemma}
+		Let $(j, j^\sharp) \colon Z \to X$ be a closed immersion. Then $j$ induces an isomorphism of schemes between $Z$ and a closed subscheme $j(Z)$ of $X$. The closed subscheme structure on $Z$ making this an isomorphism is unique.
+	\end{lemma}
+	\begin{proof}
+		Define $\mathcal{I}$ to be the kernel sheaf of the morphism $j^\sharp\colon \mathcal{O}_X \to j_\ast\mathcal{O}_Z$.
 	\end{proof}
 	
 	For an affine scheme $X = \Spec A$, closed subschemes of $X$ are in one-to-one correspondence with ideals of $A$, which is what one expected.
@@ -1762,10 +1858,6 @@ spacebelow=\baselineskip,
 			(i^{+}\mathcal{O}_X)(D(f)) = \mathcal{O}_X(D(f) \cap V(\mathfrak{a})) = 
 		\end{equation*}
 	\end{proof}
-	
-	\begin{definition}
-		A morphism $j \colon Z \to X$ of scheme is a \inlinedef{closed immersion} if $i$ is a homeomorphism from $Z$ to a closed subset of $X$, and the sheaf homomorphism $j^\sharp \colon \mathcal{O}_X \to i_\ast\mathcal{O}_Z$ is surjective. 
-	\end{definition}
 		
 	\section{Problems}
 	
