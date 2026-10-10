@@ -515,1001 +515,9 @@ spacebelow=\baselineskip,
 	
 	\chapter{Classical Algebraic Geometry}
 	
-	\include{2-spectrum.tex}
+	\include{02-spectrum.tex}
 	
-	\chapter{Sheaves and Affine Schemes}
-	
-	\section{Presheaves and Sheaves}
-	
-	\subsection*{Presheaves}
-	\begin{definition}
-		Let $X$ be a topological space. A \inlinedef{presheaf of Abelian groups} $\mathcal{F}$ on $X$ consists of the following data:
-		\begin{enumerate}
-			\item an assignment of an Abelian group $\mathcal{F}(U)$ to each open subset $U \subseteq X$;
-			\item for each inclusion of open subsets $U \subseteq V$, there is a group homomorphism $\res^V_U \colon \mathcal{F}(V) \to \mathcal{F}(U)$ such that
-			\begin{enumerate}
-				\item $\res^U_U = \id_{\mathcal{F}(U)}$ for all open subset $U$;
-				\item if $U \subseteq V \subseteq W$ are open subsets, then $\res^W_U = \res^V_U \circ \res^W_V$.
-			\end{enumerate}
-		\end{enumerate}
-	\end{definition}
-	
-	An element of $\mathcal{F}(U)$ is called a \inlinedef{section} of $\mathcal{F}$ over $U$. The morphism $\res^V_U$ is called the \inlinedef{restriction map} from $V$ to $U$. If $s \in \mathcal{F}(V)$, the more suggestive notation for $\res^V_U(s)$ is $s|_U$. The condition for restriction maps is then $(s|_V)|_U = s|_U$ for all open subsets $U \subseteq V \subseteq W$ and $s \in \mathcal{F}(W)$. Another notation for $\mathcal{F}(U)$ is $\Gamma(U, \mathcal{F})$ which will be useful when we define sheaf cohomology.
-	
-	\begin{example}\label{chap3:presheaf-of-smooth-functions}
-		An example of presheaves on a topological space is the presheaf of real-valued smooth function on a smooth manifold $M$. If $U \subseteq M$ is open, we define $\mathcal{C}^\infty(U)$ to be the set of real-valued smooth functions on $U$. The restriction maps are simply restriction of functions, which is the motivation for the notation $s|_U$.
-	\end{example}
-	
-	We now turn to the definition of morphisms between presheaves.
-	
-	\begin{definition}
-		Given two presheaves $\mathcal{F}$ and $\mathcal{G}$, a \inlinedef{morphism of presheaves} $f \colon \mathcal{F} \to \mathcal{G}$ is the collection of maps $f_U \colon \mathcal{F}(U) \to \mathcal{G}(U)$ for each open subset $U \subseteq X$ such that whenever $U \subseteq V$ are open subsets, the diagram
-		% https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXG1hdGhjYWx7Rn0oVikiXSxbMCwyLCJcXG1hdGhjYWx7Rn0oVSkiXSxbMiwyLCJcXG1hdGhjYWx7R30oVSkiXSxbMiwwLCJcXG1hdGhjYWx7R30oVikiXSxbMCwxLCJcXHJlc15WX1UiLDJdLFsxLDIsImZfVSIsMl0sWzAsMywiZl9WIl0sWzMsMiwiXFxyZXNeVl9VIl1d
-		\[\begin{tikzcd}
-			{\mathcal{F}(V)} && {\mathcal{G}(V)} \\
-			\\
-			{\mathcal{F}(U)} && {\mathcal{G}(U)}
-			\arrow["{f_V}", from=1-1, to=1-3]
-			\arrow["{\res^V_U}"', from=1-1, to=3-1]
-			\arrow["{\res^V_U}", from=1-3, to=3-3]
-			\arrow["{f_U}"', from=3-1, to=3-3]
-		\end{tikzcd}\]
-		commutes.
-	\end{definition}
-	
-	We can alternatively give a categorical perspective on presheaves. Let $X$ be a topological space. The open sets of $X$ form a category $(\operatorname{Ouv}(X))$ of open subsets of $X$. We declare that there is exactly one morphism $U \to V$ in $(\operatorname{Ouv}(X))$ if and only if $U \subseteq V$. Put simply, this is the order category of open subsets of $X$ with the ordering given by inclusion of sets. Then a presheaf on $X$ is simply a contravariant functor $\mathcal{F} \colon (\operatorname{Ouv}(X))^{\op} \to (\Abs)$. A morphism of presheaves $f \colon \mathcal{F} \to \mathcal{G}$ is then a natural transformation between the two functors.
-	
-	By changing the target so that $\mathcal{F} \colon (\operatorname{Ouv}(X))^{\op} \to\mathcal{C}$ maps to another category $\mathcal{C}$, we obtain a presheaf $\mathcal{F}$ on $X$ with value in $\mathcal{C}$, not just Abelian groups. In the following we mostly consider the following types of presheaves:
-	\begin{enumerate}
-		\item Presheaves of sets 
-		$(\operatorname{Ouv}(X))^{\op} \to(\Sets)$.
-		\item Presheaves of Abelian groups 
-		$(\operatorname{Ouv}(X))^{\op} \to(\Abs)$.
-		\item Presheaves of rings $(\operatorname{Ouv}(X))^{\op} \to(\Rings)$.
-		\item Given a ring $R$, presheaves of $R$-modules $(\operatorname{Ouv}(X))^{\op} \to(R\operatorname{-Mod})$ and presheaves of $R$-algebras $(\operatorname{Ouv}(X))^{\op} \to(R\operatorname{-Alg})$.		
-	\end{enumerate}
-	
-	\begin{example}[Constant Presheaf]
-		Let $A$ be a fixed Abelian group and let $X$ be a topological space. We can define a presheaf $\mathcal{A}$ on $X$ by setting $\mathcal{A}(U) = A$ for all open subsets $U \subseteq X$ and all restriction maps are the identity homomorphism. This is called the \inlinedef{constant presheaf} with value $A$ on $X$.
-	\end{example}
-	
-	\begin{example}[Restriction of Presheaf]
-		Let $X$ be a topological space and $\mathcal{F}$ a presheaf on $X$. If $U$ is an open subset of $X$, then the assignment
-		\begin{equation*}
-			\mathcal{F}|_{U}(V) = \mathcal{F}(V) \quad\text{for each open subset $V \subseteq U$}
-		\end{equation*}
-		define a presheaf on $U$. The presheaf $\mathcal{F}|_U$ is called the \inlinedef{restriction} of the presheaf $\mathcal{F}$ onto $U$.
-	\end{example}
-	
-	\begin{example}[Sub-presheaf]
-		Let $\mathcal{F}$ and $\mathcal{G}$ be sheaves on a topological space $X$ with values in algebraic objects such as Abelian groups or rings. If $\mathcal{F}(U)$ is a subgroup of $\mathcal{G}(U)$ for all open $U \subseteq X$, then $\mathcal{F}$ is said to be a \inlinedef{sub-presheaf} of $\mathcal{G}$.
-	\end{example}
-	
-	By abuse of language we also say that $\mathcal{F}$ is a sub-presheaf of $\mathcal{G}$ if $\mathcal{F}$ is isomorphic to a sub-presheaf of $\mathcal{G}$.
-	
-	\subsection*{Sheaves}
-	
-	The fundamental property of functions on a topological space $X$ is that we can glue functions $f_i \colon U_i \to X$ defined on open subsets $U_i \subseteq X$ together into a function $f \colon U \to X$ defined on the union $U = \bigcup_i U_i$ of the open sets. Since we like to think of sections on $U$ as ``functions'' on $U$, the above property should hold for the type of presheaves which are desirable for our study. Hence we are led to the following definition.
-	
-	\begin{definition}
-		Let $\mathcal{F}$ be a presheaf of Abelian groups on a topological space $X$. We say that $\mathcal{F}$ is a \inlinedef{sheaf} if it satisfies the following two properties: for all open subsets $U \subseteq X$ and for all open coverings $\Set{U_i}_{i \in I}$ of $U$,
-		\begin{enumerate}
-			\item (Uniqueness) Let $s, t \in \mathcal{F}(U)$ be sections such that $s|_{U_i} = t|_{U_i}$ for all $i \in I$. Then $s = t$.
-			
-			\item (Gluing) Given a collection of sections $s_i \in \mathcal{F}(U_i)$ such that $s_i|_{U_i \cap U_j} = s_j|_{U_i \cap U_j}$ for all $i, j \in I$, there exists $s \in\mathcal{F}(U)$ such that $s|_{U_i} = s_i$ for all $i \in I$.
-		\end{enumerate}
-	\end{definition} 
-	
-	The above two properties are called the \inlinedef{sheaf axioms}. Given a collection of sections $s_i \in \mathcal{F}(U_i)$ and $s \in\mathcal{F}(U)$ as in the second part, the section $s$ is said to be obtained by \inlinedef{gluing the sections} $s_i$. It is unique by the first part.
-	
-	Note that we may replace the target category from the category of Abelian groups to other categories, as noted in the previous section. For sheaves with values in a category of algebraic structures, the sheaf axioms can be restated in terms of exact sequences as follows.
-	
-	\begin{lemma}\label{chap3:sheaf-as-exact-sequences}
-		Let $\mathcal{F}$ be a presheaf of Abelian groups (or rings, $R$-modules, $R$-algebras with $R$ a ring) on a topological space $X$. Then $\mathcal{F}$ is a sheaf if and only if for every open subset $U \subseteq X$ and open cover $\Set{U_i}_{i \in I}$ of $U$, the sequence
-		\begin{equation*}
-			0 \longrightarrow\mathcal{F}(U)\xlongrightarrow{\varphi} \prod_{i \in I} \mathcal{F}(U_i) \xlongrightarrow{\sigma} \prod_{(i, j) \in I \times I} \mathcal{F}(U_i \cap U_j),
-		\end{equation*}
-		is exact, where $\varphi\colon s \mapsto (s|_{U_i})_{i \in I}$ and $\sigma\colon (s_i)_{i \in I} \mapsto (s_i|_{U_i \cap U_j} - s_j|_{U_i \cap U_j})_{i, j}$.	
-	\end{lemma}
-	\begin{proof}
-		The uniqueness condition is equivalent to the sequence being exact at $\mathcal{F}(U)$. Similarly, the gluing condition is equivalent to the sequence being exact at $\prod_{i} \mathcal{F}(U_i)$.
-	\end{proof}
-	
-	A \inlinedef{morphism of sheaves} is a morphism of presheaves. We then obtain the category of sheaves on a topological space $X$, denoted by $(\Sheaf(X))$. Note that we really should have chosen a notation such as $(\Abs\Sheaf(X))$ to unambiguously clarify that it is the category of sheaves of \textit{Abelian groups} on $X$ that we are considering. Still, in this section and wherever appropriate, the proof works for any target category of sheaves. With this in mind, we shall prove most statement for sheaves of Abelian groups and left the other cases for the reader.
-	
-	The category of presheaves on $X$ is denoted by $(\PrSheaf(X))$. Clearly $(\Sheaf(X))$ is a full subcategory of $(\PrSheaf(X))$. 
-	
-	\begin{remark}
-		For a sheaf $\mathcal{F}$ on a topological space $X$, $\mathcal{F}(\emptyset)$ is precisely the final object in the respective category. This can be seen from \cref{chap3:sheaf-as-exact-sequences} by considering the empty covering of the empty set. Since the empty product is the terminal object, we obtain the exact sequence $0 \to \mathcal{F}(\emptyset) \to 0 \to 0$, showing that $\mathcal{F}(\emptyset) \cong 0$.
-		
-		When $\mathcal{F}$ is a sheaf of sets, we can argue directly from the definition of sheaves that $\mathcal{F}(\emptyset)$ is a set with one element. Note that \cref{chap3:sheaf-as-exact-sequences} does not apply to this case.
-	\end{remark}
-	
-	Sheaves can be restricted onto any open subset.
-	
-	\begin{example}[Restriction Sheaf]
-		Suppose we have a sheaf $\mathcal{F}$ on a topological space $X$. If $U$ is an open subset of $X$, then the restriction $\mathcal{F}|_{U}$  is a sheaf.
-	\end{example}
-	
-	\begin{example}[Subsheaf]
-		Let $\mathcal{F}$ and $\mathcal{G}$ be sheaves on a topological space $X$ with values in algebraic objects such as Abelian groups or rings. If $\mathcal{F}(U)$ is a subgroup of $\mathcal{G}(U)$ for all open $U \subseteq X$, then $\mathcal{F}$ is said to be a \inlinedef{subsheaf} of $\mathcal{G}$.
-	\end{example}
-	
-	It is not true in general that, if $\mathcal{G}$ is a sheaf, and $\mathcal{F}$ is a presheaf such that $\mathcal{F}(U)$ is a subgroup of $\mathcal{G}(U)$ for all $U \subseteq X$, then $\mathcal{F}$ is a subsheaf of $\mathcal{G}$. Hence a sub-presheaf of a sheaf is not necessarily a sheaf.
-	
-	\begin{example}[Sheaves of Continuous and Smooth Functions]
-		Let $X$ and $Y$ be topological spaces. Define $\mathcal{C}$ to be the presheaf of continuous functions, that is, for every open subset $U \subseteq X$,
-		\begin{equation*}
-			\mathcal{C}(U) \coloneqq \Set*{f \colon U \to Y : \text{ $f$ is continuous}}.
-		\end{equation*}
-		The restriction maps are restrictions of functions. 
-		
-		In a similar manner, let $M$ be a smooth manifold. Then the presheaf of real-valued smooth functions on $M$ (\cref{chap3:presheaf-of-smooth-functions}) is a sheaf.
-	\end{example}
-	
-	There are further examples of sheaves coming from differential geometry such as the sheaf of holomorphic function on $\CC$.
-	
-	\begin{example}[Hom-set as a Sheaf]
-		Let $X$ be a topological space and $Y$ a set. Then the assignment $U \mapsto \Set{f \colon U \to Y : \text{$f$ is a function}}$ define a sheaf on $X$.
-	\end{example}
-	
-	\begin{example}[Skyscraper Sheaves]
-		Let $X$ be a topological space and $A$ an Abelian group. The \inlinedef{skyscraper sheaf in the point $p \in X$ with value $A$} is defined to be the sheaf
-		\begin{equation*}
-			\mathcal{F}(U) = \begin{cases}
-				A,	& 	p \in U;\\
-				0,	&	p \notin U.
-			\end{cases}
-		\end{equation*}
-	\end{example}
-	
-	\begin{example}
-		\todo{Ring of regular functions on a variety}
-	\end{example}
-	
-	Not every presheaf is a sheaf, as the following non-examples show.
-	\begin{example}
-		Constant presheaves are in general not a sheaf. As an example, consider the two-point topological space $X = \Set{x, y}$ with discrete topology. The constant presheaf $\mathcal{F}$ with value $\ZZ$ is not a sheaf, as the reader may check.
-		
-		Note that, even if we modify $\mathcal{F}(\emptyset)$ to be equal to $\Set{0}$, it is still not a sheaf because the gluing axiom cannot be satisfied.
-	\end{example}
-	
-	\begin{example}[Presheaf of Bounded Functions]
-		Let $X$ be a topological space. For each open set $U \subseteq X$, define 
-		\begin{equation*}
-			\mathcal{F}(U) \coloneqq \Set*{f \colon U \to \RR : \text{ $f$ is bounded}}.
-		\end{equation*}
-		Then $\mathcal{F}$ is a presheaf on $X$. In general it will not be a sheaf.
-	\end{example}
-	\begin{exercise}
-		Verify all the examples.
-	\end{exercise}
-
-	
-	\subsection*{Sheaves on a Basis}
-	
-	Let $X$ be a topological space and $\mathcal{B}$ a basis of $X$. It will be useful, when we define affine schemes, to consider sheaves defined explicitly only on the basis $\mathcal{B}$. The main result of this section is that there is a unique sheaf on the whole topological space $X$ extending the sheaf defined on a basis.
-	
-	\begin{definition}
-		Suppose $X$ is a topological space and $\mathcal{B}$ a basis of $X$.
-		
-		\begin{enumerate}
-			\item A \inlinedef{presheaf on $\mathcal{B}$} is a contravariant functor $\mathcal{F}\colon \mathcal{B} \to (\Abs)$ where $\mathcal{B}$ is regarded as a full subcategory of $(\operatorname{Ouv}_X)$.
-			
-			\item A \inlinedef{sheaf on $\mathcal{B}$} is a presheaf $\mathcal{F}$ on $\mathcal{B}$ which satisfies the analogous conditions about gluing as for sheaves: for all $U \in\mathcal{B}$ and an open covering $U = \bigcup_{i \in I} U_i$ where $U_i \in \mathcal{B}$,
-			\begin{enumerate}
-				\item (Uniqueness) Let $s, t \in \mathcal{F}(U)$ be such that $s|_{U_i} = t|_{U_i}$ for all $i$. Then $s = t$.
-				
-				\item (Gluing) A collection of sections $s_i \in \mathcal{F}(U_i)$ is said to be \inlinedef{compatible} if for all $i, j \in I$, and all open set $U_k \in \mathcal{B}$ with $U_k \subseteq U_i \cap U_j$, we have
-				\begin{equation*}
-					s_i|_{U_k} = s_j|_{U_k}.
-				\end{equation*}
-				
-				It is required that, whenever the sections $s_i \in \mathcal{F}(U_i)$ are compatible, then there is a section $s \in \mathcal{F}(U)$ such that $s|_{U_i} = s_i$. 
-			\end{enumerate}
-		\end{enumerate}
-	\end{definition}
-	
-	Note that the gluing condition has to be modified from the gluing condition for sheaves. This is because the intersection of two basic open sets $U_i, U_j \in\mathcal{B}$ might not belong in $\mathcal{B}$. It is still open, however, and so we may cover the intersection $U_i \cap U_j$ by open sets from $\mathcal{B}$. So we need to check compatibility of sections in those smaller open sets instead.
-	
-	\begin{remark}
-		If the basis $\mathcal{B}$ is stable under finite intersection (as is the case for the basis of spectra consisting of principal open subsets, \cref{chap2:principal-open-is-basis}), then the usual gluing condition can be used instead. For such a basis $\mathcal{B}$ , a presheaf $\mathcal{F}$ on $\mathcal{B}$ is a sheaf if for all $U \in\mathcal{B}$ and an open covering $U = \bigcup_{i \in I} U_i$ where $U_i \in \mathcal{B}$,
-		\begin{enumerate}
-			\item it satisfy uniqueness, and,
-			\item for all sections $s_i \in \mathcal{F}(U_i)$, if $s_i|_{U_i \cap U_j} = s_j|_{U_i \cap U_j}$, then there is a section $s \in \mathcal{F}(U)$ such that $s|_{U_i} = s_i$.
-		\end{enumerate}  
-	\end{remark}
-	
-	
-	\begin{proposition}
-		Let $X$ be a topological space, $\mathcal{B}$ a basis of $X$, and $\mathcal{F}$ a sheaf on $\mathcal{B}$. There is a sheaf $\mathcal{F}'$ on $X$ such that $\mathcal{F}'(U) \cong \mathcal{F}(U)$ for all $U \in \mathcal{B}$. The sheaf $\mathcal{F}'$ is unique up to isomorphism.
-	\end{proposition}
-	
-	\begin{proof}
-		content...
-	\end{proof}
-	
-	\todo{Morphisms between sheaves on a basis can be extended to the morphisms between the extended sheaves.}
-	
-	\section{Stalks}
-	
-	Let $X$ be a topological space and let $x \in X$ be a point. The collection of Abelian groups $\mathcal{F}(U)$, where $U$  is an open neighbourhood of $x$, with restriction maps is a direct system. The direct limit of this system leads to the notion of stalks.
-	
-	\begin{definition}
-		Let $\mathcal{F}$ be a presheaf on $X$. The \inlinedef{stalk} at $x \in X$ of $\mathcal{F}$ is the Abelian group
-		\begin{equation*}
-			\mathcal{F}_x \coloneq \varinjlim_{\substack{{U} \ni x, \\ {U} \text{ open}}} \mathcal{F}(U).
-		\end{equation*}
-	\end{definition}
-	
-	More explicitly, $\mathcal{F}_x$ is the set of equivalence classes of pairs $(U, s)$ where $U$ is an open neighbourhood of $x$ and $s \in \mathcal{F}(U)$. Two pairs $(U, s)$ and $(V, t)$ are definitionally equivalent if there is an open neighbourhood $W$ of $x$ such that $W \subseteq U \cap V$ and $s|_W = t|_W$. Let us denote the equivalence class of $(U, s)$ by $[U, s]$. The group operation on $\mathcal{F}_x$ is defined by
-	\begin{equation*}
-		[U, s] + [V, t] = [U \cap V, s|_{U\cap V} + t|_{U\cap V}].
-	\end{equation*}
-	
-	\begin{exercise}
-		Prove that the above relation is indeed an equivalence relation on the set of pairs $(U, x)$, and that the multiplication is well-defined which makes $\mathcal{F}_x$ into an Abelian group.
-	\end{exercise}
-	
-	By the definition of direct limits, for each open neighbourhood $U$ of $x$ there is a natural homomorphism $\mathcal{F}(U) \to \mathcal{F}_x$ given by $s \mapsto [U, s]$. If $U$ is understood, we shall write $s_x$ for the equivalent class $[U, s]$. The element $s_x$ is called the \inlinedef{germ} of $s$ in $x$.
-	
-	If $\mathcal{F}$ and $\mathcal{G}$ are presheaves on $X$ with a morphism $\varphi \colon \mathcal{F} \to \mathcal{G}$, then there is an induced homomorphism of Abelian group between stalks
-	\begin{align*}
-		\varphi_x \colon \mathcal{F}_x & \longrightarrow \mathcal{G}_x \\
-	[U, s] & \longmapsto [U, \varphi_U(s)].
-	\end{align*}
-	This is the same map from the universal property of direct limits. 
-	
-	\begin{exercise}
-		Show that $\varphi_x$ is a group homomorphism.
-	\end{exercise}
-	
-	We thus see that taking stalks gives a functor from the category of presheaves on $X$ to the category of Abelian groups. Further, if the presheaves take values in sets or rings, then stalks will be sets or rings, respectively. 
-	
-	\begin{lemma}\label{chap3:germs-equal-implies-equal}
-		Let $\mathcal{F}$ be a sheaf on a topological space $X$ and let $s, t \in\mathcal{F}(X)$ be sections such that $s_x = t_x$ for all $x \in X$. Then $s = t$.
-	\end{lemma}
-	\begin{proof}
-		For each $x \in X$, there is an open neighbourhood $U_x$ such that $s|_{U_x} = t|_{U_x}$. Since the open sets of the form $U_x$ covers $X$, this shows that $s = t$.
-	\end{proof}
-	
-	Injectivity and bijectivity of morphisms in the data of a morphism of sheaves can be checked on stalks, as the following proposition shows.
-	
-	\begin{proposition}\label{chap3:injective-can-be-checked-on-stalks}
-		Let $X$ be a topological space, $\mathcal{F}$ and $\mathcal{G}$ sheaves on $X$, and $\varphi, \psi \colon \mathcal{F} \to \mathcal{G}$ morphisms of sheaves. Then
-		
-		\begin{enumerate}
-			\item The homomorphisms $\varphi_U \colon \mathcal{F}(U) \to \mathcal{G}(U)$ are injective for all open $U \subseteq X$ if and only if the induced morphisms $\varphi_x \colon \mathcal{F}_x \to \mathcal{G}_x$ are injective for all $x \in X$.
-			
-			\item The homomorphisms $\varphi_U \colon \mathcal{F}(U) \to \mathcal{G}(U)$ are bijective for all open $U \subseteq X$ if and only if the induced morphisms $\varphi_x \colon \mathcal{F}_x \to \mathcal{G}_x$ are bijective for all $x \in X$.
-			
-			\item $\varphi_x = \psi_x$ for all $x \in X$ if and only if $\varphi = \psi$.
-		\end{enumerate}
-	\end{proposition}
-	
-	\begin{proof}
-		We shall prove the statements (2.) and (3.), leaving (1.) as an exercise. 
-		
-		If the homomorphisms $\varphi_U$ are bijective for all open subset $U$, then the stalks are isomorphic under $\varphi_x$ by the universal property of direct limits. (Abstract nonsense: every functor preserves isomorphisms.) So we only have to prove the converse. Assume that $\varphi_x \colon \mathcal{F}_x \to \mathcal{G}_x$ are bijective for all $x \in X$. 
-		
-		(Injectivity.) Let $s, t \in \mathcal{F}(U)$ be sections and suppose that $\varphi_U(s) = \varphi_U(t)$. Then for every $x \in U$, we have $\varphi_x(s_x) = [U, \varphi_U(s)] = [U, \varphi_U(t)] = \varphi_x(t_x)$. Hence $s_x = t_x$ for all $x \in U$, and so $s = t$ by \cref{chap3:germs-equal-implies-equal}.
-		
-		(Surjectivity.) Let $b \in \mathcal{G}(U)$. For each $x \in X$, there is a germ $s_x \in \mathcal{F}_x$ such that $\varphi_x(s_x) = b_x$. Let $s$ be a section defined on an open neighbourhood $V$ of $x$ such that $[V, s] = s_x$. Then by assumption $[V, \varphi_V(s)] = b_x$. By definition, there is an open neighbourhood $W_x$ of $x$ and a section $w(x) \coloneqq s|_{W_x} \in \mathcal{F}(W_x)$ such that $\varphi_{W_x}(w(x)) = b|_{W_x}$.
-		
-		The open sets $\Set{W_x}$, $x \in U$, form an open cover of $U$. Furthermore, if $x, y\in U$, then $w(x)|_{W_x \cap W_y} = w(y)|_{W_x \cap W_y}$. Indeed, we have
-		\begin{align*}
-			\varphi_{W_x \cap W_y}(w(x)|_{W_x \cap W_y}) & = \varphi_{W_x}(w(x))|_{W_x \cap W_y} && \text{(Definition of morphism of sheaves)}\\
-			& = b|_{W_x}|_{W_x \cap W_y} && \text{(Definition of $w(x)$)} \\
-			& = b|_{W_y}|_{W_x \cap W_y} && \text{(Definition of morphism of sheaves)}\\
-			& = \varphi_{W_y}(w(y))|_{W_x \cap W_y} && \text{(Definition of $w(y)$)}\\
-			& = \varphi_{W_x \cap W_y}(w(y)|_{W_x \cap W_y}) && \text{(Definition of morphism of sheaves)}.
-		\end{align*}
-		
-		(From now on we will drop justification for routine computations like these.) Since we have just proved that the morphism $\varphi_{W_x \cap W_y}$ is injective, and thus $w(x)|_{W_x \cap W_y} = w(y)|_{W_x \cap W_y}$ as claimed. In particular, the sections $w(x)$ can be glued together. Let $w \in \mathcal{F}(U)$ denote the resulting section so that $w|_{W_x} = w(x)$ for all $x \in U$. Then
-		\begin{equation*}
-			\varphi_U(w)|_{W_x} = \varphi_{W_x}(w|_{W_x}) = \varphi_{W_x}(w(x)) = b|_{W_x}
-		\end{equation*}
-		for all open set $W_x$ in the cover. By the sheaf condition, $\varphi_U(w) = b$.
-		
-		Finally we prove that if $\varphi_x = \psi_x$ for all $x \in X$, then $\varphi = \psi$. Note that the converse is trivial. Let $s \in \mathcal{F}(U)$ be a section. Then
-		\begin{equation*}
-			(\varphi_U(s))_x =\varphi_x(s_x) = \psi_x(s_x) = (\psi_U(s))_x
-		\end{equation*}
-		 for all $x \in X$. Hence $\varphi_U(s) = \psi_U(s)$ by \cref{chap3:germs-equal-implies-equal}.
-	\end{proof}
-	
-	\begin{exercise}
-		Finish the proof of \cref{chap3:injective-can-be-checked-on-stalks}.
-	\end{exercise}
-	
-	\begin{remark}
-		Keep the notation of \cref{chap3:injective-can-be-checked-on-stalks}.
-		
-		\begin{enumerate}
-			\item Note that this proof does not use the fact that $\mathcal{F}$, $\mathcal{G}$ is a sheaf of Abelian groups, so the proposition holds for sheaves of sets.
-			
-			\item The analogous statement for surjections is false. It is in general not true that $\varphi_U \colon \mathcal{F}(U) \to \mathcal{G}(U)$ are surjective for all open $U \subseteq X$ if and only if the induced morphisms $\varphi_x \colon \mathcal{F}_x \to \mathcal{G}_x$ are surjective for all $x \in X$.
-		\end{enumerate}
-	\end{remark}
-	
-	The following proposition is much harder to prove.
-	
-	\begin{proposition}\label{chap3:morphisms-in-term-of-stalks}
-		Let $X$ be a topological space, $\mathcal{F}$, $\mathcal{G}$ sheaves on $X$, and $\varphi \colon \mathcal{F} \to \mathcal{G}$ a morphism of sheaves. Then
-		\begin{enumerate}
-			\item $\varphi$ is a monomorphism in $(\Abs(X))$ if and only if $\varphi_x$ is injective for all $x \in X$.
-			
-			\item $\varphi$ is an epimorphism in $(\Abs(X))$ if and only if $\varphi_x$ is surjective for all $x \in X$.
-			
-			\item $\varphi$ is an isomorphism in $(\Abs(X))$ if and only if $\varphi_x$ is bijective for all $x \in X$.
-		\end{enumerate}
-	\end{proposition}
-	\begin{proof}
-		(1) First assume that $\varphi$ is a monomorphism. In light of \cref{chap3:injective-can-be-checked-on-stalks}, it suffices to show that each morphism $\varphi_U \colon \mathcal{F} \to \mathcal{G}$ is injective. Let $\mathcal{K}$ be the kernel sheaf of $\varphi$, i.e. $\mathcal{K}(U) = \ker\varphi_U$ for all open $U\subseteq X$. This is a subsheaf of $\mathcal{F}$ (\cref{chap3:kernel-sheaf-is-a-sheaf}).
-		
-		Let $i \colon \mathcal{K} \to \mathcal{F}$ be the inclusion morphism, i.e. $i_U$ is the inclusion $\mathcal{K}(U) \hookrightarrow \mathcal{F}(U)$ for all open subset $U \subseteq X$. There is also another morphism of sheaves $0 \colon \mathcal{K} \to \mathcal{F}$ such that $0_U \colon \mathcal{K}(U) \to \mathcal{F}(U)$ is the zero homomorphism for all $U$. Clearly $\varphi \circ i = 0 = \varphi \circ 0$. Since $\varphi$ is a monomorphism, $i = 0$. Hence for each open $U \subseteq X$, we see that $a = i_U(a) = 0_U(a) = 0$ for all $a \in \ker(\varphi_U)$. In other words, $\varphi_U$ is injective for all open subset $U$.
-		
-		Conversely, assume that $\varphi_x$ is injective for all $x \in X$. Suppose $\psi, \eta \colon\mathcal{H} \to \mathcal{F}$ are morphisms of sheaves such that $\varphi \circ \psi = \varphi \circ \eta$. Since taking stalks is a functor, $\varphi_x \circ \psi_x = \varphi_x \circ \eta_x$ for all $x \in X$. Using the fact that $\varphi_x$ is injective, we have $\psi_x = \eta_x$ for all $x \in X$. By \cref{chap3:injective-can-be-checked-on-stalks}, $\psi = \eta$, and so $\varphi$ is a monomorphism.
-		
-	\todo{(2) and (3)}
-	\end{proof}
-	
-	
-	
-	\begin{remark}
-		\cref{chap3:morphisms-in-term-of-stalks} remains true if the sheaves considered are sheaves of sets instead of sheaves of Abelian groups, although the arguments must be modified.
-	\end{remark}
-	
-	Stalks behave well with basis.
-	\begin{lemma}[Stalks Can Be Computed on a Basis]\label{chap3:stalks-can-be-computed-on-basis}
-		Let $X$ be a topological space with a basis $\mathcal{B}$, $x \in X$ a point, and $\mathcal{F}$ a presheaf on $X$. The collection of Abelian groups of the form
-		\begin{equation*}
-			\mathcal{F}(B), \quad B \in \mathcal{B},
-		\end{equation*}
-		together with the restriction maps of $\mathcal{F}$ form a direct system. Furthermore, the direct limit of this system is equal to the stalk of $\mathcal{F}$ at $x$:
-		\begin{equation*}
-			\mathcal{F}_x = \varinjlim_{\substack{{B} \ni x, \\ B \in \mathcal{B} }} \mathcal{F}(B).
-		\end{equation*}
-	\end{lemma}
-	
-	\begin{proof}
-		\todo{arg1}
-	\end{proof}
-	
-	\section{Sheafification}
-	
-	As seen above, some presheaves fail to be sheaves because of the failure to glue sections.  There is a canonical way to associate a sheaf to a presheaf.
-	
-	\begin{theorem}[Sheafification]\label{chap3:sheafification}
-		Let $X$ be a topological space and $\mathcal{F}$ a presheaf. There exists a sheaf $\mathcal{F}^\dagger$ (called the \inlinedef{sheafification} of $\mathcal{F}$) with a morphism of presheaves $i \colon \mathcal{F} \to \mathcal{F}^\dagger$ such that if $\mathcal{G}$ is a sheaf with a morphism of presheaves $\varphi \colon \mathcal{F} \to \mathcal{G}$, then there is a unique morphism of sheaves ${\varphi}^\dagger \colon \mathcal{F}^\dagger \to \mathcal{G}$ such that the following diagram commutes:
-		
-		% https://q.uiver.app/#q=WzAsMyxbMCwwLCJcXG1hdGhjYWx7Rn0iXSxbMSwwLCJcXG1hdGhjYWx7Rn1eXFxkYWdnZXIiXSxbMSwxLCJcXG1hdGhjYWx7R30iXSxbMCwxLCJpIl0sWzEsMiwiXFx2YXJwaGleXFxkYWdnZXIiLDAseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XSxbMCwyLCJcXHZhcnBoaSIsMl1d
-		\[\begin{tikzcd}
-			{\mathcal{F}} & {\mathcal{F}^\dagger} \\
-			& {\mathcal{G}}
-			\arrow["i", from=1-1, to=1-2]
-			\arrow["\varphi"', from=1-1, to=2-2]
-			\arrow["{\varphi^\dagger}", dashed, from=1-2, to=2-2]
-		\end{tikzcd}\]
-		
-		The pair $(\mathcal{F}^\dagger, i)$ is unique up to unique isomorphism. Moreover, $i_x \colon \mathcal{F}_x \to \mathcal{F}^\dagger_x$ is an isomorphism for all $x \in X$.
-	\end{theorem}
-	
-	The sheaf $\mathcal{F}^\dagger$ is also called the \inlinedef{sheaf associated to the presheaf} $\mathcal{F}$.
-	
-	\begin{proof}
-	We divide the proof into several parts.
-	
-	\textbf{[Definition.]} Let $U \subseteq X$ be an open subset. Define $\mathcal{F}^\dagger(U)$ to be the set of functions $f \colon U \to \coprod_{x \in U} \mathcal{F}_x$ satisfying
-		\begin{itemize}
-			\item [(\ast)] for all $x \in U$, there is an open neighbourhood $V \subseteq U$ of $x$ and $s \in \mathcal{F}(V)$ such that for all $y \in V$, $f(y) = s_y$.
-		\end{itemize} 
-	With pointwise addition this is an abelian group. The restriction map $\res^U_W \colon \mathcal{F}^\dagger(U) \to \mathcal{F}^\dagger(W)$ for $W \subseteq U$ is defined to be the restriction of functions, so $\res^U_W(f) = f|_W$ for all $f \in \mathcal{F}^\dagger(U)$. It is easily checked that $f|_W \in \mathcal{F}^\dagger(W)$, and that restrictions are group homomorphisms. From this it follows that $\mathcal{F}^\dagger$ is a presheaf on $X$.
-	
-	\textbf{[$\mathcal{F}^\dagger$ is a sheaf.]} To show that $\mathcal{F}^\dagger$ is a sheaf, we assume that $U \subseteq X$ is an open set with an open covering $\bigcup_{i \in I}U_i = U$.
-	
-	\begin{enumerate}
-		\item (Uniqueness) Easy.
-		
-		\item (Gluing.) For each $i \in I$, let $f_i \in \mathcal{F}^\dagger(U_i)$ be functions such that $f_i|_{U_i \cap U_j} = f_j|_{U_i \cap U_j}$ for all $i, j \in I$. Define $f \colon U \to \coprod_{x \in U} \mathcal{F}_x$ by $f(x) = f_i(x)$ if $U_i$ contains $x$. This is well-defined because if $U_i$ and $U_j$ both contains $x$, then $x \in U_i \cap U_j$ and so $f_i(x) = f_i|_{U_i \cap U_j}(x) = f_j|_{U_i \cap U_j} = f_j(x)$. Further, the condition (\ast) hold for $f$.
-	\end{enumerate}
-	
-	\textbf{[Definition of $i$.]} Next we define a morphism of presheaves $i \colon \mathcal{F} \to \mathcal{F}^\dagger$. For each $a \in \mathcal{F}(U)$, let $i_U(a)$ be the function $x \mapsto a_x$ for all $x \in U$. This is clearly seen to be a group homomorphism compatible with restriction maps of $\mathcal{F}$ and $\mathcal{F}^\dagger$. Thus $i$ is really a morphism of presheaves.
-	
-	\textbf{[$i_x$ is surjective.]} Let $x \in X$ We now show that $\mathcal{F}^\dagger_x \cong \mathcal{F}_x$ under the map $i_x$. Let $U$ be an open neighbourhood of $x$ and let $f \in \mathcal{F}^\dagger(U)$. By definition there is an open neighbourhood $V$ of $x$ and $s \in \mathcal{F}(V)$ such that for all $y \in V$, we have $f(y) = s_y$. Then $[U, f] = [V, i_V(s)]$. In particular, the map $i_x \colon \mathcal{F}_x \to \mathcal{F}^\dagger_x$ is a surjection. 
-	
-	\textbf{[$i_x$ is injective.]} To show that $i_x$ is injective, let $0$ denote the function $x \mapsto 0_x$ for all $x \in X$. Plainly, $[X, 0]$ is the additive identity of $\mathcal{F}_x$. Suppose that $V$ is a neighbourhood of $x$ and $s \in \mathcal{F}(V)$ is a section  such that $i_x([V,s ]) = [V, i_V(s)] = [X, 0]$. By definition, there is an open neighbourhood $W \subseteq V$ of $x$ such that $i_W(s|W) = i_V(s)|_W = 0|_W$. But this implies that $s_y = 0_y$ for all $y \in W$. By \cref{chap3:germs-equal-implies-equal}, $s|_W = 0$. Hence $[V, s] = [W, s|_W] = [W, 0]$, and so $i_x$ is an isomorphism.
-	
-	\textbf{[Universal property of $\mathcal{F}^\dagger$.]} Now we show the universal property. Let $\mathcal{G}$ be a sheaf and $\varphi\colon \mathcal{F} \to \mathcal{G}$ a morphism of presheaves. Consider the diagram
-	% https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXG1hdGhjYWx7Rn0iXSxbMSwwLCJcXG1hdGhjYWx7Rn1eXFxkYWdnZXIiXSxbMCwxLCJcXG1hdGhjYWx7R30iXSxbMSwxLCJcXG1hdGhjYWx7R31eXFxkYWdnZXIiXSxbMCwxLCJpIl0sWzAsMiwiXFx2YXJwaGkiLDJdLFsxLDMsIiIsMCx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX1dLFsyLDMsImoiLDJdXQ==
-	\[\begin{tikzcd}
-		{\mathcal{F}} & {\mathcal{F}^\dagger} \\
-		{\mathcal{G}} & {\mathcal{G}^\dagger}
-		\arrow["i", from=1-1, to=1-2]
-		\arrow["\varphi"', from=1-1, to=2-1]
-		\arrow[dashed, from=1-2, to=2-2]
-		\arrow["j"', from=2-1, to=2-2]
-	\end{tikzcd}\]
-	where $\mathcal{G}^\dagger$ is defined as set of functions similar to $\mathcal{F}^\dagger$, and $j$ is morphism of preshaves $\mathcal{G} \to \mathcal{G}^\dagger$. We have shown above that $j_x$ is an isomorphism for all $x \in X$, and so $j$ is an isomorphism of sheaves (\cref{chap3:morphisms-in-term-of-stalks}).
-	
-	Since we are given a morphism $\varphi \colon\mathcal{F} \to \mathcal{G}$, we have the induced morphisms on stalks $\varphi_x \colon \mathcal{F}_x \to \mathcal{G}_x$ for all $x \in X$. Define a morphism $\varphi^\sharp \colon \mathcal{F}^\dagger \to \mathcal{G}^\dagger$ on an open set $U \subseteq X$ by
-	\begin{equation*}
-		\varphi^\sharp_U(f) = \text{ the composition } U \xrightarrow{f} \coprod_{x \in U} \mathcal{F}_x \xrightarrow{\coprod_x \varphi_x} \coprod_{x \in U} \mathcal{G}_x,
-	\end{equation*}
-	that is, $	\varphi^\sharp_U(f)(x) = \varphi_x(f(x))$ for all $x \in U$. It is easy to check that this is a group homomorphism. By composing with $j^{-1}$ we get a morphism $\varphi^\dagger = j^{-1} \circ \varphi^\sharp \colon \mathcal{F}^\dagger \to \mathcal{G}$.
-	
-	To verify that $\varphi^\dagger \circ i = \varphi$, let $U \subseteq X$ be an open set and $s \in \mathcal{F}(U)$. Then $\varphi^\sharp_U(i_U(s))$ is equal to the function given by $s \mapsto  \varphi_U(s)_x$ for all $x \in X$. Because $j_U$ is an isomorphism, we immediately have $j^{-1}_U(\varphi^\sharp_U(i_U(s))) = \varphi_U(s)$. This proves the claim.
-	
-	The fact that $\mathcal{F}^\dagger$ and $\varphi^\dagger$ is unique follows from a standard uniqueness proof of universal objects.
-	\end{proof}
-	
-%	For each open subset $U \subseteq X$ and $f \in \mathcal{F}^\dagger(U)$, by definition each point $x \in U$ has an neighbourhood $V_x \subseteq U$ and a section $s(x) \in \mathcal{F}(V_x)$ such that for all $y \in V_x$, $f(y) = s(x)_y$. 
-
-%Clearly $\Set{V_x}_{x \in U}$ covers $U$. Further we claim that the sections $\varphi_{V_x}(s(x))$, $x\in U$, agree on the overlap and so they can be glued. To see this, we may assume $V_x \cap V_z \neq\emptyset$. Let $t \in V_x \cap V_z$, and so by definition $s(x)_t = f(t) = s(z)_t$. This implies that $s(x)|_{V_x \cap V_z} = s(z)|_{V_x \cap V_z}$, and so $\varphi_{V_x}(s(x))|_{V_x \cap V_z} = \varphi_{V_z}(s(z))|_{V_x \cap V_z}$ which is what we need to glue the sections together. Let $\varphi_U\dagger(f)$ equal to this section.
-%
-%This is independent of the cohice of the neighbourhood cover $\Set{V_x}_{x \in U}$ and sections $s(x) \in \mathcal{F}(V_x)$ as can be shown by comparing the resulting sections on stalks.
-
-	The set $\coprod_{x \in U} \mathcal{F}_x$ used in the construction of the sheafification is known as the \inlinedef{étalé space} of the presheaf $\mathcal{F}$. The word \textit{étalé} comes from French meaning \textit{spreaded out}.
-	
-	The most important fact about sheafification can be phrased in the following form: it is a left adjoint to the inclusion functor of sheaves into the category of presheaves.
-	
-	\begin{proposition}[Sheafification is left adjoint to the inclusion functor]
-		Let $X$ be a topological space.	Sheafification defines a functor $(-)^\dagger$ from the category of presheaves $(\PrSheaf(X))$ to the category of sheaves $(\Sheaf(X))$. Furthermore, the sheafification functor is left adjoint to the inclusion functor of $(\Sheaf(X))$ into $(\PrSheaf(X))$.
-	\end{proposition}
-	
-	\begin{proof}
-		Follows from \cref{chap3:sheafification}
-	\end{proof}
-	
-	\begin{example}[Constant Sheaf]
-		\todo{Constant Sheaves}
-	\end{example}
-	
-	\section{Direct Image and Inverse Image}
-	
-	Suppose we have a continuous map $f \colon X \to Y$ between two topological spaces. There is a way to transfer a sheaf on $X$ to a sheaf on $Y$, and vice versa. We first start with the notion of pushing a sheaf on $X$ by $f$ into a sheaf on $Y$.
-	
-	\begin{definition}[Pushforward, Direct Image Sheaf]
-		Let $f \colon X \to Y$ be a continuous map of topological spaces. If $\mathcal{F}$ is a sheaf on $X$, then the \inlinedef{pushforward of $\mathcal{F}$ under $f$} or the \inlinedef{direct image sheaf of $\mathcal{F}$} is the sheaf $f_\ast\mathcal{F}$ defined by
-		\begin{equation*}
-			f_\ast\mathcal{F}(V) = \mathcal{F}(f^{-1}(V))
-		\end{equation*}
-		for all open subset $V \subseteq Y$. The restriction maps of $f_\ast\mathcal{F}$ is the restriction maps of $\mathcal{F}$.
-	\end{definition}
-	
-	\begin{exercise}~
-		\begin{enumerate}
-			\item Prove that if $\mathcal{F}$ is a presheaf on $X$, then $f_\ast\mathcal{F}$ defined as above is a presheaf on $Y$.
-			
-			\item Prove that if $\mathcal{F}$ is a sheaf, then $f_\ast\mathcal{F}$ is also a sheaf on $Y$.
-		\end{enumerate}
-	\end{exercise}
-	
-	\begin{exercise}
-		Prove that $f_\ast$ define a functor $(\Sheaf(X)) \to (\Sheaf(Y))$.
-	\end{exercise}
-	
-	On the other hand, pulling back a sheaf on $Y$ to a sheaf on $X$ is harder. This is due to the fact that the image $f(U)$ of an open set $U\subseteq X$ under a continuous map need not be open. We circumvent this obstruction by considering the filtered inductive system of open sets containing $f(U)$. If $\mathcal{G}$ is a presheaf on $Y$, then the assigment
-	
-	\begin{equation*}
-		U \mapsto \varinjlim_{\substack{V \supseteq f(U) \\ V \text{ open in $Y$}}} \mathcal{G}(V)
-	\end{equation*}
-	
-	is a presheaf on $X$ with the restriction maps induced by the restriction maps of $\mathcal{G}$.  Let us write $f^+\mathcal{G}$ for this presheaf.
-	
-	\begin{exercise}
-		Show that $f^+\mathcal{G}$ is a presheaf.
-	\end{exercise}
-
-	The \inlinedef{inverse image sheaf} $f^{-1}\mathcal{G}$ of $\mathcal{G}$ is the sheafification of the presheaf $f^+\mathcal{G}$ defined above.	Note that, even if $\mathcal{G}$ is a sheaf, $f^+\mathcal{G}$ might not be a sheaf, so the sheafification is required. If $i \colon Z \to X$ is the inclusion of a subspace $Z$ into $X$, and $\mathcal{G}$ is a sheaf on $X$, then we also write $\mathcal{G}|_{Z}$ for the inverse image sheaf $i^{-1}\mathcal{G}$.
-	
-	\begin{remark}
-		Let $X$ be a topological space and $\mathcal{G}$ a sheaf on $X$. If $U \subseteq X$ is an open subset and $i \colon U \to X$ is the inclusion map, then the inverse image presheaf $f^+\mathcal{G}$ is already a sheaf because it is equal to $\mathcal{G}|_{U}$. It then follows that $i^{-1}\mathcal{G} = \mathcal{G}|_{U}$ in this case.
-	\end{remark}
-	
-	\begin{proposition}
-		Let $f\colon X \to Y$ and $g\colon Y \to Z$ be continuous maps of topological spaces, and let $\mathcal{G}$ be a sheaf on $Z$. Then
-		\begin{equation*}
-			(g \circ f)^{-1}(\mathcal{G}) = f^{-1}(g^{-1}\mathcal{G}).
-		\end{equation*}
-	\end{proposition}
-	
-	\begin{proof}
-		content...
-	\end{proof}
-	
-	\begin{lemma}[Stalk of Inverse Image Sheaf]\label{chap3:stalk-of-inverse-image}
-		Let $f \colon X \to Y$ be a continuous map of topological spaces and $\mathcal{G}$ a sheaf on $Y$. Then for all $x \in X$,
-		\begin{equation*}
-			(f^{-1}\mathcal{G})_x \cong \mathcal{G}_{f(x)}.
-		\end{equation*}
-	\end{lemma}
-	\begin{proof}
-		By \cref{chap3:sheafification}, we can compute the stalk at $x \in X$ of the presheaf $f^+\mathcal{G}$ instead. We have
-		\begin{equation*}
-			(f^+\mathcal{G})_x = \varinjlim_{U \ni x } f^{-1}\mathcal{G}(U) = \varinjlim_{U \ni x}\varinjlim_{\substack{V \supseteq f(U) \\ V \text{ open in $Y$}}} \mathcal{G}(V).
-		\end{equation*}
-		Write $\mathcal{I}$ for the category of pairs
-		\begin{equation*}
-			\Set*{(U, V) : U \text{ open in $X$}, U \ni x, V \text{ open in $Y$}, Y \supseteq f(U)}.
-		\end{equation*}
-		There is a unique morphism $(U, V) \to (U', V')$ if and only if $U \supseteq U'$ and $V \supseteq V'$. Then the stalks at $x$ of $f^+\mathcal{G}$ is equal to the colimit
-		\begin{equation*}
-			(f^+\mathcal{G})_x = \varinjlim_{\mathcal{I}} \mathcal{G}(V).
-		\end{equation*}
-		
-		Now define $\mathcal{J}$ to be the category of open neighbourhoods of $f(x)$ ordered by inverse inclusion.	Let $p \colon \mathcal{I} \to \mathcal{J}$ be the projection functor defined by $p(U, V) = V$ for all $(U, V) \in \mathcal{I}$. Then $p$ is a final functor. Indeed, if $W \in \mathcal{J}$, then the comma category
-		$(W \downarrow p)$ is equal to the category of pairs $(U, V) \in \mathcal{I}$ such that $V \subseteq W$. There is a morphism $(U, V) \to (U', V')$ if and only if $V' \subseteq V$ and this morphism is unique. (Unravel the definition!) It is then clear that $(W \downarrow p)$ is not empty because $(f^{-1}(W), W) \in \mathcal{I}$. Further, given two pairs $(U, V)$ and $(U', V')$, there is an object
-		\begin{equation*}
-			(U \cap U', V \cap V') \in \mathcal{I}
-		\end{equation*}
-		such that $(U, V) \to (U \cap U', V \cap V') \leftarrow (U', V')$. Hence $W$ is non-empty and connected, and so $p$ is a final functor as needed.
-		
-		By definition, it follows that restricting diagrams along $p$ does not change their colimit. Consequently,
-		\begin{equation*}
-			(f^+\mathcal{G})_x = \varinjlim_{\mathcal{I}} \mathcal{G} \circ p \cong \varinjlim_{W \in \mathcal{J}} \mathcal{G}(W)  = \mathcal{G}_{f(x)}. \qedhere
-		\end{equation*}
-	\end{proof}
-	
-	\begin{remark}
-		Let $X$ be a topological space with $\mathcal{G}$ a sheaf on $X$. Suppose that $i \colon \Set{x} \to X$ is an inclusion of a point $x \in X$ into $X$. Then
-		\begin{equation*}
-			i^{-1}\mathcal{G} = \mathcal{G}_x.
-		\end{equation*}
-		The latter is to be interpreted as a sheaf on $\Set{x}$ which is equal to $\mathcal{G}_x$ on $\Set{x}$. This gives another proof of \cref{chap3:stalk-of-inverse-image}.
-	\end{remark}
-	
-	\begin{proposition}[Inverse Image is Left Adjoint to Direct Image]\label{chap3:inverse-image-direct-image-adjunction}
-		Let $f \colon X \to Y$ be a continuous map between two topological spaces. Let $\mathcal{F}$ be a sheaf on $X$, and let $\mathcal{G}$ be a presheaf on $Y$. Then there is a bijection
-		\begin{equation*}
-			\Phi_{\mathcal{F}, \mathcal{G}}\colon	\Hom_{(\Sheaf(X))}(f^{-1}\mathcal{G}, \mathcal{F}) \to \Hom_{(\PrSheaf(Y))}(\mathcal{G}, f_\ast \mathcal{F})
-		\end{equation*}
-		which is functorial in $\mathcal{F}$ and $\mathcal{G}$.
-	\end{proposition}
-	
-	Hence there is an adjunction $f^{-1} \dashv f_\ast$.
-	
-	\begin{proof}		
-		We divide the proof into several steps.
-		\begin{enumerate}
-			\item We first determine the unit $\eta \colon 1_{(\PrSheaf(Y))} \Rightarrow f_\ast f^{-1}$ of this adjunction. Let $\mathcal{G}$ be a presheaf on $Y$. We need to find a morphism $\eta(\mathcal{G}) \colon \mathcal{G} \to f_\ast f^{-1} \mathcal{G}$. To do this, let $V \subseteq Y$ be an open subset. Since $f(f^{-1}(V)) \subseteq V$, the open set $V$ appears in the direct system in the definition of the presheaf $f^+ \mathcal{G}$:
-			\begin{equation*}
-				f^+\mathcal{G}(f^{-1}(V)) = \varinjlim_{\substack{O \supseteq f(f^{-1}(V)) \\ O \text{ open in $X$}}} \mathcal{G}(O).
-			\end{equation*}
-			Hence there is a canonical morphism $\mathcal{G}(V) \to f^+\mathcal{G}(f^{-1}(V))$. After passing to the sheafification, we obtain a morphism $\mathcal{G}(V) \to f^{-1}\mathcal{G}(f^{-1}(V)) = f_\ast f^{-1}\mathcal{G}(V)$. It is easily checked that this is compatible with restriction, and thus define a genuine morphism of presheaves $\eta(\mathcal{G}) \colon \mathcal{G} \to f_\ast f^{-1} \mathcal{G}$, which we take to be $\eta(\mathcal{G})$.
-			
-			We also write $\kappa^V_{f^{-1}(V)}$ for the canonical morphism $\mathcal{G}(v) \to f^+\mathcal{G}(f^{-1}(V))$ into the direct limit. Let $i \colon f^+\mathcal{G} \to f^{-1}\mathcal{G}$ be the sheafification map, and so $\eta(\mathcal{G})$ can also be given by the formula
-			\begin{equation*}
-				\eta(\mathcal{G})_V = i_{f^{-1}(V)} \circ \kappa^V_{f^{-1}(V)}.
-			\end{equation*}
-			
-			\item The proof that $\eta$ is a natural transformation essentially boils down to the fact that taking colimits and sheafification are natural. The proof is omitted.
-			
-			\item The next step is to define a morphism
-			\begin{equation*}
-				\Phi_{\mathcal{F}, \mathcal{G}}\colon	\Hom_{(\Sheaf(X))}(f^{-1}\mathcal{G}, \mathcal{F}) \to \Hom_{(\PrSheaf(Y))}(\mathcal{G}, f_\ast \mathcal{F}).
-			\end{equation*}
-			Let $\varphi \colon f^{-1}\mathcal{G} \to \mathcal{F}$ be a morphism of sheaves. We need to define a morphism $\Phi_{\mathcal{F}, \mathcal{G}}(\varphi)\colon\mathcal{G} \to f_\ast \mathcal{F}$. This is basically forced upon us since we know the unit $\eta$. Let $V \subseteq Y$ be an open set. Then define $\Phi_{\mathcal{F}, \mathcal{G}}(\varphi)_V$ by
-			\begin{equation*}
-				\mathcal{G}(V) \xrightarrow{\eta(\mathcal{G}_V)} f_\ast f^{-1}\mathcal{G}(V) = f^{-1}\mathcal{G}(f^{-1}(V)) \xrightarrow{\varphi_{f^{-1}(V)}} \mathcal{F}(f^{-1}(V)) = f_\ast \mathcal{F}(V).
-			\end{equation*}
-			In particular, $\Phi_{\mathcal{F}, \mathcal{G}}(\varphi) \coloneqq f_\ast\varphi \circ \eta(\mathcal{G})$. This shows that $\Phi_{\mathcal{F}, \mathcal{G}}(\varphi)$ is indeed a morphism of presheaves.
-			
-			\item We now construct the inverse $\Psi_{\mathcal{F}, \mathcal{G}}$ of $\Phi_{\mathcal{F}, \mathcal{G}}$. Let $\psi \colon \mathcal{G} \to f_\ast \mathcal{F}$ be a morphism of presheaves. We seek to define a morphism $\Psi(\psi) \colon f^{-1}\mathcal{G} \to \mathcal{F}$. By the universal property of sheafification (\cref{chap3:sheafification}) it is enough for us to define a morphism of presheaves $a \colon f^+\mathcal{G} \to \mathcal{G}$. Let $U \subseteq X$ be an open subset. As a reminder, $a_U$ is a morphism
-			\begin{equation*}
-				\varinjlim_{\substack{V \supseteq f(U), \\ V \text{ open in $Y$} }} \mathcal{G}(U) \to \mathcal{F}(U).
-			\end{equation*}
-			A morphism out of a direct limit is uniquely determined by the morphisms out of each object in the direct system. With this in mind, let $V \supseteq f(U)$ be an open subset of $Y$ and let $\kappa^V_U$ be the canonical map $\mathcal{G}(V) \to  f^+\mathcal{G}(U)$ into the direct limit. Then $f^{-1}(V) \supseteq f^{-1}(f(U)) \supseteq U$. Hence there exists a series of morphisms
-			\begin{equation*}
-				\mathcal{G}(V) \xrightarrow{\psi_{V}} f_\ast \mathcal{F}(V) = \mathcal{F}(f^{-1}(V)) \xrightarrow{\res^{f^{-1}(V)}_U} \mathcal{F}(U)
-			\end{equation*}
-			which is compatible with restriction.  Hence there is a unique morphism $a_U \colon f^+\mathcal{G}(U) \to \mathcal{F}(U)$ such that
-			\begin{equation*}
-				\res^{f^{-1}(V)}_U \circ \psi_{V} = a_U \circ \kappa^V_U.
-			\end{equation*}
-			Together they give rise to a morphism $a \colon f^+\mathcal{G} \to \mathcal{F}$ of presheaves, as is easily checked. Define $\Psi(\psi)$ to be the unique morphism of sheaves $a^\dagger \colon f^{-1}\mathcal{G} \to \mathcal{F}$ associated to $a$. In particular, if we write $i \colon f^+\mathcal{G} \to f^{-1}\mathcal{G}$ for the sheafification map, then $\Psi(\psi) \circ i = a$ and $\Psi(\psi)$ is uniquely determined by this formula.
-			
-			\item 	Finally we have to show that $\Phi_{\mathcal{F}, \mathcal{G}}$ and $\Psi_{\mathcal{F}, \mathcal{G}}$ are mutually inverse. This is simply algebra (or diagram chasing) from the properties we have already noted.
-			\begin{enumerate}
-				\item Let $\varphi \colon f^{-1}\mathcal{G} \to \mathcal{F}$ be a morphism of sheaves. Then $\Phi(\varphi) = f_\ast \varphi \circ \eta(\mathcal{G})$. By definition $\Psi(\Phi(\varphi))$ is the unique morphism such that
-				for any open subset $U \subseteq X$ and open subset $V \supseteq f(U)$, the equation
-				\begin{equation*}
-					\Psi(\Phi(\varphi))_U \circ i_U \circ \kappa^V_U = \res^{f^{-1}V}_U \circ \Phi(\varphi)_V
-				\end{equation*}
-				holds.
-				Hence we check that
-				\begin{align*}
-					\varphi_U \circ i_U \circ \kappa^V_U & = \varphi_U \circ i_U \circ (\res^{f^{-1}V}_U \circ \kappa^V_{f^{-1}V}) \\
-					& = \varphi_U \circ (\res^{f^{-1}V}_U \circ i_{f^{-1}V})  \circ \kappa^V_{f^{-1}V} \\
-					& = (\res^{f^{-1}V}_U \circ \varphi_{f^{-1}V}) \circ i_{f^{-1}V}  \circ \kappa^V_{f^{-1}V} \\
-					& = \res^{f^{-1}V}_U \circ (f_\ast \varphi_V \circ \eta(\mathcal{G})_V) \\
-					& = \res^{f^{-1}V}_U \circ \Phi(\varphi)_V
-				\end{align*}
-				using the fact that all the maps are compatible with restrictions. By uniqueness, $\Psi(\Phi(\varphi)) = \varphi$.
-				
-				\item We now show that $\Phi(\Psi(\psi)) = \psi$. Let $V \subseteq Y$ be an open set. Then by definition
-				\begin{align*}
-					\Phi(\Psi(\psi))_V = f_\ast\Psi(\psi)_V \circ \eta(\mathcal{G})_V & = \Psi(\psi)_{f^{-1}V} \circ (i_{f^{-1}V} \circ \kappa^V_{f^{-1}V}) \\
-					& = a_{f^{-1}V} \circ \kappa^V_{f^{-1}V} \\
-					& = \res^{f^{-1}V}_{f^{-1}V} \circ \psi_{V}  = \psi_{V}.
-				\end{align*}
-				Since this holds for every open set $V \subseteq Y$, $	\Phi(\Psi(\psi)) = \Psi$.
-				
-				\item We finally prove that $\Phi_{\mathcal{F}, \mathcal{G}}$ is natural in $\mathcal{F}$ and $\mathcal{G}$. First let $\rho \colon \mathcal{F} \to \mathcal{F}'$ and $\varphi \colon f^{-1}\mathcal{G} \to \mathcal{F}$ be morphisms of sheaves. Using the definition and expanding, we obtain
-				\begin{equation*}
-					\Phi_{\mathcal{F}, \mathcal{G}}(\rho \circ \varphi) = f_\ast(\rho \circ \varphi) \circ \eta(\mathcal{G}) = f_\ast \rho \circ f_\ast \varphi \circ \eta(\mathcal{G}) = f_\ast \rho \circ \Phi_{\mathcal{F}, \mathcal{G}}(\varphi).
-				\end{equation*}
-				Therefore $\Phi_{\mathcal{F}, \mathcal{G}}$ is natural in $\mathcal{F}$.
-				
-				Finally let us check that $\Phi_{\mathcal{F}, \mathcal{G}}$ is natural in $\mathcal{G}$. Let $\tau \colon \mathcal{G}' \to \mathcal{G}$ and $\psi \colon \mathcal{G} \to f_\ast \mathcal{F}$ be morphisms of sheaves. we have to show that 
-				\begin{equation*}
-					\Phi_{\mathcal{F}, \mathcal{G'}}(\psi \circ f^{-1}\tau) = \Phi_{\mathcal{F}, \mathcal{G}}(\psi) \circ \tau.
-				\end{equation*}
-				The left hand side is equal to 
-				\begin{equation*}
-					\Phi_{\mathcal{F}, \mathcal{G'}}(\psi \circ f^{-1}\tau) = f_\ast(\psi \circ f^{-1}\tau) \circ \eta(\mathcal{G}') = f_\ast(\psi) \circ f_\ast f^{-1}\tau \circ \eta(\mathcal{G}'),
-				\end{equation*}
-				whereas the right hand side is $\Phi_{\mathcal{F}, \mathcal{G}}(\psi) \circ \tau = f_\ast \psi \circ \eta(\mathcal{G}) \circ \tau$. We would be done if we can prove that
-				\begin{equation*}
-					f_\ast f^{-1}\tau \circ \eta(\mathcal{G}') = \eta(\mathcal{G}) \circ \tau,
-				\end{equation*}
-				but this is simply the naturality of $\eta$ with respect to the morphism $\tau$. \qedhere
-			\end{enumerate}
-		\end{enumerate}
-	\end{proof}
-	
-	\begin{remark}
-		The proof might be simpler if we instead show that $f^+ \dashv f_\ast$ and use category theory to formally conclude that $f^{-1} \dashv f_\ast$.
-	\end{remark}
-	
-	\begin{lemma}[Sheaf Gluing Lemma]\label{chap3:sheaf-gluing-lemma}
-		Let $X$ be a topological space with an open cover $\Set{U_i}_{i \in I}$. Write $U_{ij}$ for $U_i \cap U_j$. Suppose we are given sheaves $\mathcal{F}_i$ on $U_i$ and an isomorphism of sheaves $\varphi_{ij} \colon \mathcal{F}_i|_{U_{ij}} \to \mathcal{F}_j|_{U_{ji}}$ for each $i, j \in I$ satisfying the following conditions:
-		\begin{enumerate}
-			\item $\varphi_{ii} = \id_{\mathcal{F}_i}$.
-			
-			\item $\varphi_{ji} = \varphi_{ij}^{-1}$.
-			
-			\item $\varphi_{ik}|_{U_{ijk}} = \varphi_{jk}\circ\varphi_{ij}|_{U_{ijk}}$ for all $i, j, k \in I$, where $U_{ijk} = U_i \cap U_j \cap U_k$. (This is called the \inlinedef{cocycle condition} of $i,j,k$.)
-		\end{enumerate}
-		Then there is a sheaf $\mathcal{F}$ on $X$ and isomorphisms of sheaves $\psi_i \colon \mathcal{F}|_{U_i} \to \mathcal{F}_i$ such that $\phi^{-1}_j \circ \varphi_{ij} \circ \psi_i|_{U_{ij}}$ is the natural isomorphism $\mathcal{F}|_{U_{i}}|_{U_{ij}} \cong \mathcal{F}|_{U_{j}}|_{U_{ji}}$
-	\end{lemma}
-	\begin{proof}
-		\todo{TODO.}
-	\end{proof}
-	
-	\section{Locally Ringed Spaces}
-	
-	\subsection*{Ringed Spaces}
-	
-	\begin{definition}
-		A \inlinedef{ringed space} is a pair $(X, \mathcal{O}_X)$ where $X$ is a topological space and $\mathcal{O}_X$ is a sheaf of rings on $X$.
-	\end{definition}
-	
-	The sheaf $\mathcal{O}_X$ is called the \inlinedef{structure sheaf} of $X$. A \inlinedef{morphism of ringed spaces} $(f, f^\sharp) \colon (X, \mathcal{O}_X) \to (Y,\mathcal{O}_Y)$ is a pair consisting of a continuous function $f \colon X \to Y$ and a morphism $f^\sharp \colon \mathcal{O}_Y \to f_\ast\mathcal{O}_X$ of sheaves of rings. 
-	
-	\begin{exercise}
-		Define the composition of two morphisms of ringed spaces. Use this to show that ringed spaces and their morphisms form a category of ringed spaces.
-	\end{exercise}
-	
-	\subsection*{Locally Ringed Spaces}
-	
-	Recall that a \inlinedef{local ring} is a ring $A$ with a unique maximal ideal. We write $\mathfrak{m}_A$ for the maximal ideal of $A$, and define the \inlinedef{residue class field} of $A$ to be $\kappa(A) = A/\mathfrak{m}_A$. A ring homomorphism $\varphi \colon A \to B$ between local rings is said to be \inlinedef{local} if $\varphi(\mathfrak{m}_A) \subseteq \mathfrak{m}_B$, or, equivalently, if $\varphi^{-1}(\mathfrak{m}_B) = \mathfrak{m}_A$.
-	
-	A morphism of ringed spaces $f \colon X \to Y$ induces a morphism on stalks at each point of $x \in X$ as follows. Let $f^\sharp \colon \mathcal{O}_Y \to f_\ast\mathcal{O}_X$ be the morphism of sheaves. Then by the adjunction between inverse image and direct image function, we have a morphism $f^\flat \colon f^{-1}\mathcal{O}_Y \to \mathcal{O}_X$ of sheaves on $X$. Let $x \in X$ and take the stalks at $x$ to get
-	\begin{equation*}
-		f^\sharp_x \colon \mathcal{O}_{Y, f(x)} = (f^{-1}\mathcal{O}_Y)_x \to \mathcal{O}_{X, x},
-	\end{equation*}
-	where the equality comes from \cref{chap3:stalk-of-inverse-image}. More concretely, $f^\sharp_x$ sends the class $[V, s]$ where $V$ is an open neighbourhood of $f(x)$, and $s \in \mathcal{O}_Y(V)$ to the class $[f^{-1}V, \varphi_V(s)]$.
-	
-	\todo{motivation for locally ringed condition required to make affine schemes equivalent to rings.}
-	
-	\begin{definition}~
-		\begin{enumerate}
-			\item A \inlinedef{locally ringed space} is a ringed space $(X, \mathcal{O}_X)$ such that for all $x \in X$ the stalk $\mathcal{O}_{X, x}$ is a local ring. The ring $\mathcal{O}_{X, x}$ is called the \inlinedef{local ring of $X$ in $x$}.
-			
-			\item A \inlinedef{morphism of locally ringed spaces} $(f, f^\sharp) \colon (X, \mathcal{O}_X) \to (Y, \mathcal{O}_Y)$ is a morphism of ringed spaces such that the induced map of stalks
-			\begin{equation*}
-				f^\sharp_x \colon (f^{-1}\mathcal{O}_Y)_x = \mathcal{O}_{Y, f(x)} \to \mathcal{O}_{X, x}
-			\end{equation*}
-			is a local ring homomorphism for all $x \in X$.
-		\end{enumerate}	
-	\end{definition}
-
-	Let $(X, \mathcal{O}_X)$ be a locally ringed space, $x \in X$, and $\kappa(x)$ the residue field at $x$. If $f \in\mathcal{O}_X(U)$ is a section defined on an open neighbourhood $U$ of $x$, we define $f(x)$ to be the image of $f$ under the composition
-	\begin{equation*}
-		\mathcal{O}_X(U) \to \mathcal{O}_{X, x} \to \mathcal{O}_{X, x}/\mathfrak{m}_x = \kappa(x).
-	\end{equation*}
-	In this manner we may think of a section on $U$ as a ``function'' from $U$ whose value at each point lies in the different fields $\kappa(x)$.
-	
-	\begin{lemma}\label{chap3:set-where-section-is-non-zero-is-closed}
-		Let $(X, \mathcal{O}_X)$ be a locally ringed space, and let $f \in \mathcal{O}_X(X)$. Define 
-		\begin{equation*}
-			X_f \coloneqq \Set*{x \in X : f(x) \neq 0}.
-		\end{equation*}
-		Then $X_f$ is an open subset of $X$.
-	\end{lemma}
-	\begin{proof}
-		Let $x \in X_f$ and thus $f_x \notin \mathfrak{m}_x$ by unravelling the definitions. Since $\mathcal{O}_{X, x}$ is a local ring, this means that $f_x$ is invertible in $\mathcal{O}_{X, x}$. So there is $g_x \in \mathcal{O}_{X, x}$ such that $f_x g_x = 1$. Let $g \in\mathcal{O}_X(U)$ be a lift of $g_x$ to an open neighbourhood $U$ of $x$. Therefore there is an open neighbourhood $V \subseteq U$ such that
-		\begin{equation*}
-			f|_V g|_V = 1.
-		\end{equation*}
-		This equation implies that $f_y$ is invertible for all $y \in V$, and so $f(y) \neq 0$ for all $y \in V$. Hence $x \in V \subseteq X_f$ and thus the set $X_f$ is open.
-	\end{proof}
-	
-	\todo{Compare this to the case of affine varieties.}
-	
-	\section{Affine Schemes}
-	
-	Let $A$ be a ring. We are going to make $X = \Spec A$ into a locally ringed space by constructing a sheaf of rings on $X$. Recall that $X$ has a basis consisting of principal open subsets. Define a sheaf $\mathcal{O}_X$ on this basis by setting
-	\begin{equation*}
-		\mathcal{O}_X(D(f)) = A_f\quad\text{for each $ f\in A$},
-	\end{equation*}
-	where $A_f$ is the localisation of $A$ with respect to the set $\Set{f^i : i \geq 0}$. Let us denote the canonical homomorphism $A \to A_f$ by $i_f$. To see that this is well-defined, let $D(f) = D(g)$. By \cref{chap2:covering-trick}, $D(g) \subseteq D(f)$ if and only $g^n =  fa$ for some $a \in A$ and $n \geq 1$. In particular, $f/1$ is invertible in $A_g$ because $(a/g^n)(f/1) = 1$. By the universal property of localisation, there exists a unique ring homomorphism $\rho^f_g \colon A_f \to A_g$ such that $\rho^f_g\circ i_f = i_g$. In fact, the homomorphism $\rho^f_g$ is a homomorphism of $R$-algebras.
-	
-	Suppose $D(h) \subseteq D(g) \subseteq D(f)$. Then by uniqueness, $\rho^g_h \circ \rho^f_g = \rho^f_h$. In particular, if $D(g) = D(f)$, then $\rho^f_g$ is an isomorphism which allows us to identify $A_f$ with $A_g$. The condition $\rho^g_h \circ \rho^f_g = \rho^f_h$ implies that $\mathcal{O}_X$ is a presheaf of rings on $\mathcal{B}$ with the restriction maps given by $\rho^f_g$.
-	
-	\begin{theorem}
-		The presheaf $\mathcal{O}_X$ is a sheaf on $\mathcal{B}$.
-	\end{theorem}
-	\begin{proof}
-		Let $D(f)$ be a principal open subset and let $\Set{D(f_i) : i \in I}$ be an open cover of $D(f)$. By restricting the presheaf $\mathcal{O}_X$ to $D(f)$, and replacing $A_f$ with $A$, we may assume that $f = 1$, and hence $D(f) = X$, to ease the notation. Therefore the assumption translates to the statement that $X = \Spec A$ is covered by $\Set{D(f_i) : i \in I}$.
-		
-		We first prove the sheaf conditions when $I$ is finite.
-		
-		\begin{enumerate}
-			\item Let $s \in \mathcal{O}_X(X) = A$ satisfy $s|_{D(f_i)} = 0$ for all $i \in I$. For each $i$ there is $n_i \in \NN$ such that $f_i^{n_i}s = 0$. Set $n = \max_{i \in I} n_i$, so that $f_i^n s = 0$.
-			
-			Since $D(f_i) = D(f^n_i)$ for all $i$, it follows that $\bigcup_{i \in I}D(f_i^n) = \bigcup_{i \in I}D(f_i) = X$ and so $\sum_{i \in I}f^n_i A = A$. Thus there are $b_i \in A$ such that $\sum_{i \in I} f^n_i b_i = 1$. This gives
-			\begin{equation*}
-				s = \left(\sum_{i \in I} f^n_i b_i\right)s = \sum_{i \in I} f^n_i b_i s = 0.
-			\end{equation*}
-			
-			\item Let $s_i \in \mathcal{O}_X(D(f_i))$ satisfy $s_i|_{D(f_i) \cap D(f_j)} = s_j|_{D(f_i) \cap D(f_j)}$ for all $i, j \in I$. Let us write $s_i = \frac{a_i}{f_i^{n_i}}$. We may adjust the fractions so that all $n_i$ are equal, so that $s_i = \frac{a_i}{f_i^{n}}$, where $n \in \NN$ is independent of $i$.
-			
-			By hypothesis, for all $i, j \in I$,
-			\begin{equation*}
-			\left.\frac{a_i}{f_i^n}\right\vert_{D(f_if_j)}= \frac{a_if_j^n}{(f_if_j)^n} = \frac{a_jf_i^n}{(f_if_j)^n} = \left.\frac{a_j}{f_j^n}\right\vert_{D(f_if_j)}.
-			\end{equation*}
-			So that there is $m \geq 1$ such that $(f_if_j)^m(a_if_j^n - a_jf_i^n) = 0$. Again we may choose $m$ to be independent of $i$ and $j$. Thus by setting $k = n + m$, we obtain
-			\begin{equation*}
-				(f_i^m a_i) f_j^k = (f_j^ma_j)f_i^k
-			\end{equation*}
-			for all $i, j \in I$.
-			
-			Arguing as above, there are $b_i \in A$ such that $\sum_{j \in I} f^k_j b_j = 1$. Put $s \coloneqq\sum_{j \in I} b_j f_j^m a_j$. Then
-			\begin{equation*}
-				f_i^ks = f_i^k \left(\sum_{j \in I} b_j f_j^m a_j\right) = \sum_{j \in I} b_j (f_i^k f_j^m a_j) = \sum_{j \in I} b_j (f_i^m a_i f_j^k) = f_i^m a_i \left(\sum_{j \in I} b_j  f_j^k\right) = f_i^m a_i.
-			\end{equation*}
-			
-			Hence $s \in A = \mathcal{O}_X(X)$ is such that its image in $A_{f_i}$ is equal to
-			\begin{equation*}
-				\frac{s}{1} = \frac{f_i^k s}{f_i^k} = \frac{f_i^m a_i}{f_i^{n + m}} = \frac{a_i}{f_i^n} = s_i.
-			\end{equation*}
-		\end{enumerate}
-		
-		Finally we consider the case when $I$ is infinite. Via \cref{chap2:covering-trick}, there is a finite subset $J \subseteq I$ such that $1 = \sum_{j \in J} f_j A$. From what was just proved, we see that gluing sections indexed by finite subsets work.
-		
-		\begin{enumerate}
-			\item Let $s \in \mathcal{O}_X(X) = A$ satisfy $s|_{D(f_i)} = 0$ for all $i \in I$. Then $s|_{D(f_j)} = 0$ for all $j \in J$ and hence $s = 0$.
-			
-			\item Let $s_i \in \mathcal{O}_X(D(f_i))$ satisfy $s_i|_{D(f_i) \cap D(f_k)} = s_k|_{D(f_i) \cap D(f_k)}$ for all $i, k \in I$. Consider the sections $s_j$ with $j \in J$. From the finite case, they glue to a section $s \in \mathcal{O}_X(X)$ such that $s|_{D(f_j)} = s_j$ for all $j \in J$. We claim that the section $s$ is the one we get from gluing $s_i$.
-			
-			We only need to check that for all $i \in I$, $s|_{D(f_i)} = s_i$. Note that $\Set{D(f_i) \cap D(f_j)}_{j \in J}$ is a finite covering of $D(f_i)$. Hence, for all $i \in I$ and $j \in J$,
-			\begin{equation*}
-				s|_{D(f_i)}|_{D(f_i) \cap D(f_j)} = s|_{D(f_j)}|_{D(f_i) \cap D(f_j)} = s_j|_{D(f_i) \cap D(f_j)} = s_i|_{D(f_i) \cap D(f_j)}.
-			\end{equation*}
-			By (1), $s|_{D(f_i)} = s_i$. This finishes the proof. \qedhere
-		\end{enumerate}
-	\end{proof}
-	
-	\begin{corollary}
-		The sheaf $\mathcal{O}_X$ extends to a sheaf $\mathcal{O}_X$ on $X$, called the \inlinedef{structure sheaf} of $\Spec A$.
-	\end{corollary}
-	
-	\begin{lemma}[Stalks of $\Spec A$] 
-		Let $X = \Spec A$, $\mathcal{O}_X$ its structure sheaf, and $x \in \Spec A$. Then		
-		\begin{equation*}
-			\mathcal{O}_{X, x} = A_{\mathfrak{p}_x},
-		\end{equation*}
-		the localisation of $A$ at the prime ideal $\mathfrak{p}_x$. In particular, $(X, \mathcal{O}_X)$ is a locally ringed space.
-	\end{lemma}
-	\begin{proof}
-		By \cref{chap3:stalks-can-be-computed-on-basis}, we can compute the stalk $\mathcal{O}_{X, x}$ on the basis of principal open subsets, and thus
-		\begin{equation*}
-			\mathcal{O}_{X, x} = \varinjlim_{D(f) \ni x} \mathcal{O}_X(D(f)) = \varinjlim_{f \notin\mathfrak{p}} A_f = A_{\mathfrak{p}},
-		\end{equation*}
-		the last equality follows from commutative algebra (\cref{chap3:localisation-at-prime-as-direct-limit}).
-	\end{proof}
-	
-	\begin{definition}
-		A locally ringed space $(X, \mathcal{O}_X)$ is said to be an \inlinedef{affine scheme} if it is isomorphic to a locally ringed space $(\Spec A, \mathcal{O}_{\Spec A})$ for suitable ring $A$.
-	\end{definition}
-	
-	A \inlinedef{morphism of affine schemes} is simply a morphism of locally ringed spaces. We thus obtain the category of affine schemes which we shall denote by $(\Aff)$.
-	
-	Let $\varphi \colon A \to B$ be a ring homomorphism. We shall define a morphism of affine schemes $\Spec \varphi = (f, f^\sharp) \colon (\Spec B, \mathcal{O}_{\Spec B}) \to(\Spec A, \mathcal{O}_{\Spec A})$. Here is the definition: 
-	\begin{enumerate}
-		\item $f = \Spec \varphi$ is the induced continuous map on spectra, and,
-		\item $f^\sharp \colon \mathcal{O}_{\Spec A} \to f_\ast \mathcal{O}_{\Spec B}$ is given on principal open subsets by  
-		\begin{equation*}
-			f^\sharp_{D(s)} : \mathcal{O}_{\Spec A}(D(s)) \to \mathcal{O}_{\Spec B}(f^{-1}(D(s))).
-		\end{equation*}
-		Since $f^{-1}(D(s)) = D(\varphi(s))$ by \cref{chap2:property-of-spec-map}, we need to define a map $f^\sharp_{D(s)} \colon A_s \to B_{\varphi(s)}$. The natural map for this is the unique map $\varphi_s \colon A_s \to B_{\varphi(s)}$ induced by the canonical localisation maps:
-		% https://q.uiver.app/#q=WzAsNCxbMCwwLCJBIl0sWzEsMCwiQiJdLFswLDEsIkFfcyJdLFsxLDEsIkJfe1xcdmFycGhpKHMpfSJdLFswLDEsIlxcdmFycGhpIl0sWzIsMywiXFx2YXJwaGlfcyIsMl0sWzAsMl0sWzEsM11d
-		\[\begin{tikzcd}
-			A & B \\
-			{A_s} & {B_{\varphi(s)}}
-			\arrow["\varphi", from=1-1, to=1-2]
-			\arrow[from=1-1, to=2-1]
-			\arrow[from=1-2, to=2-2]
-			\arrow["{\varphi_s}"', from=2-1, to=2-2]
-		\end{tikzcd}\]
-		Therefore we take $f^\sharp_{D(s)}$ to be $\varphi_s$.
-	\end{enumerate}
-	
-	The above data actually define a morphism of ringed spaces $\Spec B \to \Spec A$, as shown in the following proposition.
-	
-	\begin{proposition}
-		The maps $f^\sharp_{D(s)}$ is compatible with restrictions, and furthermore, $f^\sharp_x$ is a local ring homomorphism for all $x \in \Spec B$. Hence $(f, f^\sharp)$ defines a morphism of locally ringed spaces.
-	\end{proposition}
-	\begin{proof}
-		Let $D(g) \subseteq D(s)$ be principal open subsets of $\Spec A$. Then 
-		\begin{equation*}
-			D(\varphi(g)) = f^{-1}(D(g)) \subseteq f^{-1}(D(s)) = D(\varphi(s)).
-		\end{equation*} 
-		Therefore we have a commutative diagram of ring homomorphisms
-% https://q.uiver.app/#q=WzAsOCxbMSwwLCJBX3MiXSxbMSwxLCJBX2ciXSxbMiwwLCJCX3tcXHZhcnBoaShzKX0iXSxbMiwxLCJCX3tcXHZhcnBoaShnKX0iXSxbMCwwLCJcXG1hdGhjYWx7T31fe1xcU3BlYyBBfShEKHMpKSJdLFswLDEsIlxcbWF0aGNhbHtPfV97XFxTcGVjIEF9KEQoZykpIl0sWzMsMCwiXFxtYXRoY2Fse099X3tcXFNwZWMgQn0oRChcXHZhcnBoaShzKSkpIl0sWzMsMSwiXFxtYXRoY2Fse099X3tcXFNwZWMgQn0oRChcXHZhcnBoaShnKSkpIl0sWzAsMV0sWzAsMiwiXFx2YXJwaGlfcyJdLFsyLDNdLFsxLDMsIlxcdmFycGhpX3tnfSIsMl0sWzQsMCwiXFxzaW1lcSJdLFs1LDEsIlxcc2ltZXEiLDJdLFs0LDVdLFsyLDYsIlxcc2ltZXEiXSxbMyw3LCJcXHNpbWVxIiwyXSxbNiw3XV0=
-	\[\begin{tikzcd}
-		{\mathcal{O}_{\Spec A}(D(s))} & {A_s} & {B_{\varphi(s)}} & {\mathcal{O}_{\Spec B}(D(\varphi(s)))} \\
-		{\mathcal{O}_{\Spec A}(D(g))} & {A_g} & {B_{\varphi(g)}} & {\mathcal{O}_{\Spec B}(D(\varphi(g)))}
-		\arrow["\simeq", from=1-1, to=1-2]
-		\arrow[from=1-1, to=2-1]
-		\arrow["{\varphi_s}", from=1-2, to=1-3]
-		\arrow[from=1-2, to=2-2]
-		\arrow["\simeq", from=1-3, to=1-4]
-		\arrow[from=1-3, to=2-3]
-		\arrow[from=1-4, to=2-4]
-		\arrow["\simeq"', from=2-1, to=2-2]
-		\arrow["{\varphi_{g}}"', from=2-2, to=2-3]
-		\arrow["\simeq"', from=2-3, to=2-4]
-	\end{tikzcd}\]
-		Hence the homomorphisms $\varphi_s$ assemble to a morphism of sheaves on the basis of principal open subsets, and so it extends to a unique morphism of sheaves $f^\sharp \colon \mathcal{O}_{\Spec A} \to f_\ast \mathcal{O}_{\Spec B}$.
-		
-		Lastly we have to check that $f^\sharp_x$ is local for all $x \in \Spec B$. Unravelling the definition of $f^\sharp$, it is clear that $f^\sharp_x$ is the homomorphism
-		\begin{equation*}
-			\mathcal{O}_{\Spec A, f(x)} = A_{\varphi^{-1}(\mathfrak{p}_x)} \xrightarrow{\varphi_{\mathfrak{p}_x}} B_{\mathfrak{p}_x} = \mathcal{O}_{\Spec B, x}
-		\end{equation*}
-		induced from $\varphi \colon A \to B$, which is indeed local. This proves the proposition.
-	\end{proof}
-	
-	\subsection*{Anti-equivalence of the Categories $(\Aff)$ and $(\Rings)$}
-	
-	\todo{TO DO.}
-	
-	\begin{theorem}\label{chap3:antiequivalence-of-affine-schemes-and-rings}
-		The functors $\Spec$ and $\Gamma$ form an anti-equivalence of the categories of affine schemes and the category of rings.
-	\end{theorem}
-	
-	
-	We use the anti-equivalence of the categories of affine schemes and the category of rings to prove that every principal open subset of an affine scheme is in itself an affine scheme with the inherited locally ringed space structure.
-	
-	\begin{proposition}\label{chap3:principal-open-subset-is-affine}
-		Let $A$ be a ring and $X = \Spec A$. For each $f \in A$, the open set $(D(f))$ with the restricted sheaf $\mathcal{O}_{X|D(f)}$ is a locally ringed space canonically isomorphic to the affine scheme $\Spec A_f$.
-	\end{proposition}
-	
-	In this situation we also say that $(D(f), \mathcal{O}_{X|U})$ is an \inlinedef{affine open subscheme} of $A$.
-	
-	\begin{proof}
-		Clearly $(D(f), \mathcal{O}_{X|U})$ is a locally ringed space. Let $\varphi \colon A \to A_f$ denote the canonical localisation map and let $j \colon \Spec A_f \to \Spec A$ be the induced continuous map. We proved in \cref{chap2:localisations-isomorphic-to-spec} that $j$ is a homeomorphism from $\Spec A_f$ onto the open subset $D(f) \subseteq \Spec A$. Hence there is a morphism of locally ringed spaces
-		\begin{equation*}
-			(j, j^\sharp) \colon (\Spec A_f, \mathcal{O}_{\Spec A_f}) \to (D(f), \mathcal{O}_{X|U})
-		\end{equation*}
-		where
-		$j^\sharp = i^\sharp\circ\varphi^\sharp$ is the composition of morphisms of sheaves induced from $\varphi$ and the inclusion $i \colon D(f) \hookrightarrow X$. For each open subset $D(g) \subseteq D(f)$, we obtain
-		\begin{equation*}
-			\mathcal{O}_{X|U}(D(g)) = \mathcal{O}_X(D(g)) = A_g \cong (A_f)_{\varphi(g)} = \mathcal{O}_{\Spec A_f}(D(\varphi(g))) = (j_\ast\mathcal{O}_{\Spec f})(D(g)).
-		\end{equation*}
-		(Use \cref{chap2:property-of-spec-map}.) Hence $j^\sharp$ is an isomorphism of sheaves when checked on the basis consisting of principal open subsets, and so $j^\sharp$ is indeed an isomorphism.
-	\end{proof}
-	
-	\subsection*{Examples of Affine Schemes and Their Morphisms}
-	\begin{example}
-		Let $k$ be a field. Then the scheme $\Spec k$ consists of a single point. The structure sheaf of $\Spec k$ is just $k$.
-	\end{example}
-	
-	\begin{example}
-		Let $R$ be a discrete valuation ring. Then $\Spec R$ consists of two points.
-	\end{example}
-	
-	\begin{example}[The Affine Space]
-		Let $R$ be a ring. Let $\AAA^n_R$ denote the affine scheme $\Spec R[X_1, \dotsc, X_n]$. This is called the \inlinedef{affine space of relative dimension $n$}. The inclusion $R \to R[X_1, \dotsc, X_n]$ define a morphism of affine schemes $\AAA^n_R \to \Spec R$.
-		
-		Let's consider the affine line $\AAA^1_k$ when $k$ is a field. Since $k[X]$ is a PID, every proper open subset of $\AAA^1_k$ is of the form $D(f)$ for some non-zero polynomial $f \in k[x]$. Then $\mathcal{O}_{\AAA^1_k}(D(f)) = k[X]_{f} = k[X, 1/f]$.
-	\end{example}
-	
-	
-	
-	\section{Problems}
-	
-	\begin{problems}
-		\item In this problem we extend the notion of exactness to the category of sets. A diagram of the form
-% https://q.uiver.app/#q=WzAsNSxbMCwwLCJBIl0sWzEsMCwiQiJdLFsxLDMsIlxcYnVsbGV0Il0sWzAsMywiXFxidWxsZXQiXSxbMiwwLCJDIl0sWzAsMSwiZiJdLFsyLDNdLFsxLDQsImgiLDIseyJvZmZzZXQiOjF9XSxbMSw0LCJnIiwwLHsib2Zmc2V0IjotMX1dXQ==
-		\[\begin{tikzcd}
-			A & B & C
-			\arrow["f", from=1-1, to=1-2]
-			\arrow["h"', shift right, from=1-2, to=1-3]
-			\arrow["g", shift left, from=1-2, to=1-3]
-		\end{tikzcd}\]
-		is said to be \textbf{exact} if $f$ is injective and the image $\Img f$ is equal to the set
-		\begin{equation*}
-			\ker(g, h) \coloneqq \Set{b \in B : g(b) = h(b)}.
-		\end{equation*}
-		Show that a presheaf $\mathcal{F}$ of sets on a topological space $X$ is a sheaf if and only if for all open set $U$ and open covering $\Set{U_i}_{i \in I}$ of $U$, the sequence
-	% https://q.uiver.app/#q=WzAsNSxbMCwwLCJcXG1hdGhjYWx7Rn0oVSkiXSxbMSwwLCJcXHByb2Rfe2kgXFxpbiBJfVxcbWF0aGNhbHtGfShVX2kpIl0sWzEsMywiXFxidWxsZXQiXSxbMCwzLCJcXGJ1bGxldCJdLFsyLDAsIlxccHJvZF97aSwgaiBcXGluIEl9XFxtYXRoY2Fse0Z9KFVfaSBcXGNhcCBVX2opIl0sWzAsMSwiZiJdLFsyLDNdLFsxLDQsImgiLDIseyJvZmZzZXQiOjF9XSxbMSw0LCJnIiwwLHsib2Zmc2V0IjotMX1dXQ==
-	\[\begin{tikzcd}
-		{\mathcal{F}(U)} & {\prod_{i \in I}\mathcal{F}(U_i)} & {\prod_{i, j \in I}\mathcal{F}(U_i \cap U_j)}
-		\arrow["f", from=1-1, to=1-2]
-		\arrow["h"', shift right, from=1-2, to=1-3]
-		\arrow["g", shift left, from=1-2, to=1-3]
-	\end{tikzcd}\]
-	is exact, where the functions $f, g, h$ are given by 
-	\begin{align*}
-		f : s & \mapsto (s|_{U_i})_{i\in I} \\
-		g : (s_i)_{i \in I} & \mapsto (s_i|_{U_i \cap U_j})_{i, j \in I} \\
-		h: (s_j)_{j \in I} & \mapsto (s_j|_{U_i \cap U_j})_{i, j \in I}.
-	\end{align*}
-		
-	\item\label{chap3:kernel-sheaf-is-a-sheaf} \textit{Kernel Sheaf.} Prove that if $\varphi\colon\mathcal{F} \to \mathcal{G}$ is a morphism of sheaves on a topological space $X$, then the \inlinedef{kernel sheaf} $\mathcal{K}$ defined on each open subset $U \subseteq X$ by the formula
-		\begin{equation*}
-			\mathcal{K}(U) = \ker(\varphi_U \colon \mathcal{F}(U) \to \mathcal{G}(U))
-		\end{equation*}
-		is a subsheaf of $\mathcal{F}$. (The restriction maps of $\mathcal{K}$ is inherited from those of $\mathcal{F}$.)
-		
-		We will define more sheaves based on algebraic constructions such as the cokernel sheaves and image sheaves later.
-	
-	\item \label{chap3:quotient-presheaf} \textit{Quotient Presheaf and its Stalk.} Let $X$ be a topological space, $\mathcal{F}$ a sheaf of Abelian groups and $\mathcal{F}'$ a sheaf such that $\mathcal{F}'(U)$ is an ideal of $\mathcal{F}(U)$ for all open subset $U \subseteq X$. Show that the assignment
-	\begin{equation*}
-		U \mapsto \mathcal{F}(U) / \mathcal{F}'(U)
-	\end{equation*}
-	is a presheaf on $X$, called the \inlinedef{quotient presheaf}. Show that the stalk at $x \in X$ of the quotient presheaf is equal to $\mathcal{F}_x /\mathcal{F}'_x$.
-	
-	\item\label{chap3:product-sheaf} \textit{Product Sheaf.} Let $\mathcal{F}$ and $\mathcal{G}$ be sheaves on a topological space $X$. Show that the presheaf $U \mapsto \mathcal{F}(U) \times \mathcal{G}(U)$ is already sheaf. It is called the \inlinedef{product sheaf} of $\mathcal{F}$ and $\mathcal{G}$.
-		
-	\item Let $X$ be a topological space. Show that if $\mathcal{G}$ is a sheaf and $\mathcal{F}$ a sub-presheaf of $\mathcal{G}$, then there is a smallest subsheaf $\mathcal{H}$ of $\mathcal{G}$ such that $\mathcal{F}$ is a sub-presheaf of $\mathcal{H}$. Furthermore, $\mathcal{F}_x = \mathcal{H}_x$ for all $x \in X$.
-	
-	\item Let $X$ be an irreducible topological space and let $A$ be an Abelian group. Define a presheaf $\mathcal{A}$ on $X$ by
-	\begin{enumerate}
-		\item $\mathcal{A}(\emptyset) = 0$, and,
-		\item for all open subsets $\emptyset \neq U \subseteq X$, $\mathcal{A}(U) = A$.
-	\end{enumerate} 
-	If $\emptyset \neq V \subseteq U$ are open subsets, then the restriction map $\mathcal{A}(U) \to \mathcal{A}(V)$ is taken to be the identity map. Prove that $\mathcal{A}$ is the sheafification of the constant presheaf with value $A$.
-		
-	\item Let $(\mathcal{F}_i)_{i \in I}$ be an inductive system of sheaves on a topological space $X$. Show that the assignment $U \mapsto \varinjlim_{i \in I} \mathcal{F}_i(U)$ for each open subset $U \subseteq X$ define a presheaf on $X$. Show that the sheafification of this presheaf is the inductive limit of $(\mathcal{F}_i)_{i \in I}$ in the category of sheaves. 
-		
-	\item \label{chap3:localisation-at-prime-as-direct-limit} Let $A$ be a ring and $\mathfrak{p}$ a prime ideal. Show that the rings $(A_f)_{f \notin\mathfrak{p}}$ together with homomorphisms $A_f \to A_g$ whenever $g \in \sqrt{fA}$ form a direct system. Show that the limit of this direct system is $A_{\mathfrak{p}}$.
-	
-	\item Let $\varphi \colon A \to B$ be a homomorphism of rings, and let $f \colon \Spec B \to \Spec A$ be the corresponding morphism of affine schemes. 
-	\begin{problems}
-		\item	Show that $\varphi$ is injective if and only if the morphism of sheaves $f^\sharp \colon \mathcal{O}_{\Spec A} \to f_\ast\mathcal{O}_{\Spec B}$ is injective.
-		
-		\item Show that if $\varphi$ is surjective, then the morphism of sheaves $f^\sharp \colon \mathcal{O}_{\Spec A} \to f_\ast\mathcal{O}_{\Spec B}$ is surjective.
-	\end{problems}
-	
-	\item Suppose that $\varphi \colon \mathcal{F} \to \mathcal{G}$ is a morphism of presheaves on a topological space $X$ such that $\varphi_U \colon \mathcal{F}(U) \to \mathcal{G}(U)$ is injective for all $U \subseteq X$. Show that for all $x \in X$, the induced morphism on stalks $\varphi_x \colon \mathcal{F}_x \to \mathcal{G}_x$ is injective. Hence deduce that the associated morphism of associated sheaves $\varphi^\dagger \colon \mathcal{F}^\dagger \to \mathcal{G}^\dagger$ is also injective.
-	
-	\item Let $\mathcal{F}$ be a presheaf and $\mathcal{G}$ be a sheaf on a topological space $X$. Let $\mathcal{B}$ be a basis of $X$. Suppose that $\mathcal{F}|_{\mathcal{B}} = \mathcal{G}|_{\mathcal{B}}$ are equal as presheaves on $\mathcal{B}$ (hence as sheaves on $\mathcal{B}$ because $F|_{\mathcal{B}}$ is). Prove that $\mathcal{G}$ is the sheafification of $\mathcal{F}$.
-	
-	\item\label{chap3:stalks-of-pushforward-sheaves} \textit{Stalks of Pushforward Sheaves from a Subspace.} Let $X$ be a topological space and let $i \colon Z \to X$ denote the inclusion from a subspace $Z$ into $X$. Let $\mathcal{F}$ be a sheaf (of Abelian groups) on $X$.
-	\begin{problems}
-		\item Show that if $x \notin \bar{Z}$, then $(i_\ast \mathcal{F})_x = \Set{0}$. (More generally, it is the final object in the target category of $\mathcal{F}$)
-		
-		\item Show that if $x \in Z$, then $(i_\ast \mathcal{F})_x = \mathcal{F}_x$.
-	\end{problems}
-	
-%	{\itshape [Hint: Let $\mathcal{F}^{\mathrm{ext}}$ be the unique extension of $\mathcal{F}$ to a sheaf on $X$. Then $\mathcal{F}^{\mathrm{ext}}(U) = \mathcal{F}(U)$ for all open subsets in the basis $\mathcal{B}$. Hence we have an isomorphism $\mathcal{F}^{\mathrm{ext}}|_{\mathcal{B}} \cong \mathcal{G}|_{\mathcal{B}}$. Use the equivalence of the categories of sheaves on $X$ and sheaves on $\mathcal{B}$ to conclude.]}
-	
-%		\item A function $f \colon X \to \RR$ is 
-	\end{problems}
+	\include{03-sheaves-and-affine-schemes.tex}
 	
 	\chapter{Schemes}
 	
@@ -1629,7 +637,7 @@ spacebelow=\baselineskip,
 		content...
 	\end{lemma}
 	
-	\section{Functor of Points}
+
 	
 	\section{More on Morphisms}
 	\subsection*{Morphisms into an Affine Scheme}
@@ -1705,7 +713,7 @@ spacebelow=\baselineskip,
 	
 	We need the following lemma.
 	\begin{lemma}\label{chap4:canonical-morphism-of-sheaves-on-closed-subset}
-		Let $X$ be a topological space and $j \colon Z \to X$ is an inclusion of a closed subset $Z$ into $X$.
+		Let $X$ be a topological space and let $j \colon Z \to X$ be an inclusion of a closed subset $Z$ into $X$.
 		\begin{enumerate}
 			\item Let $\varphi \colon {G} \to \mathcal{H}$ be a morphism of presheaves on $Z$. For each $x \in Z$, there is a commutative square
 				% https://q.uiver.app/#q=WzAsNCxbMCwwLCIoal9cXGFzdCBcXG1hdGhjYWx7R30pX3giXSxbMCwxLCIoal9cXGFzdCBcXG1hdGhjYWx7SH0pX3giXSxbMSwwLCJcXG1hdGhjYWx7R31feCJdLFsxLDEsIlxcbWF0aGNhbHtIfV94Il0sWzIsMywiXFx2YXJwaGlfeCJdLFswLDIsIlxcc2ltIl0sWzEsMywiXFxzaW0iLDJdLFswLDEsIihqX1xcYXN0XFx2YXJwaGkpX3giLDJdXQ==
@@ -1796,7 +804,7 @@ spacebelow=\baselineskip,
 	
 	The converse is also true.
 	\begin{lemma}
-		Let $(j, j^\sharp) \colon Z \to X$ be a closed immersion. Then $j$ induces an isomorphism of schemes between $Z$ and a closed subscheme $j(Z)$ of $X$. The closed subscheme structure on $Z$ making this an isomorphism is unique.
+		Let $(j, j^\sharp) \colon Z \to X$ be a closed immersion. Then $j$ induces an isomorphism of schemes between $Z$ and a closed subscheme $j(Z)$ of $X$.
 	\end{lemma}
 	\begin{proof}
 		Define $\mathcal{I}$ to be the kernel sheaf of the morphism $j^\sharp\colon \mathcal{O}_X \to j_\ast\mathcal{O}_Z$.
@@ -1859,13 +867,15 @@ spacebelow=\baselineskip,
 		\end{equation*}
 	\end{proof}
 		
+	\section{Functor of Points}	
+	
 	\section{Problems}
 	
 	\begin{problems}
 		\item \textit{Criterion for Affineness.} Prove that a scheme $X$ is affine if and only if there is a finite set of elements $f_1, \dotsc, f_n \in \Gamma(X, \mathcal{O}_X)$ such that the open subsets $X_{f_i}$ are affine and the $f_i$ generate the unit ideal of $\Gamma(X, \mathcal{O}_X)$.
 	\end{problems}
 	
-	\chapter{First Properties of Schemes}
+	\chapter{Some Properties of Schemes}
 	
 	\section{Topological Properties of Schemes}
 	
@@ -1889,7 +899,7 @@ spacebelow=\baselineskip,
 	\begin{equation*}
 		I_1 \subseteq I_2 \subseteq \dotsb \subseteq I_n \subseteq \dotsb
 	\end{equation*}
-	is eventually constant, that is, there is $N \in \NN$ such that $I_N = I_n$ for all $n \geq N$. Equivalently every ideal of $R$ is finitely generated. The corresponding notion for schemes is as follows.
+	is eventually constant, that is, there is $N \in \NN$ such that $I_N = I_n$ for all $n \geq N$. Equivalently, $R$ is Noetherian if and only if every ideal of $R$ is finitely generated. The corresponding notion for schemes is as follows.
 	
 	\begin{definition}
 		A scheme $X$ is \inlinedef{locally Noetherian} if $X$ admits an open covering $X = \bigcup_i U_i$ by affine open subschemes $U_i$ such that the ring $\mathcal{O}_X(U_i)$ is Noetherian. A scheme is \inlinedef{Noetherian} if it is quasi-compact and locally Noetherian.
@@ -1950,7 +960,7 @@ spacebelow=\baselineskip,
 	There is a topological version of Noetherianness.
 	
 	\begin{definition}
-		A topological space is Noetherian if it satisfies the descending chain condition for closed subsets: every chain of closed subsets
+		A topological space is \inlinedef{Noetherian} if it satisfies the descending chain condition for closed subsets: every chain of closed subsets
 		\begin{equation*}
 			Z_1 \supseteq Z_2 \supseteq \dotsb \supseteq Z_n \supseteq \dotsb
 		\end{equation*}
@@ -2029,6 +1039,8 @@ spacebelow=\baselineskip,
 	
 	\section{Reduced and Integral Schemes}
 	
+	A ring $R$ is \inlinedef{reduced} if the only nilpotent elements of $R$ is 0. In classical algebraic geometry, the coordinate ring $k[V]$ of an affine algebraic set $V \subseteq \AAA^n_k$ ($k$ algebraically closed) is always reduced. 
+	
 	\begin{definition}
 		A scheme $X$ is \inlinedef{reduced} if the local ring $\mathcal{O}_{X, x}$ is reduced for all $x \in X$.
 	\end{definition}
@@ -2093,7 +1105,11 @@ spacebelow=\baselineskip,
 	\end{definition}
 	
 	\begin{example}
-		Let $k$ be a field, so that the scheme $\AAA^1_k = \Spec k[T]$ is an integral scheme. Then the function field $K(\AAA^1_k)$ of $\AAA^1_k$ is by definition $\mathcal{O}_{X, \eta} = k[T]_{(0)} = k(T)$ the field of rational functions.
+		Let $k$ be a field, so that the scheme $\AAA^1_k = \Spec k[T]$ is integral. The function field $K(\AAA^1_k)$ of $\AAA^1_k$ is by definition the localisation of $k[T]$ at the zero prime ideal. Hence we have
+		\begin{equation*}
+			\mathcal{O}_{X, \eta} = k[T]_{(0)} = k(T)
+		\end{equation*}
+		and so the function field of $\AAA^1_k$ is the field of rational functions.
 	\end{example}
 	
 	The following proposition shows that, when $X$ is an integral scheme, the rings $\mathcal{O}_X(U)$ and the local rings $\mathcal{O}_{X, x}$, $x \in X$, can be viewed as subrings of the function field $K(X)$.
@@ -2139,30 +1155,30 @@ spacebelow=\baselineskip,
 	
 	\section{Underlying Reduced Subscheme} 
 	
-	Given a scheme $X$, there could be distinct closed subschemes with same underlying topological space as $X$. As an example, given an ideal $\mathfrak{a} \subseteq A$, the subschemes $V(\mathfrak{a})$ and $V(\mathfrak{a}^k)$ agrees as topological subspaces of the scheme $\Spec A$.
+	Given a scheme $X$, there could be distinct closed subschemes with same underlying topological space as $X$. As an example, given an ideal $\mathfrak{a} \subseteq A$, the subschemes $V(\mathfrak{a})$ and $V(\mathfrak{a}^k)$ agrees as topological subspaces of the scheme $\Spec A$. 
 	
 	However, among closed subschemes of $X$ with the same underlying topological space, there is a smallest one which is characterised by the fact that it is reduced. To prove this result, we define the subsheaf $\mathcal{N}_X$ of $\mathcal{O}_X$ to be the sheaf associated to the presheaf
 	\begin{equation*}
 		U \mapsto \Nil(\Gamma(U, \mathcal{O}_X)), \quad U \subseteq X \text{ open}.
 	\end{equation*}
-	This is called the \inlinedef{nilradical} sheaf of $X$.
+	This is called the \inlinedef{nilradical sheaf} of $X$.
 	
 	\begin{theorem}
-		The ringed space $(X_{\reduced}, \mathcal{O}_X)$ is a reduced closed subscheme of $X$ with the same underlying topological space as $X$. Furthermore, if $T \subseteq X$ is a closed subscheme of $X$ with the same underlying topological space as $X$, then the inclusion $X_{\reduced} \hookrightarrow X$ factors through a closed immersion $X_{\reduced} \to T$.
+		The ringed space $(X_{\reduced}, \mathcal{N}_X)$ is a reduced closed subscheme of $X$ with the same underlying topological space as $X$. Furthermore, if $T \subseteq X$ is a closed subscheme of $X$ with the same underlying topological space as $X$, then the inclusion $X_{\reduced} \hookrightarrow X$ factors through a closed immersion $X_{\reduced} \to T$.
 	\end{theorem}
 	\begin{proof}
 		We first show that $X_{\reduced}$ is a scheme. It suffice to prove this in the case when $X = \Spec A$ is affine. We claim that the presheaf $U \mapsto \Nil(\Gamma(U, \mathcal{O}_X))$ restricted to the basis of principal open subsets of $X$ is a sheaf. Indeed, suppose $D(f)$ is principal open and $D(f) = \bigcup_{i \in I}D(f_i)$ is an open covering, which we may assume that $I$ is finite because $D(f)$ is quasi-compact. The uniqueness part of the sheaf condition is clearly satisfied, so we only need to show that it satisfies gluing condition.
 		
 		Let $s_i \in \Nil(\Gamma(D(f_i), \mathcal{O}_X)) = \Nil(A_{f_i})$ be sections such that $s_i|_{D(f_if_j)} = s_j|_{D(f_if_j)}$ for all $i, j \in J$. They glue to a section $s \in \Gamma(D(f_i), \mathcal{O}_X)$ such that $s|_{D(f_i)} = s_i$ for all $i$, and thus we have to check whether $s$ is nilpotent or not. Because $I$ is finite, there is $N \geq 1$ such that $(s|_{D(f_i)})^N = s_i^N = 0$ independent of $i$, forcing $s^N = 0$. This proves the claim.
 		
-		
+		\todo{TODO.}
 	\end{proof}
 	
 	\begin{corollary}
 		If $X = \Spec A$ is an affine scheme, then $\mathcal{N}_X(U) = \Nil(\mathcal{O}_X(U))$ for all affine open subscheme $U \subseteq X$ and $X_{\reduced} = \Spec(A/\Nil(A))$.
 	\end{corollary}
 	
-	\section{Properties of Morphisms}
+	\section{Properties of Morphisms of Schemes}
 	
 	\subsection*{Quasi-compact Morphisms}
 	
@@ -2175,7 +1191,7 @@ spacebelow=\baselineskip,
 	\end{proposition}
 	
 	\begin{proof}
-		The condition is clearly necessary. 
+		The condition is clearly necessary. \todo{{TODO.}}
 	\end{proof}
 	
 	\subsection*{Morphisms (Locally) of Finite Type}
@@ -2304,7 +1320,7 @@ spacebelow=\baselineskip,
 	
 	\chapter{Fibre Products}
 	
-	\section{Fibre Products in General Categories}
+	\section{Fibre Product in General Categories}
 	
 	We start with the definition of fibre products in any category.
 	\begin{definition}
@@ -2450,7 +1466,7 @@ spacebelow=\baselineskip,
 	The goal of this section is to prove that fibre products always exists in the category of schemes. We begin by showing that if all the schemes $X$, $Y$, and $S$ involved are affine, then the fibre product of $X$ and $Y$ over $S$ exists.
 	
 	\begin{theorem}
-		Let $X = \Spec A$, $Y = \Spec B$ and $S = \Spec R$ be affine schemes, and let $f \colon X \to S$ and $g \colon Y \to S$ be morphisms of schemes. Then the fibre product of $f$ and $g$ exists and is given by the affine scheme $Z = \Spec(A \otimes_R B)$. The projections $p \colon Z \to X$ and $q \colon Z \to Y$ are the morphisms corresponding to the ring homomorphisms
+		Let $X = \Spec A$, $Y = \Spec B$, and $S = \Spec R$ be affine schemes, and let $f \colon X \to S$ and $g \colon Y \to S$ be morphisms of schemes. Then the fibre product of $f$ and $g$ exists and is given by the affine scheme $Z = \Spec(A \otimes_R B)$. The projections $p \colon Z \to X$ and $q \colon Z \to Y$ are the morphisms corresponding to the ring homomorphisms
 		\begin{align*}
 			\alpha \colon A & \to A \otimes_R B, \quad a \mapsto a \otimes 1, \\
 			\beta \colon B & \to A \otimes_R B, \quad b \mapsto 1 \otimes b.
@@ -2461,7 +1477,7 @@ spacebelow=\baselineskip,
 		
 		Let $T \to S$ be a scheme with morphisms $p' \colon T \to X$ and $q' \colon T \to Y$ such that $f \circ p' = g \circ q'$. \todo{By}, we have a series of bijections
 		\begin{align*}
-			\Hom_{\Schs/S}(T, Z) & \cong \Hom_{(R-\mathrm{Alg})}(A \otimes_R B, \Gamma(T, \mathcal{O_T})) \\ 
+			\Hom_{(\Schs/S)}(T, Z) & \cong \Hom_{(R-\mathrm{Alg})}(A \otimes_R B, \Gamma(T, \mathcal{O_T})) \\ 
 			&  \cong \Hom_{(R-\mathrm{Alg})}(A, \Gamma(T, \mathcal{O_T})) \times \Hom_{(R-\mathrm{Alg})}(A, \Gamma(T, \mathcal{O_T})) \\
 			& \cong \Hom_{(\Schs/S)}(T, A) \times \Hom_{(\Schs/S)}(T, B),
 		\end{align*}
@@ -2475,6 +1491,36 @@ spacebelow=\baselineskip,
 	\section{Fibres}
 	
 	\section{Base Changes}
+	
+	\begin{definition}
+		Let $S$ be a scheme and let $X$ be an $S$-scheme. Suppose $u \colon S' \to S$ is a morphism of schemes. The \inlinedef{base change of $X$ along $u$} is defined to be the fibre product $X \times_S S'$ of $X$ and $S'$ fitting in the following cartesian diagram
+% https://q.uiver.app/#q=WzAsNSxbMCwwLCJYIFxcdGltZXNfUyBTJyJdLFswLDIsIlMnIl0sWzIsMiwiUyJdLFsyLDAsIlgiXSxbMSwxLCJcXHNxdWFyZSJdLFsxLDIsInUiLDJdLFszLDJdLFswLDMsInAiXSxbMCwxLCJxIiwyXV0=
+		\[\begin{tikzcd}
+			{X \times_S S'} && X \\
+			& \square \\
+			{S'} && {S.}
+			\arrow["p", from=1-1, to=1-3]
+			\arrow["q"', from=1-1, to=3-1]
+			\arrow[from=1-3, to=3-3]
+			\arrow["u"', from=3-1, to=3-3]
+		\end{tikzcd}\]
+		The scheme $X \times_S S'$ is an $S'$-scheme via the projection $q \colon X \times_S S' \to S$.
+	\end{definition}
+	
+	We also write $u^\ast(X)$ and $X_{S'}$ for the base change $X \times_S S'$. If $f \colon X \to Y$ is a morphism of $S$-schemes, we can also base change the morphism $f$ by defining $f_{S'} \coloneqq f \times_S \id_{S'} \colon X \times_S S' \to Y \times_S S'$. Furthermore, if $S' = \Spec B$ is affine, we also write $X_B$ for $X_{S'}$ and $f_B$ for $f_{S'}$. Hence base change defines a covariant functor 
+	\begin{equation*}
+		u^\ast \colon \mathcal (\Schs/S) \to (\Schs/S')
+	\end{equation*}
+	from the category of $S$-schemes to the category of $S'$-schemes.
+	
+	\begin{example}[Base Change of Finitely Generated Algebras]
+		Let $R$ be a ring and set $S = \Spec R$. Consider the $S$-scheme $X = \Spec R[X_1, \dotsc, X_n]/(f_1, \dotsc, f_m)$ where $X_1, \dotsc, X_n$ are variables and $f_1, \dotsc, f_m$ are polynomials in those variables. If $\varphi \colon R \to T$ is a ring homomorphism, then it induces a morphism of affine schemes $u \colon S' \coloneqq \Spec T \to S$. The base change of $X$ along $u$ is then the $S'$-scheme
+		\begin{align*}
+			X \times_{S} S' & = \Spec \left(R[X_1, \dotsc, X_n]/(f_1, \dotsc, f_m) \otimes_R T\right) \\
+			& = \Spec(T[X_1, \dotsc, X_n]/(f_1, \dotsc, f_m)),
+		\end{align*}
+		where in the last equality we viewed $f_1,\dotsc, f_m$ as polynomials in $T[X_1, \dotsc, X_n]$ via the morphism $\varphi$.
+	\end{example}
 	
 	\section{Problems}
 
@@ -2549,8 +1595,10 @@ spacebelow=\baselineskip,
 	
 	\subsection*{Diagonals, Graphs, and Equalisers in the Category of Schemes}
 	
+	The diagonal morphism in the category of affine schemes.
+	
 	\begin{proposition}
-		Let $S = \Spec R$, $X = \Spec A$ and $\Spec B$.
+		Let $S = \Spec R$, $X = \Spec A$, and $Y = \Spec B$ be affine schemes. 
 	\end{proposition}
 	
 	\begin{definition}
@@ -2621,7 +1669,7 @@ spacebelow=\baselineskip,
 	\begin{equation*}
 		(U_i \cap V_j, f_ig_j) \quad\text{and}\quad (U'_k \cap V'_m, h_ka_m).
 	\end{equation*}
-	It is easily checked that $f_ig_j(h_ka_m)^{-1} \in \Gamma(U_i \cap V_j \cap U'_k \cap V'_m, \mathcal{O}_X^\times)$, so the two tuples are equivalent Cartier divisor. The defined operation is clearly commutative and associative. The identity of $\Div(X)$ is the Cartier divisor $(X, 1)$ and the inverse of the Cartier divisor $(U_i, f_i)_{i \in I}$ is then $(U_i, f_i^{-1})_{i \in I}$. We will use the additive notation for this Abelian group structure on $\Div(X)$.
+	It is easily checked that $f_ig_j(h_ka_m)^{-1} \in \Gamma(U_i \cap V_j \cap U'_k \cap V'_m, \mathcal{O}_X^\times)$, so the two tuples are equivalent Cartier divisors. The defined operation is clearly commutative and associative. The identity of $\Div(X)$ is the Cartier divisor $(X, 1)$ and the inverse of the Cartier divisor $(U_i, f_i)_{i \in I}$ is then $(U_i, f_i^{-1})_{i \in I}$. We will use the additive notation for this Abelian group structure on $\Div(X)$.
 	
 	\begin{remark}
 		If $X$ be an integral scheme, then $\Div(X) = \Gamma(X, \mathcal{K}_X^\times/\mathcal{O}_X^\times)$.
@@ -2641,7 +1689,7 @@ spacebelow=\baselineskip,
 		of Abelian groups.
 	\end{proposition}
 	\begin{proof}
-		The sequence is exact at $\Gamma(X, \mathcal{O}_X)^\times$ because the map $\Gamma(X, \mathcal{O}_X)^\times \to K(X)^\times$ is injective. Next, if $a \in \Gamma(X, \mathcal{O}_X)^\times$, then the Cartier divisor $(X, a)$ is equal to $(X, 1)$ because $a = a1 \in\Gamma({X, \mathcal{O}_X^\times})$, and so the sequence is exact at $K(X)^\times$. Finally the exactness at $\Div(X)$ and at $\DivCl(X)$ is simply due to the definition of $\DivCl(X)$.
+		The sequence is exact at $\Gamma(X, \mathcal{O}_X)^\times$ because the map $\Gamma(X, \mathcal{O}_X)^\times \to K(X)^\times$ is injective. Next, if $a \in \Gamma(X, \mathcal{O}_X)^\times$, then the Cartier divisor $(X, a)$ is equal to $(X, 1)$ because $a = a1 \in\Gamma({X, \mathcal{O}_X^\times})$, and so the sequence is exact at $K(X)^\times$. Finally the exactness at $\Div(X)$ and at $\DivCl(X)$ are simple consequences of the definition of $\DivCl(X)$.
 	\end{proof}
 	
 	\subsection*{Line Bundle attached to a Cartier Divisor}
