@@ -701,6 +701,13 @@ spacebelow=\baselineskip,
 		which is induced from $\varphi \colon A \to A/\mathfrak{a}$. This is easily seen to be surjective.
 	\end{proof}
 	
+	\begin{corollary}
+		If $\varphi \colon A \to B$ is a surjective ring homomorphism, then the induced morphism $\Spec \varphi \colon \Spec B \to \Spec A$ of affine schemes is a closed immersion.
+	\end{corollary}
+	\begin{proof}
+		By the first isomorphism theorem, $B \cong A/\ker \varphi$.
+	\end{proof}
+	
 	In the above situation, we would like to think that the closed subset $V(\mathfrak{a})$ is a closed subscheme of $\Spec A$ with the scheme structure inherited from $X$. Thus we make the following definition.
 	
 	\begin{definition}
@@ -732,6 +739,11 @@ spacebelow=\baselineskip,
 				\eta(\mathcal{F}) \colon \mathcal{F} \to j_\ast j^{-1} \mathcal{F}
 			\end{equation*}
 			is an isomorphism.
+			\item If $\mathcal{G}$ is a sheaf on $Z$, then the canonical morphism
+			\begin{equation*}
+				j^{-1}j_\ast\mathcal{G} \to \mathcal{G}
+			\end{equation*}
+			is an isomorphism of sheaves.
 		\end{enumerate}
 	\end{lemma}
 	
@@ -789,6 +801,8 @@ spacebelow=\baselineskip,
 		We have just shown that $\eta^{pre}(\mathcal{F})_x$ is an isomorphism. Furthermore, \cref{chap3:sheafification} says that the morphism $i_x \colon (j^{+}\mathcal{F})_x \to (j^{-1}\mathcal{F})_x$ is an isomorphism, therefore $(j_\ast(i))_x$ is also an isomorphism by (1.). It follows that $\eta(\mathcal{F})_x$ is an isomorphism for all $x \in Z$.
 		
 		Finally, if $x \notin Z$, then \cref{chap3:stalks-of-pushforward-sheaves} shows us that the morphism of stalks $\eta(\mathcal{F})_x$ reduces to the zero map $0 \to 0$ which is also an isomorphism. Combining with the above case, we see that $\eta(\mathcal{F})$ is an isomorphism of sheaves.
+		
+		The proof for (3.) is similar and is omitted.
 	\end{proof}
 	
 	\begin{lemma}
@@ -807,7 +821,25 @@ spacebelow=\baselineskip,
 		Let $(j, j^\sharp) \colon Z \to X$ be a closed immersion. Then $j$ induces an isomorphism of schemes between $Z$ and a closed subscheme $j(Z)$ of $X$.
 	\end{lemma}
 	\begin{proof}
-		Define $\mathcal{I}$ to be the kernel sheaf of the morphism $j^\sharp\colon \mathcal{O}_X \to j_\ast\mathcal{O}_Z$.
+		Let's identify $Z$ with the subspace $j(Z)$, so that $j \colon Z \hookrightarrow X$ is the inclusion of a closed subspace. Define $\mathcal{I}$ to be the kernel sheaf of the morphism $j^\sharp\colon \mathcal{O}_X \to j_\ast\mathcal{O}_Z$. For each $x \in X$, we have
+		\begin{equation*}
+			\mathcal{I}_x = \ker(j^\sharp_x \colon \mathcal{O}_{X, x} \to (j_\ast\mathcal{O}_Z)_{x}).
+		\end{equation*}
+		(\cref{chap3:kernel-sheaf-is-a-sheaf}.) Since $j$ is a closed immersion, the map of stalks $j^\sharp_x$ is by definition surjective. It then follows that there is an isomorphism
+		\begin{equation}\label{chap4:eq-isomorphism}
+			\mathcal{O}_{X, x}/\mathcal{I}_x \xrightarrow{\sim}  (j_\ast\mathcal{O}_Z)_{x}. \tag{\ast}
+		\end{equation}
+		induced from $j^\sharp_x$.
+		
+		If $x \notin Z$, then by \cref{chap3:stalks-of-pushforward-sheaves} $(j_\ast\mathcal{O}_Z)_{x} = 0$. In this case $(\mathcal{O}_X/\mathcal{I})_x = \mathcal{O}_{X, x}/\mathcal{I}_x = 0$. And if $x \in Z$, then $(\mathcal{O}_X/\mathcal{I})_x = (j_\ast\mathcal{O}_Z)_{x} = \mathcal{O}_{Z, x}$ by \cref{chap3:stalks-of-pushforward-sheaves} again. Since $(Z, \mathcal{O}_Z)$ is a scheme, the local ring  $\mathcal{O}_{Z, x}$ is not zero. Therefore we have
+		\begin{equation*}
+			Z = \Set{x \in X : (\mathcal{O}_X/\mathcal{I})_x \neq 0}.
+		\end{equation*}
+		Now note that the morphism of presheaves
+		\begin{equation*}
+			\mathcal{O}_X(U)/\mathcal{I}(U) \to j_\ast\mathcal{O}_Z(U),\quad U \subseteq X \text{ open},
+		\end{equation*} 
+		gives rise to a morphism of sheaves $g \colon \mathcal{O}_X/\mathcal{I} \to j_\ast\mathcal{O}_Z$ which is an isomorphism by \cref{chap4:eq-isomorphism}. Therefore the morphism $j^{-1}g \colon j^{-1}\mathcal{O}_X/\mathcal{I} \to j^{-1}j_\ast\mathcal{O}_Z$ is also an isomorphism. \cref{chap4:canonical-morphism-of-sheaves-on-closed-subset} implies that $j^{-1}j_\ast\mathcal{O}_Z$ is isomorphic as sheaves to $\mathcal{O}_Z$, and so $(Z, j^{-1}(\mathcal{O}_X/\mathcal{I}))$ is a scheme as needed.
 	\end{proof}
 	
 	For an affine scheme $X = \Spec A$, closed subschemes of $X$ are in one-to-one correspondence with ideals of $A$, which is what one expected.
@@ -1178,6 +1210,10 @@ spacebelow=\baselineskip,
 		If $X = \Spec A$ is an affine scheme, then $\mathcal{N}_X(U) = \Nil(\mathcal{O}_X(U))$ for all affine open subscheme $U \subseteq X$ and $X_{\reduced} = \Spec(A/\Nil(A))$.
 	\end{corollary}
 	
+	\begin{definition}
+		
+	\end{definition}
+	
 	\section{Properties of Morphisms of Schemes}
 	
 	\subsection*{Quasi-compact Morphisms}
@@ -1540,13 +1576,11 @@ spacebelow=\baselineskip,
 	
 	Schemes are in general not Hausdorff. Nevertheless, the above characterisation serves as a motivation for an analogue of Hausdorff property of schemes.
 	
-	\section{Separated Morphisms}
-	
-	\subsection*{Diagonals, Graphs, and Equalisers}
+	\section{Diagonals, Graphs, and Equalisers}
 	
 	We first need to define diagonals, graphs and equalisers for arbitrary schemes. In more generality we shall define them for any category which has fibre products.
 	
-	In this section, let $\mathcal{C}$ be a category admitting all fibre products. Let $S \in \mathcal{C}$ and $u \colon X \to S$ an $S$-object. If $T \to S$ is another $S$-object, the set of all $S$-morphisms $T \to X$ is denoted by $X_S(T)$.
+	In this section, let $\mathcal{C}$ be a category admitting all fibre products. Let $S \in \mathcal{C}$ and $u \colon X \to S$ be an $S$-object. If $T \to S$ is another $S$-object, the set of all $S$-morphisms $T \to X$ is denoted by $X_S(T)$.
 	
 	\begin{definition} Situation as above.
 	\begin{enumerate}		\item The \inlinedef{diagonal} of $u\colon X \to S$ is the morphism
@@ -1590,23 +1624,57 @@ spacebelow=\baselineskip,
 	\end{lemma}
 	
 	\begin{example}
-		In the category of sets, the diagonal
+		In the category of sets, the diagonal of an $S$-object $u \colon X \to S$ is the usual diagonal function:
+		\begin{align*}
+			\Delta_u \colon X & \to X \times_S X \\
+			x & \mapsto (x, x).
+		\end{align*}
+		Similarly, if $f \colon X \to Y$ is a $S$-morphism, then the graph of $f$ is the function
+		\begin{align*}
+			\Gamma_f \colon X & \to X \times_S Y \\
+			x & \mapsto (x, f(x)).
+		\end{align*}
+		The set of pairs $\Set{(x, f(x)) : x \in X}$ is of course the set-theoretic graph of $f$.
 	\end{example}
 	
 	\subsection*{Diagonals, Graphs, and Equalisers in the Category of Schemes}
 	
-	The diagonal morphism in the category of affine schemes.
+	The diagonal morphism and the graph of any morphism in the category of affine schemes have simple descriptions. The proof is simple and is omitted.
 	
 	\begin{proposition}
-		Let $S = \Spec R$, $X = \Spec A$, and $Y = \Spec B$ be affine schemes. 
+		Let $S = \Spec R$, $X = \Spec A$, and $Y = \Spec B$ be affine schemes.
+		\begin{enumerate}
+			\item The diagonal morphism $\Delta_{X/S} \colon X \to X \times_S X$ is the morphism corresponding to the ring homomorphism
+			\begin{align*}
+				\Delta_{A/R} \colon A \otimes_R A & \to A \\
+				a \otimes a' & \mapsto aa'.
+			\end{align*}
+			
+			\item If $f \colon X \to Y$ is a morphism of schemes corresponding to a ring homomorphism $\varphi \colon B \to A$, then the graph of $f$ is the morphism corresponding to the ring homomorphism
+			\begin{align*}
+				\Gamma_{\varphi} \colon A \otimes_R B & \to A \\
+				a \otimes b & \mapsto a \varphi(b). 
+			\end{align*}
+		\end{enumerate}
 	\end{proposition}
 	
+	\begin{corollary}
+		Let $S = \Spec R$, $X = \Spec A$, and $Y = \Spec B$ be affine schemes. Let $f \colon X \to Y$ be a morphism of affine schemes. Then the diagonal morphism and the graph of $f$ are closed immersion.
+	\end{corollary}
+	\begin{proof}
+		It is easily checked that the diagonal homomorphism $\Delta_{A/R}$ and the graph homomorphism $\Gamma_\varphi$ are surjective.
+	\end{proof}
+	
+	In the general case of schemes, the diagonal homomorphism and the graph need not be closed immersions.
+	
+	\section{Separated Morphisms}
+	
 	\begin{definition}
-		A morphism of scheme $f \colon Y \to S$ is said to be \inlinedef{separated} if the diagonal $\Delta_{Y/S}$ is a closed immersion. We then say that $Y$ is \inlinedef{separated over} $S$. If $Y \to \Spec \ZZ$ is separated, then $Y$ is said to be a separated scheme.
+		A morphism of scheme $f \colon Y \to S$ is said to be \inlinedef{separated} if the diagonal $\Delta_{Y/S}$ is a closed immersion. We then say that $Y$ is \inlinedef{separated over} $S$. If $Y \to \Spec \ZZ$ is separated, then $Y$ is said to be a \inlinedef{separated scheme}.
 	\end{definition}
 	
 	\begin{example}
-		The affine line with double origin is not separated.
+		The affine line with double origin is not separated. \todo{Why?}
 	\end{example}
 	
 	\begin{proposition}
@@ -1689,7 +1757,7 @@ spacebelow=\baselineskip,
 		of Abelian groups.
 	\end{proposition}
 	\begin{proof}
-		The sequence is exact at $\Gamma(X, \mathcal{O}_X)^\times$ because the map $\Gamma(X, \mathcal{O}_X)^\times \to K(X)^\times$ is injective. Next, if $a \in \Gamma(X, \mathcal{O}_X)^\times$, then the Cartier divisor $(X, a)$ is equal to $(X, 1)$ because $a = a1 \in\Gamma({X, \mathcal{O}_X^\times})$, and so the sequence is exact at $K(X)^\times$. Finally the exactness at $\Div(X)$ and at $\DivCl(X)$ are simple consequences of the definition of $\DivCl(X)$.
+		The sequence is exact at $\Gamma(X, \mathcal{O}_X)^\times$ because the map $\Gamma(X, \mathcal{O}_X)^\times \to K(X)^\times$ is injective. Next, if $a \in \Gamma(X, \mathcal{O}_X)^\times$, then the Cartier divisor $(X, a)$ is equal to $(X, 1)$ because $a = a1 \in\Gamma({X, \mathcal{O}_X^\times})$, and so the sequence is exact at $K(X)^\times$. Lastly the exactness at $\Div(X)$ and at $\DivCl(X)$ are simple consequences of the definition of $\DivCl(X)$.
 	\end{proof}
 	
 	\subsection*{Line Bundle attached to a Cartier Divisor}
