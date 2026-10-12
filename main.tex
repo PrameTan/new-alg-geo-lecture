@@ -633,6 +633,20 @@ spacebelow=\baselineskip,
 		By uniqueness, $f^\sharp_V(s)|_{f^{-1}(W)} = f^\sharp_W(s|_W)$. This proves that $f^\sharp$ is compatible with restriction maps and so define a morphism of sheaves $\mathcal{O}_Y \to f_\ast\mathcal{O}_X$. For each $x \in X$, the induced map on stalks $f^\sharp_x$ is plainly a local ring homomorphism because taking stalks is local.
 	\end{proof}	
 	
+	Next we show that schemes can be glued together if they are compatible in a sense. We make the following definition.
+	\begin{definition}
+		A \inlinedef{gluing datum of schemes} consists of the following data:
+		\begin{enumerate}
+			\item an index set $I$;
+			\item for all $i \in I$, a scheme $U_i$;
+			\item for all $i, j \in I$, an open subset $U_{ij} \subseteq U_i$.
+			\item for all $i, j \in I$, an isomorphism $\varphi_{ji} \colon U_{ij} \to U_{ji}$ of schemes such that
+			\begin{enumerate}
+				\item $U_{ii} = U_i$ for all $i \in I$,
+				\item the identity $\varphi_{kj} \circ \varphi_{ji} = \varphi_{ki}$ on $U_{ij} \cap U_{ik}$ for all $i, j, k \in I$. (This is called the \inlinedef{cocycle condition}.)
+			\end{enumerate}
+		\end{enumerate}
+	\end{definition}
 	\begin{lemma}[Scheme Gluing Lemma]
 		content...
 	\end{lemma}
@@ -701,7 +715,7 @@ spacebelow=\baselineskip,
 		which is induced from $\varphi \colon A \to A/\mathfrak{a}$. This is easily seen to be surjective.
 	\end{proof}
 	
-	\begin{corollary}
+	\begin{corollary}\label{chap4:surjective-ring-hom-gives-closed-immersion}
 		If $\varphi \colon A \to B$ is a surjective ring homomorphism, then the induced morphism $\Spec \varphi \colon \Spec B \to \Spec A$ of affine schemes is a closed immersion.
 	\end{corollary}
 	\begin{proof}
@@ -718,7 +732,7 @@ spacebelow=\baselineskip,
 		and $(Z, (\mathcal{O}_X/\mathcal{I})|_{Z})$ is a scheme.
 	\end{definition}
 	
-	We need the following lemma.
+	We need the following lemma about how inverse images and direct images of sheaves with respect to a closed immersion behave.
 	\begin{lemma}\label{chap4:canonical-morphism-of-sheaves-on-closed-subset}
 		Let $X$ be a topological space and let $j \colon Z \to X$ be an inclusion of a closed subset $Z$ into $X$.
 		\begin{enumerate}
@@ -827,7 +841,7 @@ spacebelow=\baselineskip,
 		\end{equation*}
 		(\cref{chap3:kernel-sheaf-is-a-sheaf}.) Since $j$ is a closed immersion, the map of stalks $j^\sharp_x$ is by definition surjective. It then follows that there is an isomorphism
 		\begin{equation}\label{chap4:eq-isomorphism}
-			\mathcal{O}_{X, x}/\mathcal{I}_x \xrightarrow{\sim}  (j_\ast\mathcal{O}_Z)_{x}. \tag{\ast}
+			\mathcal{O}_{X, x}/\mathcal{I}_x \xrightarrow{\sim}  (j_\ast\mathcal{O}_Z)_{x} \tag{\ast}
 		\end{equation}
 		induced from $j^\sharp_x$.
 		
@@ -835,14 +849,14 @@ spacebelow=\baselineskip,
 		\begin{equation*}
 			Z = \Set{x \in X : (\mathcal{O}_X/\mathcal{I})_x \neq 0}.
 		\end{equation*}
-		Now note that the morphism of presheaves
+		Now notice that the morphism of presheaves
 		\begin{equation*}
 			\mathcal{O}_X(U)/\mathcal{I}(U) \to j_\ast\mathcal{O}_Z(U),\quad U \subseteq X \text{ open},
 		\end{equation*} 
 		gives rise to a morphism of sheaves $g \colon \mathcal{O}_X/\mathcal{I} \to j_\ast\mathcal{O}_Z$ which is an isomorphism by \cref{chap4:eq-isomorphism}. Therefore the morphism $j^{-1}g \colon j^{-1}\mathcal{O}_X/\mathcal{I} \to j^{-1}j_\ast\mathcal{O}_Z$ is also an isomorphism. \cref{chap4:canonical-morphism-of-sheaves-on-closed-subset} implies that $j^{-1}j_\ast\mathcal{O}_Z$ is isomorphic as sheaves to $\mathcal{O}_Z$, and so $(Z, j^{-1}(\mathcal{O}_X/\mathcal{I}))$ is a scheme as needed.
 	\end{proof}
 	
-	For an affine scheme $X = \Spec A$, closed subschemes of $X$ are in one-to-one correspondence with ideals of $A$, which is what one expected.
+	For an affine scheme $X = \Spec A$, closed subschemes of $X$ are in one-to-one correspondence with ideals of $A$, which is what one expects.
 	
 	\begin{proposition}
 		Let $X = \Spec A$ be an affine scheme and let $\mathfrak{a} \subseteq A$ be an ideal. Then the closed subset $Z = V(\mathfrak{a})$ is a closed subscheme of $X$ with the sheaf structure coming from $V(\mathfrak{a}) \cong \Spec A/\mathfrak{a}$.
@@ -918,7 +932,7 @@ spacebelow=\baselineskip,
 	\end{definition}
 	
 	\begin{exercise}
-		Show that if $A$ is a ring, then $\Spec A$ is not connected if and only if $A$ is isomorphic to a direct product of two non-zero rings.
+		Show that $\Spec A$ is not connected if and only if $A$ is isomorphic to a direct product of two non-zero rings.
 	\end{exercise}
 	
 	\begin{definition}
@@ -1268,9 +1282,64 @@ spacebelow=\baselineskip,
 	\begin{equation*}
 		U_i = \Spec R\left[\frac{X_0}{X_i}, \dotsc, \widehat{\frac{X_i}{X_i}}, \dotsc, \frac{X_n}{X_i}\right],
 	\end{equation*}
-	where $\hat{T}$ means that $T$ is omitted. Therefore $U_i$ is isomorphic to the affine space $\AAA^n_R$. We like to think that everything is happening inside the ring $R[X_0, \dotsc, X_n, X_0^{-1}, \dotsc, X_n^{-1}]$, which clearly contains these defining rings of $U_i$ as subrings.
+	where $\widehat{T}$ means that $T$ is omitted. Therefore $U_i$ is isomorphic to the affine space $\AAA^n_R$. We like to think that everything is happening inside the ring of Laurent polynomials $S = R[X_0, \dotsc, X_n, X_0^{-1}, \dotsc, X_n^{-1}]$ which clearly contains these defining rings of $U_i$ as subrings. The gluing datum for $\PP^n_R$ is as follows.
+	\begin{enumerate}
+		\item The index set is $\Set{0, 1, \dotsc, n}$ and the schemes are the $U_i$.
+		\item For each $0 \leq i, j \leq n$ and $i \neq j$, set
+		\begin{equation*}
+			U_{ij} = D_{U_i}\left(\frac{X_j}{X_i}\right) \subseteq U_i.
+		\end{equation*}
+		Otherwise set $U_{ii} = U_i$.
+		
+		\item Define $\varphi_{ii} = \id_{U_i}$; and if $i \neq j$, define
+		\begin{equation*}
+			\varphi_{ji} \colon U_{ij} \to U_{ji}
+		\end{equation*}
+		to be the isomorphism corresponding to the identity map
+		\begin{equation*}
+			R\left[\frac{X_0}{X_i}, \dotsc, \widehat{\frac{X_i}{X_i}}, \dotsc, \frac{X_n}{X_i}\right]_{X_j/X_i} \leftarrow R\left[\frac{X_0}{X_j}, \dotsc, \widehat{\frac{X_j}{X_j}}, \dotsc, \frac{X_n}{X_j}\right]_{X_i/X_j}.
+		\end{equation*}
+	\end{enumerate}
+	Since the morphisms $\varphi_{ji}$ are defined by equalities the cocycle condition holds trivially for them. The resulting scheme after gluing is called the \inlinedef{projective space of relative dimension $n$ over $R$} and is denoted by $\PP^n_R$. The scheme $U_i$ is regarded as a subscheme of $\PP^n_R$ and is denoted by $D_+(X_i)$.
+	
+	\begin{proposition}
+		The canonical ring homomorphism $R \to \Gamma(\PP^n_R, \mathcal{O}_{\PP^n_R})$ is an isomorphism.
+	\end{proposition}
+	\begin{proof}
+		If $n = 0$, then $\PP^n_R = \Spec R$ and there is nothing to prove. So let $n \geq 1$. For each $i$, write
+		\begin{equation*}
+			R_i = R\left[\frac{X_0}{X_i}, \dotsc, \widehat{\frac{X_i}{X_i}}, \dotsc, \frac{X_n}{X_i}\right].
+		\end{equation*}
+		Firstly, observe that the restriction morphism $\Gamma(U_i, \mathcal{O}_{\PP^n_R}) \to \Gamma(U_{ij}, \mathcal{O}_{\PP^n_R})$ is injective because it is the localisation map
+		\begin{equation*}
+			R_i = R\left[\frac{X_0}{X_i}, \dotsc, \widehat{\frac{X_i}{X_i}}, \dotsc, \frac{X_n}{X_i}\right] \to R\left[\frac{X_0}{X_i}, \dotsc, \widehat{\frac{X_i}{X_i}}, \dotsc, \frac{X_n}{X_i}\right]_{X_j/X_i}.
+		\end{equation*} 
+		The element $X_j/X_i$ is a non-zerodivisor of the ring $R_i$. This gives the above observation. Hence we may regard this restriction map as an inclusion of subrings. The sheaf condition with respect to the open cover $\Set{U_i}$ of $\PP^n_R$ implies that
+		\begin{equation*}
+			\Gamma(\PP^n_R, \mathcal{O}_{\PP^n_R}) = \Set*{(f_i) \in \prod_{i = 1}^n \Gamma(U_i, \mathcal{O}_{\PP^n_R}) : f_i|_{U_{ij}} = f_j|_{U_{ji}} \text{ for all } i, j}.
+		\end{equation*}
+		By the above observation, $f_i|_{U_{ij}} = f_i$ for all $i, j$. Therefore an element $f \in S$ defines a global section of $\PP^n_R$ if and only if $f \in R_i$ for all $i$. In other words,
+		\begin{equation*}
+			\Gamma(\PP^n_R, \mathcal{O}_{\PP^n_R}) \cong \bigcap_{i = 1}^n R_i. 
+		\end{equation*}
+	 An element $f \in S$ belongs to $R_i$ if and only if the total degree is zero and each monomial $r X_0^{\alpha_0} \dotsb X_n^{\alpha_n}$ of $f$ with $r \in R$, $\alpha_n \in \ZZ$ satisfies $\alpha_k \geq 0$ for all $k \neq i$. From this it follows that $\Gamma(\PP^n_R, \mathcal{O}_{\PP^n_R}) \cong \bigcap_{i = 1}^n R_i = R$.
+	\end{proof}
+	
+	\subsection*{Morphisms into Projective Spaces}
+	\begin{proposition}
+		Let 
+	\end{proposition}
+	
+	\begin{corollary}
+		If $n > 0$, then $\PP^n_R$ is not affine.
+	\end{corollary} 
+	\begin{proof}
+		Suppose not. Then $\PP^n_R \cong \Spec R$ by the anti-equivalence of the category of affine schemes and the category of rings (\cref{chap3:antiequivalence-of-affine-schemes-and-rings}).
+	\end{proof}
 	
 	\section{Vanishing Schemes}
+	
+	
 	
 	\section{$\Proj$ Construction}
 	
@@ -1662,7 +1731,7 @@ spacebelow=\baselineskip,
 		Let $S = \Spec R$, $X = \Spec A$, and $Y = \Spec B$ be affine schemes. Let $f \colon X \to Y$ be a morphism of affine schemes. Then the diagonal morphism and the graph of $f$ are closed immersion.
 	\end{corollary}
 	\begin{proof}
-		It is easily checked that the diagonal homomorphism $\Delta_{A/R}$ and the graph homomorphism $\Gamma_\varphi$ are surjective.
+		It is easily checked that the diagonal homomorphism $\Delta_{A/R}$ and the graph homomorphism $\Gamma_\varphi$ are surjective. The conclusion follows from \cref{chap4:surjective-ring-hom-gives-closed-immersion}.
 	\end{proof}
 	
 	In the general case of schemes, the diagonal homomorphism and the graph need not be closed immersions.

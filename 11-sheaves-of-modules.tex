@@ -494,7 +494,7 @@ which proves the claim. Moreover, since each $\varphi_f$ is an $A_f$-module homo
 	\begin{equation*}
 		\mathcal{O}_{X}^{(J)} \rightarrow \mathcal{O}_{X}^{(I)} \rightarrow \tilde{M} \rightarrow 0.
 	\end{equation*}
-	This is the consequence of \cref{chap11:tilde-construction-is-exact}.
+	The exactnesss is the consequence of \cref{chap11:tilde-construction-is-exact}.
 \end{remark}
 
 \section{Quasi-coherent Modules}
@@ -513,7 +513,15 @@ This leads to the following definition.
 	where $I$ and $J$ are arbitrary index sets depending on $x$.
 \end{definition}
 
-It turns out that this condition is already sufficient for $X = \Spec A$: an $\mathcal{O}_X$-module $\mathcal{F}$ is isomorphic to $\tilde{M}$ for some $A$-module $M$ if and only if $\mathcal{F}$ is quasi-coherent. We need the following remark.
+\begin{example}
+	The structure sheaf $\mathcal{O}_X$ is quasi-coherent because the sequence
+	\begin{equation*}
+		0 \to \mathcal{O}_X \xrightarrow{\id} \mathcal{O}_X \to 0
+	\end{equation*}
+	is exact.
+\end{example}
+
+It turns out that this condition is already sufficient for $X = \Spec A$. An $\mathcal{O}_X$-module $\mathcal{F}$ is isomorphic to $\tilde{M}$ for some $A$-module $M$ if and only if $\mathcal{F}$ is quasi-coherent. We need the following remark.
 
 \begin{remark}
 	Let $X$ be any locally ringed space, and $f \in \Gamma(X, \mathcal{O}_X)$. Recall the definition of $X_f$ as given in \cref{chap3:set-where-section-is-non-zero-is-closed}:
@@ -551,6 +559,7 @@ In the case where $X = \Spec A$, the open set $X_f$ is simply the principal open
 	\end{enumerate}
 \end{theorem}
 
+
 \begin{proof}
 	It is easy to see that (2.) $\Rightarrow$ (3.) and (3.) $\Rightarrow$ (1.).
 	
@@ -564,6 +573,7 @@ In the case where $X = \Spec A$, the open set $X_f$ is simply the principal open
 	Let $A$ be a ring and $X = \Spec A$. Then there is an equivalence between the category of $A$-modules and the category of quasi-coherent $\mathcal{O}_X$-modules.
 \end{corollary}
 
+\section{Coherent Modules}
 
 \section{Problems}
 
