@@ -1272,76 +1272,7 @@ spacebelow=\baselineskip,
 		\end{problems} 
 	\end{problems}
 	
-	\chapter{Projective Spaces}
-	
-	In this chapter we define projective spaces in two different ways. One is based on gluing affine spaces together and the other is based from the $\Proj$ construction. The two definitions are equivalent.
-	
-	\section{Projective Spaces as Gluing of Affine Schemes}
-	
-	In this section we construct the projective space $\PP^n_R$ over a ring $R$ via gluing $n + 1$ copies of the affine space. Let $X_0, X_1, \dotsc, X_n$ be variables. Define, for each $i = 0, \dotsc, n$,
-	\begin{equation*}
-		U_i = \Spec R\left[\frac{X_0}{X_i}, \dotsc, \widehat{\frac{X_i}{X_i}}, \dotsc, \frac{X_n}{X_i}\right],
-	\end{equation*}
-	where $\widehat{T}$ means that $T$ is omitted. Therefore $U_i$ is isomorphic to the affine space $\AAA^n_R$. We like to think that everything is happening inside the ring of Laurent polynomials $S = R[X_0, \dotsc, X_n, X_0^{-1}, \dotsc, X_n^{-1}]$ which clearly contains these defining rings of $U_i$ as subrings. The gluing datum for $\PP^n_R$ is as follows.
-	\begin{enumerate}
-		\item The index set is $\Set{0, 1, \dotsc, n}$ and the schemes are the $U_i$.
-		\item For each $0 \leq i, j \leq n$ and $i \neq j$, set
-		\begin{equation*}
-			U_{ij} = D_{U_i}\left(\frac{X_j}{X_i}\right) \subseteq U_i.
-		\end{equation*}
-		Otherwise set $U_{ii} = U_i$.
-		
-		\item Define $\varphi_{ii} = \id_{U_i}$; and if $i \neq j$, define
-		\begin{equation*}
-			\varphi_{ji} \colon U_{ij} \to U_{ji}
-		\end{equation*}
-		to be the isomorphism corresponding to the identity map
-		\begin{equation*}
-			R\left[\frac{X_0}{X_i}, \dotsc, \widehat{\frac{X_i}{X_i}}, \dotsc, \frac{X_n}{X_i}\right]_{X_j/X_i} \leftarrow R\left[\frac{X_0}{X_j}, \dotsc, \widehat{\frac{X_j}{X_j}}, \dotsc, \frac{X_n}{X_j}\right]_{X_i/X_j}.
-		\end{equation*}
-	\end{enumerate}
-	Since the morphisms $\varphi_{ji}$ are defined by equalities the cocycle condition holds trivially for them. The resulting scheme after gluing is called the \inlinedef{projective space of relative dimension $n$ over $R$} and is denoted by $\PP^n_R$. The scheme $U_i$ is regarded as a subscheme of $\PP^n_R$ and is denoted by $D_+(X_i)$.
-	
-	\begin{proposition}
-		The canonical ring homomorphism $R \to \Gamma(\PP^n_R, \mathcal{O}_{\PP^n_R})$ is an isomorphism.
-	\end{proposition}
-	\begin{proof}
-		If $n = 0$, then $\PP^n_R = \Spec R$ and there is nothing to prove. So let $n \geq 1$. For each $i$, write
-		\begin{equation*}
-			R_i = R\left[\frac{X_0}{X_i}, \dotsc, \widehat{\frac{X_i}{X_i}}, \dotsc, \frac{X_n}{X_i}\right].
-		\end{equation*}
-		Firstly, observe that the restriction morphism $\Gamma(U_i, \mathcal{O}_{\PP^n_R}) \to \Gamma(U_{ij}, \mathcal{O}_{\PP^n_R})$ is injective because it is the localisation map
-		\begin{equation*}
-			R_i = R\left[\frac{X_0}{X_i}, \dotsc, \widehat{\frac{X_i}{X_i}}, \dotsc, \frac{X_n}{X_i}\right] \to R\left[\frac{X_0}{X_i}, \dotsc, \widehat{\frac{X_i}{X_i}}, \dotsc, \frac{X_n}{X_i}\right]_{X_j/X_i}.
-		\end{equation*} 
-		The element $X_j/X_i$ is a non-zerodivisor of the ring $R_i$. This gives the above observation. Hence we may regard this restriction map as an inclusion of subrings. The sheaf condition with respect to the open cover $\Set{U_i}$ of $\PP^n_R$ implies that
-		\begin{equation*}
-			\Gamma(\PP^n_R, \mathcal{O}_{\PP^n_R}) = \Set*{(f_i) \in \prod_{i = 1}^n \Gamma(U_i, \mathcal{O}_{\PP^n_R}) : f_i|_{U_{ij}} = f_j|_{U_{ji}} \text{ for all } i, j}.
-		\end{equation*}
-		By the above observation, $f_i|_{U_{ij}} = f_i$ for all $i, j$. Therefore an element $f \in S$ defines a global section of $\PP^n_R$ if and only if $f \in R_i$ for all $i$. In other words,
-		\begin{equation*}
-			\Gamma(\PP^n_R, \mathcal{O}_{\PP^n_R}) \cong \bigcap_{i = 1}^n R_i. 
-		\end{equation*}
-	 An element $f \in S$ belongs to $R_i$ if and only if the total degree is zero and each monomial $r X_0^{\alpha_0} \dotsb X_n^{\alpha_n}$ of $f$ with $r \in R$, $\alpha_n \in \ZZ$ satisfies $\alpha_k \geq 0$ for all $k \neq i$. From this it follows that $\Gamma(\PP^n_R, \mathcal{O}_{\PP^n_R}) \cong \bigcap_{i = 1}^n R_i = R$.
-	\end{proof}
-	
-	\subsection*{Morphisms into Projective Spaces}
-	\begin{proposition}
-		Let 
-	\end{proposition}
-	
-	\begin{corollary}
-		If $n > 0$, then $\PP^n_R$ is not affine.
-	\end{corollary} 
-	\begin{proof}
-		Suppose not. Then $\PP^n_R \cong \Spec R$ by the anti-equivalence of the category of affine schemes and the category of rings (\cref{chap3:antiequivalence-of-affine-schemes-and-rings}).
-	\end{proof}
-	
-	\section{Vanishing Schemes}
-	
-	
-	
-	\section{$\Proj$ Construction}
+	\include{06-projective-spaces.tex}
 	
 	\chapter{Varieties as Schemes}
 	
