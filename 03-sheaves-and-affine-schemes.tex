@@ -335,13 +335,16 @@ The following proposition is much harder to prove.
 	\todo{(2) and (3)}
 \end{proof}
 
-
-
 \begin{remark}
 	\cref{chap3:morphisms-in-term-of-stalks} remains true if the sheaves considered are sheaves of sets instead of sheaves of Abelian groups, although the arguments must be modified.
 \end{remark}
 
+\begin{definition}
+	
+\end{definition}
+
 Stalks behave well with basis.
+
 \begin{lemma}[Stalks Can Be Computed on a Basis]\label{chap3:stalks-can-be-computed-on-basis}
 	Let $X$ be a topological space with a basis $\mathcal{B}$, $x \in X$ a point, and $\mathcal{F}$ a presheaf on $X$. The collection of Abelian groups of the form
 	\begin{equation*}
@@ -470,7 +473,7 @@ Suppose we have a continuous map $f \colon X \to Y$ between two topological spac
 	Prove that $f_\ast$ define a functor $(\Sheaf(X)) \to (\Sheaf(Y))$.
 \end{exercise}
 
-On the other hand, pulling back a sheaf on $Y$ to a sheaf on $X$ is harder. This is due to the fact that the image $f(U)$ of an open set $U\subseteq X$ under a continuous map need not be open. We circumvent this obstruction by considering the filtered inductive system of open sets containing $f(U)$. If $\mathcal{G}$ is a presheaf on $Y$, then the assigment
+On the other hand, pulling back a sheaf on $Y$ to a sheaf on $X$ is harder. This is due to the fact that the image $f(U)$ of an open set $U\subseteq X$ under a continuous map need not be open. We circumvent this obstruction by considering the filtered inductive system of open sets containing $f(U)$. If $\mathcal{G}$ is a presheaf on $Y$, then the assignment
 
 \begin{equation*}
 	U \mapsto \varinjlim_{\substack{V \supseteq f(U) \\ V \text{ open in $Y$}}} \mathcal{G}(V)
@@ -676,11 +679,11 @@ The sheaf $\mathcal{O}_X$ is called the \inlinedef{structure sheaf} of $X$. A \i
 
 Recall that a \inlinedef{local ring} is a ring $A$ with a unique maximal ideal. We write $\mathfrak{m}_A$ for the maximal ideal of $A$, and define the \inlinedef{residue class field} of $A$ to be $\kappa(A) = A/\mathfrak{m}_A$. A ring homomorphism $\varphi \colon A \to B$ between local rings is said to be \inlinedef{local} if $\varphi(\mathfrak{m}_A) \subseteq \mathfrak{m}_B$, or, equivalently, if $\varphi^{-1}(\mathfrak{m}_B) = \mathfrak{m}_A$.
 
-A morphism of ringed spaces $f \colon X \to Y$ induces a morphism on stalks at each point of $x \in X$ as follows. Let $f^\sharp \colon \mathcal{O}_Y \to f_\ast\mathcal{O}_X$ be the morphism of sheaves. Then by the adjunction between inverse image and direct image function, we have a morphism $f^\flat \colon f^{-1}\mathcal{O}_Y \to \mathcal{O}_X$ of sheaves on $X$. Let $x \in X$ and take the stalks at $x$ to get
+A morphism of ringed spaces $f \colon X \to Y$ induces a morphism on stalks at each point of $x \in X$ as follows. Let $f^\sharp \colon \mathcal{O}_Y \to f_\ast\mathcal{O}_X$ be the morphism of sheaves. Then by the adjunction between inverse image and direct image functors, we have a morphism $f^\flat \colon f^{-1}\mathcal{O}_Y \to \mathcal{O}_X$ of sheaves on $X$. Let $x \in X$ and then take the stalks at $x$ to get
 \begin{equation*}
 	f^\sharp_x \colon \mathcal{O}_{Y, f(x)} = (f^{-1}\mathcal{O}_Y)_x \to \mathcal{O}_{X, x},
 \end{equation*}
-where the equality comes from \cref{chap3:stalk-of-inverse-image}. More concretely, $f^\sharp_x$ sends the class $[V, s]$ where $V$ is an open neighbourhood of $f(x)$, and $s \in \mathcal{O}_Y(V)$ to the class $[f^{-1}V, \varphi_V(s)]$.
+where the equality comes from \cref{chap3:stalk-of-inverse-image}. More concretely, $f^\sharp_x$ sends the class $[V, s]$, where $V$ is an open neighbourhood of $f(x)$ and $s \in \mathcal{O}_Y(V)$, to the class $[f^{-1}V, f^\sharp_V(s)]$.
 
 \todo{motivation for locally ringed condition required to make affine schemes equivalent to rings.}
 
@@ -692,7 +695,7 @@ where the equality comes from \cref{chap3:stalk-of-inverse-image}. More concrete
 		\begin{equation*}
 			f^\sharp_x \colon (f^{-1}\mathcal{O}_Y)_x = \mathcal{O}_{Y, f(x)} \to \mathcal{O}_{X, x}
 		\end{equation*}
-		is a local ring homomorphism for all $x \in X$.
+		is a local ring homomorphism for all $x \in X $.
 	\end{enumerate}	
 \end{definition}
 
