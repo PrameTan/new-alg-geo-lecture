@@ -256,7 +256,7 @@ We thus see that taking stalks gives a functor from the category of presheaves o
 
 Injectivity and bijectivity of morphisms in the data of a morphism of sheaves can be checked on stalks, as the following proposition shows.
 
-\begin{proposition}\label{chap3:injective-can-be-checked-on-stalks}
+\begin{proposition}\label{chap3:injective-bijective-can-be-checked-on-stalks}
 	Let $X$ be a topological space, $\mathcal{F}$ and $\mathcal{G}$ sheaves on $X$, and $\varphi, \psi \colon \mathcal{F} \to \mathcal{G}$ morphisms of sheaves. Then
 	
 	\begin{enumerate}
@@ -300,11 +300,11 @@ Injectivity and bijectivity of morphisms in the data of a morphism of sheaves ca
 \end{proof}
 
 \begin{exercise}
-	Finish the proof of \cref{chap3:injective-can-be-checked-on-stalks}.
+	Finish the proof of \cref{chap3:injective-bijective-can-be-checked-on-stalks}.
 \end{exercise}
 
 \begin{remark}
-	Keep the notation of \cref{chap3:injective-can-be-checked-on-stalks}.
+	Keep the notation of \cref{chap3:injective-bijective-can-be-checked-on-stalks}.
 	
 	\begin{enumerate}
 		\item Note that this proof does not use the fact that $\mathcal{F}$, $\mathcal{G}$ is a sheaf of Abelian groups, so the proposition holds for sheaves of sets.
@@ -326,11 +326,11 @@ The following proposition is much harder to prove.
 	\end{enumerate}
 \end{proposition}
 \begin{proof}
-	(1) First assume that $\varphi$ is a monomorphism. In light of \cref{chap3:injective-can-be-checked-on-stalks}, it suffices to show that each morphism $\varphi_U \colon \mathcal{F} \to \mathcal{G}$ is injective. Let $\mathcal{K}$ be the kernel sheaf of $\varphi$, i.e. $\mathcal{K}(U) = \ker\varphi_U$ for all open $U\subseteq X$. This is a subsheaf of $\mathcal{F}$ (\cref{chap3:kernel-sheaf-is-a-sheaf}).
+	(1) First assume that $\varphi$ is a monomorphism. In light of \cref{chap3:injective-bijective-can-be-checked-on-stalks}, it suffices to show that each morphism $\varphi_U \colon \mathcal{F} \to \mathcal{G}$ is injective. Let $\mathcal{K}$ be the kernel sheaf of $\varphi$, i.e. $\mathcal{K}(U) = \ker\varphi_U$ for all open $U\subseteq X$. This is a subsheaf of $\mathcal{F}$ (\cref{chap3:kernel-sheaf-is-a-sheaf}).
 	
 	Let $i \colon \mathcal{K} \to \mathcal{F}$ be the inclusion morphism, i.e. $i_U$ is the inclusion $\mathcal{K}(U) \hookrightarrow \mathcal{F}(U)$ for all open subset $U \subseteq X$. There is also another morphism of sheaves $0 \colon \mathcal{K} \to \mathcal{F}$ such that $0_U \colon \mathcal{K}(U) \to \mathcal{F}(U)$ is the zero homomorphism for all $U$. Clearly $\varphi \circ i = 0 = \varphi \circ 0$. Since $\varphi$ is a monomorphism, $i = 0$. Hence for each open $U \subseteq X$, we see that $a = i_U(a) = 0_U(a) = 0$ for all $a \in \ker(\varphi_U)$. In other words, $\varphi_U$ is injective for all open subset $U$.
 	
-	Conversely, assume that $\varphi_x$ is injective for all $x \in X$. Suppose $\psi, \eta \colon\mathcal{H} \to \mathcal{F}$ are morphisms of sheaves such that $\varphi \circ \psi = \varphi \circ \eta$. Since taking stalks is a functor, $\varphi_x \circ \psi_x = \varphi_x \circ \eta_x$ for all $x \in X$. Using the fact that $\varphi_x$ is injective, we have $\psi_x = \eta_x$ for all $x \in X$. By \cref{chap3:injective-can-be-checked-on-stalks}, $\psi = \eta$, and so $\varphi$ is a monomorphism.
+	Conversely, assume that $\varphi_x$ is injective for all $x \in X$. Suppose $\psi, \eta \colon\mathcal{H} \to \mathcal{F}$ are morphisms of sheaves such that $\varphi \circ \psi = \varphi \circ \eta$. Since taking stalks is a functor, $\varphi_x \circ \psi_x = \varphi_x \circ \eta_x$ for all $x \in X$. Using the fact that $\varphi_x$ is injective, we have $\psi_x = \eta_x$ for all $x \in X$. By \cref{chap3:injective-bijective-can-be-checked-on-stalks}, $\psi = \eta$, and so $\varphi$ is a monomorphism.
 	
 	\todo{(2) and (3)}
 \end{proof}
@@ -875,15 +875,35 @@ In the last section, we constructed a morphism of affine schemes $(f, f^\sharp) 
 \end{equation*} 
 is a ring homomorphism. This defines the \inlinedef{global section functor} $\Gamma \colon (\mathrm{RingedSpaces}) \to (\Rings)$ given on ringed spaces by $\Gamma(X) = \mathcal{O}_X(X)$. For affine schemes, these two functors are ``invertible'' in the following sense.
 
-\begin{theorem}\label{chap3:antiequivalence-of-affine-schemes-and-rings}
+\begin{theorem}[Anti-equivalence of the Categories $(\Aff)$ and $(\Rings)$]\label{chap3:antiequivalence-of-affine-schemes-and-rings}
 	The functors $\Spec$ and $\Gamma$ form an anti-equivalence of the categories of affine schemes and the category of rings.
 \end{theorem}
 
 \begin{proof}
-	Trivially, $\Spec$ is essentially surjective. Let $\varphi \colon A \to B$ be a ring homomorphism. It is clear from the definitions that $\Gamma(\Spec \varphi) = \varphi$. Now let $(f, f^\sharp) \colon \Spec B \to \Spec A$ be a morphism of affine schemes. \todo{TODO}
+	Trivially, $\Spec$ is essentially surjective, so we have to check that $\Spec$ is fully faithful. Since we have recognised that $\Spec$ and $\Gamma$ should be anti-equivalent to each other, this reduces to showing that for all rings $A$ and $B$, the induced maps on hom-sets
+	\begin{equation*}
+		\Hom_{(\Rings)}(A, B) \xtofrom[\Gamma]{\Spec}  \Hom_{(\Aff)}(\Spec B, \Spec A)
+	\end{equation*} 
+	are mutually inverse to each other.	Let $\varphi \colon A \to B$ be a ring homomorphism. It is then straightforward from the definitions that $\Gamma(\Spec \varphi) = \varphi$. Now let $(f, f^\sharp) \colon \Spec B \to \Spec A$ be a morphism of affine schemes. Hence we have a ring homomorphism
+	\begin{equation*}
+		\Gamma(f) = f^\sharp_{\Spec A} \colon A = \mathcal{O}_{\Spec A}(\Spec A) \to \mathcal{O}_{\Spec B}(\Spec B) = B.
+	\end{equation*}
+	To ease notation, define $\varphi = \Gamma(f)$. For each $x \in \Spec B$ corresponding to the prime ideal $\mathfrak{q}$, we have the induced maps on stalks making the following diagram commutes:
+	% https://q.uiver.app/#q=WzAsNCxbMCwwLCJBIl0sWzEsMCwiQiJdLFswLDEsIkFfe1xcbWF0aGZyYWt7cH19Il0sWzEsMSwiQl97XFxtYXRoZnJha3txfX0iXSxbMCwxLCJmXlxcc2hhcnBfe1xcU3BlYyBBfSJdLFswLDJdLFsxLDNdLFsyLDMsImZeXFxzaGFycF97XFxtYXRoZnJha3txfX0iLDJdXQ==
+	\[\begin{tikzcd}
+		A & B \\
+		{A_{\mathfrak{p}}} & {B_{\mathfrak{q}}}
+		\arrow["{\varphi}", from=1-1, to=1-2]
+		\arrow[from=1-1, to=2-1]
+		\arrow[from=1-2, to=2-2]
+		\arrow["{f^\sharp_{x}}"', from=2-1, to=2-2]
+	\end{tikzcd}\]
+	where $\mathfrak{p}$ is the prime ideal corresponding to $f(x)$, and the vertical maps are localisation homomorphisms. By the universal property of localisations, we must have $\varphi^{-1}(\mathfrak{q}) \subseteq \mathfrak{p}$. But since $f^\sharp_x$ is local, we obtain $(f^\sharp_x)^{-1}(\mathfrak{q}B_{\mathfrak{q}}) = \mathfrak{p}A_{\mathfrak{p}}$. This implies that $\varphi^{-1}(\mathfrak{q}) = \mathfrak{p}$. Hence $f$ and $\Spec \varphi$ agree as continuous maps $\Spec B \to \Spec A$.
+	
+	Furthermore, we also have that $f^\sharp_x = (\Spec \varphi)^\sharp_x$ for all $x \in X$. Since the equality of morphisms of sheaves can be checked on stalks (\cref{chap3:injective-bijective-can-be-checked-on-stalks}), this implies that $f^\sharp = (\Spec \varphi)^\sharp$.
 \end{proof}
 
-We use the anti-equivalence of the categories of affine schemes and the category of rings to prove that every principal open subset of an affine scheme is in itself an affine scheme with the inherited locally ringed space structure.
+We use \cref{chap3:antiequivalence-of-affine-schemes-and-rings} to prove that every principal open subset of an affine scheme is in itself an affine scheme under the inherited locally ringed space structure.
 
 \begin{proposition}\label{chap3:principal-open-subset-is-affine}
 	Let $A$ be a ring and $X = \Spec A$. For each $f \in A$, the open set $(D(f))$ with the restricted sheaf $\mathcal{O}_{X|D(f)}$ is a locally ringed space canonically isomorphic to the affine scheme $\Spec A_f$.
