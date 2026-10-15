@@ -7,7 +7,7 @@
 
 \usepackage[most]{tcolorbox}
 
-\usepackage{amsmath, mathtools}
+\usepackage{amsmath, mathtools, extpfeil}
 
 \usepackage{quiver}
 
@@ -637,12 +637,12 @@ spacebelow=\baselineskip,
 	\begin{definition}
 		A \inlinedef{gluing datum of schemes} consists of the following data:
 		\begin{enumerate}
-			\item an index set $I$;
-			\item for all $i \in I$, a scheme $U_i$;
-			\item for all $i, j \in I$, an open subset $U_{ij} \subseteq U_i$.
-			\item for all $i, j \in I$, an isomorphism $\varphi_{ji} \colon U_{ij} \to U_{ji}$ of schemes such that
+			\item An index set $I$ and a scheme $U_i$ for each $i \in I$.
+			\item For all $i, j \in I$, an open subset $U_{ij} \subseteq U_i$.
+			\item For all $i, j \in I$, an isomorphism $\varphi_{ji} \colon U_{ij} \to U_{ji}$ of schemes such that
 			\begin{enumerate}
-				\item $U_{ii} = U_i$ for all $i \in I$,
+				\item $\varphi_{ii} = \id$ for all $i \in I$,
+				\item $\varphi_{ji}(U_{ij} \cap U_{ik}) \subseteq U_{ji} \cap U_{jk}$ for all $i, j, k \in I$,
 				\item the identity $\varphi_{kj} \circ \varphi_{ji} = \varphi_{ki}$ on $U_{ij} \cap U_{ik}$ for all $i, j, k \in I$. (This is called the \inlinedef{cocycle condition}.)
 			\end{enumerate}
 		\end{enumerate}
@@ -1083,6 +1083,10 @@ spacebelow=\baselineskip,
 		Now let $z \in Z$ be a generic point. Then $z$ is contained in every affine open subset $U$ which meets $Z$. The uniqueness of generic points in the affine case implies that $z = \eta$.
 	\end{proof}
 	
+	\begin{proposition}
+		Let $R$ be a Noetherian ring. Then there are irreducible closed subsets $C_i$ such that $\Spec R = \bigcup_i C_i$ and $C_i \not\subseteq \bigcup_{j \neq i} C_j$.
+	\end{proposition}
+	
 	\section{Reduced and Integral Schemes}
 	
 	A ring $R$ is \inlinedef{reduced} if the only nilpotent elements of $R$ is 0. In classical algebraic geometry, the coordinate ring $k[V]$ of an affine algebraic set $V \subseteq \AAA^n_k$ ($k$ algebraically closed) is always reduced. 
@@ -1099,6 +1103,10 @@ spacebelow=\baselineskip,
 		
 		Conversely, suppose that the ring $\mathcal{O}_X(U)$ are reduced for all open subset $U$. Let $x \in X$ and let $f_x \in \mathcal{O}_{X, x}$ be a germ satisfying $f_x^n = 0$ for some $n \geq 1$. We may find a section $f \in\mathcal{O}_X(U)$ defined on an open neighbourhood $U$ of $x$ lifting $f_x$. Then there is an open neighbourhood $V \subseteq U$ of $x$ such that $f^n|_{V} = 0$. But $\mathcal{O}_X(V)$ is reduced, and thus $f|_{V} = 0$. This implies that $f_x = 0$.
 	\end{proof}
+	
+	\begin{corollary}
+		An affine scheme $\Spec R$ is reduced if and only if the ring $\Spec R$ is reduced.
+	\end{corollary}
 	
 	\begin{definition}
 		A scheme $X$ is \inlinedef{integral} if for every non-empty open subset $U\subseteq X$, the ring $\mathcal{O}_X(U)$ is an integral domain.
@@ -1224,13 +1232,13 @@ spacebelow=\baselineskip,
 		If $X = \Spec A$ is an affine scheme, then $\mathcal{N}_X(U) = \Nil(\mathcal{O}_X(U))$ for all affine open subscheme $U \subseteq X$ and $X_{\reduced} = \Spec(A/\Nil(A))$.
 	\end{corollary}
 	
+	
+	
 	\begin{definition}
 		
 	\end{definition}
 	
-	\section{Properties of Morphisms of Schemes}
-	
-	\subsection*{Quasi-compact Morphisms}
+	\section{Quasi-compact Morphisms}
 	
 	\begin{definition}
 		A morphism $f \colon X \to Y$ of schemes is \inlinedef{quasi-compact} if for all quasi-compact open subset $V \subseteq Y$, the preimage $f^{-1}(V)$ is quasi-compact.
@@ -1244,7 +1252,7 @@ spacebelow=\baselineskip,
 		The condition is clearly necessary. \todo{{TODO.}}
 	\end{proof}
 	
-	\subsection*{Morphisms (Locally) of Finite Type}
+	\section{Morphisms (Locally) of Finite Type}
 	\begin{definition}
 		Let $X, Y$ be schemes. A morphism $f \colon X \to Y$ is \inlinedef{locally of finite type} if there is an open cover $\Set{V_i}_{i \in I}$ of $Y$ by affine open subschemes $V_i = \Spec B_i$ such that
 		\begin{itemize}
@@ -1270,6 +1278,16 @@ spacebelow=\baselineskip,
 			
 			\item Show that if $R$ is an integral domain, then $S^{-1}R$ is an integral domain provided that $S^{-1}R \neq 0$.
 		\end{problems} 
+		
+		\item \textit{Affine Communication Lemma.} Suppose that $X$ is a scheme and $\mathbf{P}$ is a property which satisfies the \textit{affine-local conditions}:
+		\begin{enumerate}
+			\item If $U = \Spec R$ is an affine open subscheme of $X$ having the property $\mathbf{P}$, then for all $f \in R$ the open subscheme $D(f)$ of $\Spec R$ also has the property $\mathbf{P}$.
+			
+			\item Let $U = \Spec R$ be an affine open subscheme of $X$ and let $U = \bigcup_i D(f_i)$ be an open cover of $U$ by principal open subschemes ($f_i \in R$). If all $D(f_i)$ have the property $\mathbf{P}$, then $U$ also has the property $\mathbf{P}$.
+		\end{enumerate}
+		Prove that if $X$ has an affine open cover $X = \bigcup_i \Spec R_i$ such that each $\Spec R_i$ has the property $\mathbf{P}$, then every affine open subscheme of $X$ also has the property $\mathbf{P}$.
+		
+		\item Show that the property ``Noetherian'', ``reduced'' and ``finitely generated algebra'' are affine-local.
 	\end{problems}
 	
 	\include{06-projective-spaces.tex}
@@ -1389,7 +1407,7 @@ spacebelow=\baselineskip,
 	\begin{example}\label{chap6:fibre-product-in-sets-and-tops}
 		Let $f \colon X \to S$ and $g \colon Y \to S$ be functions. Then the set
 		\begin{equation*}
-			Z = \Set*{(x, y) \in X \times Y : f(x) = g(y)},
+			\Set*{(x, y) \in X \times Y : f(x) = g(y)},
 		\end{equation*}
 		together with projection maps $p \colon (x, y) \mapsto x$ and $q \colon (x, y) \mapsto y$, is the fibre product of $f$ and $g$ in $(\Sets)$.
 		
@@ -1786,10 +1804,11 @@ spacebelow=\baselineskip,
 	
 	\section{Weil Divisors}
 	
+	\section{Serre Twisting Sheaves}
+	
+	\chapter{Projective Morphisms}
+	
 	\chapter{Smoothness and Differentials}
-	
-	\chapter{Projective Schemes}
-	
 	
 	\chapter{\v{C}ech Cohomology}
 	
@@ -1830,7 +1849,7 @@ spacebelow=\baselineskip,
 	
 	
 	
-	\chapter{Category Theory}
+%	\chapter{Category Theory}
 	
 %	\chapter*{Bibliography}
 %	\nocite{*}
