@@ -884,7 +884,7 @@ is a ring homomorphism. This defines the \inlinedef{global section functor} $\Ga
 	\begin{equation*}
 		\Hom_{(\Rings)}(A, B) \xtofrom[\Gamma]{\Spec}  \Hom_{(\Aff)}(\Spec B, \Spec A)
 	\end{equation*} 
-	are mutually inverse to each other.	Let $\varphi \colon A \to B$ be a ring homomorphism. It is then straightforward from the definitions that $\Gamma(\Spec \varphi) = \varphi$. Now let $(f, f^\sharp) \colon \Spec B \to \Spec A$ be a morphism of affine schemes. Hence we have a ring homomorphism
+	are mutually inverse.	Let $\varphi \colon A \to B$ be a ring homomorphism. It is then straightforward from the definitions that $\Gamma(\Spec \varphi) = \varphi$. Now let $(f, f^\sharp) \colon \Spec B \to \Spec A$ be a morphism of affine schemes. Hence we have a ring homomorphism
 	\begin{equation*}
 		\Gamma(f) = f^\sharp_{\Spec A} \colon A = \mathcal{O}_{\Spec A}(\Spec A) \to \mathcal{O}_{\Spec B}(\Spec B) = B.
 	\end{equation*}
@@ -900,7 +900,7 @@ is a ring homomorphism. This defines the \inlinedef{global section functor} $\Ga
 	\end{tikzcd}\]
 	where $\mathfrak{p}$ is the prime ideal corresponding to $f(x)$, and the vertical maps are localisation homomorphisms. By the universal property of localisations, we must have $\varphi^{-1}(\mathfrak{q}) \subseteq \mathfrak{p}$. But since $f^\sharp_x$ is local, we obtain $(f^\sharp_x)^{-1}(\mathfrak{q}B_{\mathfrak{q}}) = \mathfrak{p}A_{\mathfrak{p}}$. This implies that $\varphi^{-1}(\mathfrak{q}) = \mathfrak{p}$. Hence $f$ and $\Spec \varphi$ agree as continuous maps $\Spec B \to \Spec A$.
 	
-	Furthermore, we also have that $f^\sharp_x = (\Spec \varphi)^\sharp_x$ for all $x \in X$. Since the equality of morphisms of sheaves can be checked on stalks (\cref{chap3:injective-bijective-can-be-checked-on-stalks}), this implies that $f^\sharp = (\Spec \varphi)^\sharp$.
+	Furthermore, we also have that $f^\sharp_x = (\Spec \varphi)^\sharp_x$ for all $x \in X$. Since the equality of morphisms of sheaves can be checked on stalks (\cref{chap3:injective-bijective-can-be-checked-on-stalks}), this implies that $f^\sharp = (\Spec \varphi)^\sharp$. Hence $(f, f^\sharp) = (\Spec \varphi, (\Spec \varphi)^\sharp)$ and so we are done.
 \end{proof}
 
 We use \cref{chap3:antiequivalence-of-affine-schemes-and-rings} to prove that every principal open subset of an affine scheme is in itself an affine scheme under the inherited locally ringed space structure.
