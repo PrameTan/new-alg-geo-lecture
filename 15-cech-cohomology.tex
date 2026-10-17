@@ -1,0 +1,217 @@
+\chapter{Čech Cohomology}
+
+%\section{Differential Modules}
+%
+%\begin{definition}
+%	Let $A$ be a ring. A \inlinedef{differential $A$-module} is an $A$-module together with a homomorphism $d \colon M \to M$ such that $d^2 = 0$.
+%\end{definition}
+
+\todo{All references to homological algebra should be to my notes.}
+
+\section{Čech Cohomology}
+
+In this section we fix a topological space $X$ and an sheaf of $A$-module $\mathcal{F}$ for some ring $A$. Our goal is to define cohomology groups of $X$ with values in $\mathcal{F}$. 
+
+Let $\mathcal{U} = \Set{U_i}_{i \in I}$ be an open cover of $X$. If $I = (i_0, \dotsc, i_p)$ is a sequence of indices in $I$, we shall use the notation
+\begin{equation*}
+	U_{I} \coloneqq U_{i_0, \dotsc ,i_p} \coloneqq U_{i_0} \cap \dotsb \cap U_{i_p}.
+\end{equation*}
+Furthermore, we also write $\abs{I} = p$ for the length of the sequence $I$. Note that the length is one less than the number of indices. The \inlinedef{group of $p$-cochains} (\textit{a fortiori} an $A$-module) on $\mathcal{U}$ with values in $\mathcal{F}$ is defined by
+\begin{equation*}
+	C^p(\mathcal{U}, \mathcal{F}) \coloneqq \prod_{(i_0, \dotsc, i_p) \in I^{p + 1}} \Gamma(U_{i_0, \dotsc ,i_p}, \mathcal{F}).
+\end{equation*}
+A cochain $s = (s_I) \in C^p(\mathcal{U}, \mathcal{F})$ is said to be \inlinedef{alternating} if it satisfies the following properties:
+\begin{enumerate}
+	\item $s_{I} = 0$ if there are repeated indices in $I$.
+	\item $s_{\pi(i_0), \dotsc, \pi(i_p)} = \sgn(\pi)s_{i_0, \dotsc, i_p}$ for all sequence of index $(i_0, \dotsc, i_p)$, all permutation $\pi \in \mathfrak{S}_{p + 1}$, and $\sgn(\pi)$ the sign of $\pi$.
+\end{enumerate}
+It is clear that the set of alternating cochains is a submodule of $C^p(\mathcal{U}, \mathcal{F})$ which we shall denote by $C^p_{\alt}(\mathcal{U}, \mathcal{F})$.
+
+To make the groups of cochains into a cochain complex, define the \inlinedef{coboundary map} $d^p \colon C^p(\mathcal{U}, \mathcal{F}) \to C^{p + 1}(\mathcal{U}, \mathcal{F})$ by 
+\begin{equation*}
+	(d^p s)_{i_0, \dotsc, i_{p + 1}} = \sum_{j = 0}^{p + 1} (-1)^j \left.s_{i_0, \dotsc, \widehat{i_j}, \dotsc, i_{p + 1}}\right|_{U_{i_0, \dotsc, i_{p + 1}}},
+\end{equation*}
+where, as usual, $\widehat{i_j}$ means that the index $i_j$ is omitted. In practice the superscript $p$ in $d^p$ is omitted if the context is clear.
+
+\begin{lemma}
+	We have $d^{p + 1} \circ d^p = 0$ for all $p \geq 0$. Furthermore, if $s \in C^p(\mathcal{U}, \mathcal{F})$ is alternating, then $d^ps$ is also alternating. 
+\end{lemma}
+
+\begin{example}\label{chap15:coboundary-maps-for-0-1}
+	Let's compute the coboundary maps for $p = 0, 1$. When $p = 0$, we see that
+	\begin{equation*}
+		(d^0 s)_{i_0, i_1} = s_{i_1}|_{U_{i_0, i_1}} - s_{i_0}|_{U_{i_0, i_1}}.
+	\end{equation*}
+	If $p = 1$, then the coboundary map is 
+	\begin{equation*}
+		(d^1 s)_{i_0, i_1, i_2} = s_{i_1, i_2}|_{U_{i_0, i_1, i_2}} - s_{i_0, i_2}|_{U_{i_0, i_1, i_2}} + s_{i_0, i_1}|_{U_{i_0, i_1, i_2}}.
+	\end{equation*}
+	
+\end{example}
+
+It follows from the lemma that the groups of cochains give rise to a cochain complex
+% https://q.uiver.app/#q=WzAsNSxbMSwwLCJDXjAoXFxtYXRoY2Fse1V9LCBcXG1hdGhjYWx7Rn0pIl0sWzIsMCwiQ14xKFxcbWF0aGNhbHtVfSwgXFxtYXRoY2Fse0Z9KSJdLFszLDAsIkNeMihcXG1hdGhjYWx7VX0sIFxcbWF0aGNhbHtGfSkiXSxbNCwwLCJcXGRvdHNiIl0sWzAsMCwiMCJdLFswLDEsImReMCJdLFsxLDIsImReMSJdLFsyLDNdLFs0LDBdXQ==
+\[\begin{tikzcd}
+	0 & {C^0(\mathcal{U}, \mathcal{F})} & {C^1(\mathcal{U}, \mathcal{F})} & {C^2(\mathcal{U}, \mathcal{F})} & \dotsb
+	\arrow[from=1-1, to=1-2]
+	\arrow["{d^0}", from=1-2, to=1-3]
+	\arrow["{d^1}", from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+\end{tikzcd}\]
+Similarly, there is also a cochain complex of alternating cochains.
+\[\begin{tikzcd}
+	0 & {C_{\alt}^0(\mathcal{U}, \mathcal{F})} & {C_{\alt}^1(\mathcal{U}, \mathcal{F})} & {C_{\alt}^2(\mathcal{U}, \mathcal{F})} & \dotsb
+	\arrow[from=1-1, to=1-2]
+	\arrow["{d^0}", from=1-2, to=1-3]
+	\arrow["{d^1}", from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+\end{tikzcd}\]
+
+\begin{definition}
+	The $n$-th cohomology group of $\mathcal{F}$ on the open cover $\mathcal{U}$ is defined to be the quotient 
+	\begin{equation*}
+		{H}^n(\mathcal{U}, \mathcal{F}) = \frac{\ker \left(d^n \colon C^{n}(\mathcal{U}, \mathcal{F}) \to C^{n + 1}(\mathcal{U}, \mathcal{F})\right)}{\Img \left(d^{n - 1} \colon C^{n - 1}(\mathcal{U}, \mathcal{F}) \to C^{n }(\mathcal{U}, \mathcal{F}) \right)}.
+	\end{equation*}
+\end{definition}
+
+The elements of the submodule $\ker d^n \subseteq C^n(\mathcal{U}, \mathcal{F})$ are called $n$-\inlinedef{cocycles}, whereas the elements of the submodule $\Img(d^{n - 1})$ are called $n$-\inlinedef{coboundaries}. The terminology here is borrowed from algebraic topology.
+
+At this point we can already calculate the cohomology group $H^0$ of $\mathcal{F}$ on the open cover $\mathcal{U}$s in the zeroth degree. It is equal to the module of global sections $\Gamma(X, \mathcal{F})$.
+\begin{proposition}\label{chap15:zero-cohomology-group-is-global-section}
+	If $X$ is a topological space, $\mathcal{U} = \Set{U_i}_{i \in I}$ is an open cover of $X$, and $\mathcal{F}$ is a sheaf of $A$-modules on $X$, then $H^0(\mathcal{U}, \mathcal{F}) = \Gamma(X, \mathcal{F})$.
+\end{proposition}
+\begin{proof}
+	By definition, $H^0(\mathcal{U}, \mathcal{F})$ is equal to the kernel of the coboundary map $d^0$ whose formula is given by
+	\begin{align*}
+		d^0 \colon \prod_{i \in I} \Gamma(U_i, \mathcal{F}) & \to \prod_{i, j \in I} \Gamma(U_i, \mathcal{F}) \\
+		(s_i)_{i \in I} & \mapsto \left(s_j|_{U_i \cap U_j} - s_i|_{U_i \cap U_j} \right)_{i,j \in I}.
+	\end{align*}
+	If $s_j|_{U_i \cap U_j} - s_i|_{U_i \cap U_j} = 0$ for all $i, j \in I$, then the $s_i$ satisfy the gluing condition of sheaves, so they glue to a unique section $s \in \Gamma(X, \mathcal{F})$. The rest is clear.
+\end{proof}
+
+\subsection*{Cohomology of Alternating and Ordered Cochains}
+
+Since the alternating cochains also form a cochain complex, we may consider the cohomology of this complex. Define
+\begin{equation*}
+	{H}_{\alt}^n(\mathcal{U}, \mathcal{F}) = \frac{\ker \left(d^n \colon C_{\alt}^{n}(\mathcal{U}, \mathcal{F}) \to C_{\alt}^{n + 1}(\mathcal{U}, \mathcal{F})\right)}{\Img \left(d^{n - 1} \colon C_{\alt}^{n - 1}(\mathcal{U}, \mathcal{F}) \to C_{\alt}^{n }(\mathcal{U}, \mathcal{F}) \right)}.
+\end{equation*}
+
+\begin{lemma}\label{chap15:alternating-cohomology-iso-to-cohomology}
+	The inclusion $i^n \colon C_{\alt}^{n}(\mathcal{U}, \mathcal{F}) \to C^{n}(\mathcal{U}, \mathcal{F})$ induce an isomorphism of cohomology groups ${H}_{\alt}^n(\mathcal{U}, \mathcal{F}) \cong {H}^n(\mathcal{U}, \mathcal{F})$ for all $n \geq 0$.
+\end{lemma}
+
+Hence we can use alternating cochains to compute the cohomology. Another method of computing the cohomology groups is to give a total order on the set of indices $I$. Suppose $I$ is endowed with a total order. We define the module of ordered $n$-cochains to be the module
+\begin{equation*}
+	C^p_+(\mathcal{U}, \mathcal{F}) \coloneqq \prod_{i_0 < \dotsb < i_p} \Gamma(U_{i_0, \dotsc, i_p}, \mathcal{F}).
+\end{equation*}
+This is a submodule of $C^p(\mathcal{U}, \mathcal{F})$. It is easy to check that the coboundary map $d$ restricts to give a coboundary map on $C^p_+(\mathcal{U}, \mathcal{F})$.
+
+\begin{lemma}
+	Suppose $I$ is endowed with a total order. Then there is a canonical isomorphism ${H}_{+}^n(\mathcal{U}, \mathcal{F}) \cong {H}^n(\mathcal{U}, \mathcal{F})$ for all $n \geq 0$.
+\end{lemma}
+
+\begin{corollary}
+	The ordered cohomology is independent of the choice of total ordering on $I$.
+\end{corollary}
+
+\begin{proposition}
+	Suppose that the open cover $\mathcal{U} = \Set{U_1, \dotsc, U_n}$ consists of $n$ open sets. Then $H^p(\mathcal{U}, \mathcal{F}) = 0$ for all $p \geq n$.
+\end{proposition}
+\begin{proof}
+	If $p \geq n$, then every sequence of $\Set{1, \dotsc, n}$ of length $p$ has at least one repeated indices. Therefore all alternating $p$-cochains are zero. We conclude that $H^p(\mathcal{U}, \mathcal{F}) = 0$ by \cref{chap15:alternating-cohomology-iso-to-cohomology}.
+\end{proof}
+
+We can also use the fact that, if $\abs{I}$ is finite, then there is no strictly increasing sequences of length $p \geq \abs{I}$. Thus no ordered $p$-cochains exist if $p \geq \abs{I}$.
+
+\subsection*{Refinements and Čech Cohomology}
+
+To define the Čech Cohomology we need to consider finer coverings.\todo{Motivation.}
+\begin{definition}
+	An open cover $\mathcal{V} = \Set{V_j}_{j \in J}$ is said to be a \inlinedef{refinement} of the cover $\mathcal{U} = \Set{U_i}_{i \in I}$ if there is a function $\sigma\colon J \to I$ such that $V_j \subseteq U_{\sigma(j)}$ for all $j \in J$.
+\end{definition}
+
+Notice that if $\mathcal{V} = \Set{V_j}_{j \in J}$ is a refinement of $\mathcal{U} = \Set{U_i}_{i \in I}$ under a function $\sigma\colon J \to I$, and $\mathcal{W} = \Set{W_k}_{k \in K}$ is a refinement of $\mathcal{V}$ under a function $\tau \colon K \to J$, then $\mathcal{W}$ is a refinement of $\mathcal{U}$ under the composition $\sigma\circ\tau \colon K \to I$. This holds because $W_{k} \subseteq V_{\tau(k)} \subseteq U_{\sigma(\tau(k))}$ for all $k \in K$. A refinement $\mathcal{V}$ of $\mathcal{U}$, together with the function $\sigma\colon J \to I$, gives rise to a homomorphism of $A$-modules $\sigma \colon C^p(\mathcal{U}, \mathcal{F}) \to C^p(\mathcal{V}, \mathcal{F})$ whose formula is given by
+\begin{equation*}
+	\sigma(s)_{j_0, \dotsc, j_p} = \left. s_{\sigma(j_0), \dotsc, \sigma(j_p)}\right|_{V_{j_0, \dotsc, j_p}}.
+\end{equation*}
+
+\begin{proposition}
+	The homomorphism $\sigma \colon C^p(\mathcal{U}, \mathcal{F}) \to C^p(\mathcal{V}, \mathcal{F})$ defined above commutes with the coboundary maps, and thus define a morphism of cochain complexes.
+\end{proposition}
+\begin{proof}
+	Direct computation gives
+	\begin{align*}
+		d(\sigma(s))_{j_0, \dotsc, j_{p + 1}} & = \sum_{i = 0}^{p + 1 } (-1)^{i}\left.\sigma(s)_{j_0, \dotsc, \hat{j}_i, \dotsc j_{p + 1}}\right|_{V_{j_0, \dotsc, j_{p + 1}}} \\
+		& = \sum_{i = 0}^{p + 1 } (-1)^{i}\left. s_{\sigma(j_0), \dotsc, \hat{j}_i, \dotsc \sigma(j_{p + 1})}\right|_{V_{j_0, \dotsc, j_{p + 1}}}.
+	\end{align*}
+	On the other hand, we also have
+	\begin{equation*}
+		\sigma(ds)_{j_0, \dotsc, j_{p + 1}} = \left. (ds)_{\sigma(j_0), \dotsc, \sigma(j_{p + 1})} \right|_{V_{j_0, \dotsc, j_{p + 1}}}= \sum_{i = 0}^{p + 1 } (-1)^{i}\left. s_{\sigma(j_0), \dotsc, \hat{j}_i, \dotsc \sigma(j_{p + 1})} \right|_{V_{j_0, \dotsc, j_{p + 1}}}.
+	\end{equation*}
+	We used the fact that $V_{j_0, \dotsc, j_{p + 1}} \subseteq U_{\sigma(j_0), \dotsc, \sigma(j_{p + 1})}$ in the last equality. This shows that $d(\sigma s) = \sigma(ds)$ for all $s \in C^p(\mathcal{U}, \mathcal{F})$.
+\end{proof}
+
+We obtain a morphism of cochain complexes which is once again denoted by $\sigma$, and so there is an induced homomorphism on cohomology
+\begin{equation*}
+	\sigma^\ast \colon H^p(\mathcal{U}, \mathcal{F}) \to H^p(\mathcal{V}, \mathcal{F}).
+\end{equation*}
+
+\begin{lemma}\label{chap15:maps-on-cohomology-intependent-of-refinement}
+	The homomorphism $\sigma^\ast$ is independent of the choice of $\sigma$.
+\end{lemma}
+
+\begin{corollary}
+	If $\mathcal{V}$ is a refinement of $\mathcal{U}$ and $\mathcal{U}$ is a refinement of $\mathcal{V}$, then the cohomology groups $H^p(\mathcal{U}, \mathcal{F})$ and $H^p(\mathcal{V}, \mathcal{F})$ are isomorphic.
+\end{corollary}
+
+Two open covers $\mathcal{V}$ and $\mathcal{U}$ are said to be \inlinedef{equivalent} if each one is a refinement of the other. The corollary above says that equivalent open covers have the same cohomology. We define a preorder on the collection of all open covers of $X$ by setting $\mathcal{U} \leq \mathcal{V}$ if $\mathcal{V}$ is a refinement of $\mathcal{U}$. This preorder is directed because two open covers $\Set{V_j}_{j \in J}$ and $\Set{U_i}_{i \in I}$ have a common refinement $\Set{V_j \cap U_i}_{(i, j) \in I \times J}$. It follows that, for each $p \geq 0$, we have a direct system consisting of the following data:
+\begin{enumerate}
+	\item The objects are $H^p(\mathcal{U}, \mathcal{F})$, where $\mathcal{U}$ runs through open covers $\mathcal{U}$ of $X$.
+	\item There is a unique morphism $\sigma^\ast_{\mathcal{U}, \mathcal{V}} \colon H^p(\mathcal{U}, \mathcal{F}) \to H^p(\mathcal{V}, \mathcal{F})$ if $\sigma_{\mathcal{U}, \mathcal{V}} $ defines a refinement of $\mathcal{U}$ by $\mathcal{V}$.
+\end{enumerate}
+The fact that $\sigma^\ast_{\mathcal{V}, \mathcal{W}}\circ\sigma^\ast_{\mathcal{U}, \mathcal{V}} = \sigma^\ast_{\mathcal{U}, \mathcal{W}}$ follows from \cref{chap15:maps-on-cohomology-intependent-of-refinement}.
+
+\begin{definition}
+	Let $X$ be a topological space and $\mathcal{F}$ a sheaf of $A$-modules on $X$. The $p$-th \inlinedef{Čech cohomology group} of $\mathcal{F}$ is the direct limit
+	\begin{equation*}
+		\check{H}^p(X, \mathcal{F}) = \varinjlim_{\mathcal{U}} H^p(\mathcal{U}, \mathcal{F})
+	\end{equation*}
+	of the above direct system.	
+\end{definition}
+
+\begin{remark}
+	We have $\check{H}^0(X, \mathcal{F}) = \Gamma(X, \mathcal{F})$ by \cref{chap15:zero-cohomology-group-is-global-section}.
+\end{remark}
+
+Just like all computations of colimits, it is desirable to find a cofinal system of open covers which makes the computation simple. The general category-theoretic definition of final functor reduces to the following. A collection $\mathbf{V} = \Set{\mathcal{V}^\lambda}_{\lambda \in \Lambda}$ of open covers of $X$ is \inlinedef{cofinal} if for all open cover $\mathcal{U}$, there is an open cover $\mathcal{V}^\lambda$ in the collection $\mathbf{V}$ such that $\mathcal{V}^\lambda$ is a refinement of $\mathcal{U}$.
+
+\begin{remark}[Some Cofinal Families]~
+	\begin{enumerate}
+		\item If $X$ is a quasi-compact (e.g.~$X$ is an affine scheme), then the collection of all finite open covers is cofinal.
+		
+		\item If $X$ is a scheme, then the collection of all affine open covers is cofinal.
+	\end{enumerate}
+\end{remark}
+
+\begin{lemma}
+	If  $\Set{\mathcal{V}^\lambda}_{\lambda \in \Lambda}$ is a cofinal collection of open covers of $X$, then
+	\begin{equation*}
+		\check{H}^p(X, \mathcal{F}) = \varinjlim_{\mathcal{V}^\lambda} H^p(\mathcal{V}^\lambda, \mathcal{F})
+	\end{equation*}
+	for all $p \geq 0$.
+\end{lemma}
+\begin{proof}
+	This is a restatement of the fact from category theory that colimits can be computed on a final functor.
+\end{proof}
+
+\begin{theorem}[Leray Acyclicity Theorem]
+	Let $\mathcal{F}$ be a sheaf on a topological space $X$. Let $\mathcal{U} = \Set{U_i}_{i \in I}$ be an open cover of $X$. Suppose that there is a cofinite collection of open covers $\mathbf{V} = \Set{\mathcal{V}^\lambda}_{\lambda \in \Lambda}$ such that
+	\begin{equation*}
+		H^q(\mathcal{V}^\lambda_\alpha, \mathcal{F}|_{U_\alpha}) = 0
+	\end{equation*}
+	for all $\lambda \in \Lambda$, $\alpha \in I^{n + 1}$ and for every $q \geq 1$. Then the canonical homomorphism
+	\begin{equation*}
+		H^p(\mathcal{U}, \mathcal{F}) \to \check{H}^p(X, \mathcal{F})
+	\end{equation*}
+	is an isomorphism for all $p \geq 0$.
+\end{theorem}

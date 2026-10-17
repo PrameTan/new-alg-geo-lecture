@@ -376,6 +376,8 @@ spacebelow=\baselineskip,
 \DeclareMathOperator\Arg{arg}
 \DeclareMathOperator\cis{cis}
 \DeclareMathOperator{\adj}{adj}
+\DeclareMathOperator\sgn{sgn}
+\DeclareMathOperator\alt{alt}
 
 \DeclarePairedDelimiter{\Set}{\lbrace}{\rbrace}
 \DeclarePairedDelimiter\abs{\lvert}{\rvert}
@@ -1683,7 +1685,7 @@ spacebelow=\baselineskip,
 		It is easily checked that the diagonal homomorphism $\Delta_{A/R}$ and the graph homomorphism $\Gamma_\varphi$ are surjective. The conclusion follows from \cref{chap4:surjective-ring-hom-gives-closed-immersion}.
 	\end{proof}
 	
-	In the general case of schemes, the diagonal homomorphism and the graph need not be closed immersions.
+	In the general case of schemes, the diagonal homomorphism and the graph need not be closed immersions. Instead they are just immersions.
 	
 	\section{Separated Morphisms}
 	
@@ -1810,10 +1812,7 @@ spacebelow=\baselineskip,
 	
 	\chapter{Smoothness and Differentials}
 	
-	\chapter{\v{C}ech Cohomology}
-	
-	Let $X$ be a ringed space and let $\mathcal{U} = \Set{U_i}_{i \in I}$ be an open covering of $X$.
-	
+	\include{15-cech-cohomology.tex}
 	
 	\chapter{Cohomology of Sheaves of Modules}
 	
